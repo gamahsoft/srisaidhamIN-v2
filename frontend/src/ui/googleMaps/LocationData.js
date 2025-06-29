@@ -1,0 +1,32 @@
+export const LocationDetails = [
+	{
+		id: 1,
+		type: 'Mandhir',
+		title: 'Sri Shirdi Saibaba Sansthan',
+		address: '6299 Oak Grove Rd, Newburgh, Indiana 47630',
+		phone: '(812) 490 0021',
+		timings: '7 AM - 8 PM CST',
+		lat: 37.990857,
+		lng: -87.362989,
+	},
+	{
+		id: 2,
+		type: 'Restaurant',
+		title: 'Royal India Cuisine',
+		address: '7799 W State Route 66, Newburgh, IN 47630',
+		phone: '(812) 518-4018',
+		timings: '11 AM - 10 PM CST',
+		lat: 37.97647,
+		lng: -87.393951,
+	},
+	{
+		id: 3,
+		type: 'Restaurant',
+		title: 'Taj Mahal',
+		address: '900 Tutor Ln, Evansville, IN 47715',
+		phone: '(812) 476-5000',
+		timings: '11 AM - 10 PM CST',
+		lat: 37.986858,
+		lng: -87.475059,
+	},
+]

@@ -1,0 +1,53 @@
+{
+  "name": "srisaidhamin-v2",
+  "version": "2.0.0",
+  "description": "Saibaba Newburgh Indiana website v2 changes",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node backend/seeder.js",
+    "data:destroy": "node backend/seeder.js -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gamahsoft/srisaidhamIN-v2.git"
+  },
+  "keywords": [
+    "MERN",
+    "stack",
+    "application",
+    "for",
+    "non-profit",
+    "customers"
+  ],
+  "author": "Rami Reddy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gamahsoft/srisaidhamIN-v2/issues"
+  },
+  "homepage": "https://github.com/gamahsoft/srisaidhamIN-v2#readme",
+  "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "@sendgrid/mail": "^8.1.0",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "dayjs": "^1.11.10",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.1",
+    "nodemailer": "^6.9.8",
+    "stripe": "^14.5.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1"
+  }
+}
