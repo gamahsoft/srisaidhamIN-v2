@@ -10,7 +10,7 @@ function Footer() {
     register,
     formState: { errors },
     handleSubmit,
-    // reset,
+    reset,
   } = useForm();
 
   const [newsletter, { isLoading }, error] = useNewsletterMutation();
@@ -22,6 +22,8 @@ function Footer() {
       }).unwrap();
 
       toast.success(res.message);
+      // clear the form fields
+      reset();
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }
@@ -75,7 +77,7 @@ function Footer() {
 
           <div className="col-span-2 pt-8 md:pt-2">
             <p className="font-bold uppercase">
-              Subscribe to temple weekly newsletter
+              Subscribe to temple newsletters
             </p>
 
             <ul>
@@ -150,7 +152,7 @@ function Footer() {
               style={{ backgroundColor: "#4267B2" }}
               onClick={() =>
                 window.open(
-                  "https://www.facebook.com/shirdisaiparivaar.milpitas",
+                  "https://www.facebook.com/srishirdisaibabasansthanoftristate/",
                   "_blank"
                 )
               }
@@ -176,7 +178,7 @@ function Footer() {
               href="#instagrap"
               className="-m-1.5 w-8 h-8 inline-flex justify-center align-middle items-center shadow-sm rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white filter hover:brightness-125"
               onClick={() =>
-                window.open("https://shirdisaiparivaar.org", "_blank")
+                window.open("https://www.srisaidham.org/", "_blank")
               }
             >
               {/* ::instagram svg */}
@@ -200,7 +202,7 @@ function Footer() {
               className="-m-1.5 w-8 h-8 inline-flex justify-center items-center shadow-sm rounded-full bg-[#1DA1F2] text-white filter hover:brightness-125"
               style={{ backgroundColor: "#1DA1F2" }}
               onClick={() =>
-                window.open("https://shirdisaiparivaar.org", "_blank")
+                window.open("https://www.srisaidham.org/", "_blank")
               }
             >
               {/* ::twitter svg */}

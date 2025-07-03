@@ -23,7 +23,6 @@ function Navbar1() {
   return (
     <>
       <div className="hidden md:block bg-orange-400 px-1 rounded-md">
-        {/* <div className="max-w-screen-2xl mx-auto px-3 sm:px-10 h-16 flex justify-between items-center"> */}
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10 h-20 flex justify-between items-center">
           <div className="inline-flex">
             <Popover className="relative">
@@ -31,9 +30,9 @@ function Navbar1() {
                 <div className="flex justify-between items-center md:justify-start md:space-x-10">
                   <Popover.Group
                     as="nav"
-                    className="md:flex space-x-10 items-center"
+                    className="md:flex md:space-x-20 items-center"
                   >
-                    <Link to="/">
+                    {/* <Link to="/">
                       <img
                         style={{
                           width: 65,
@@ -41,12 +40,12 @@ function Navbar1() {
                         src={SaiLogo}
                         alt="logo"
                       />
-                    </Link>
+                    </Link> */}
 
                     <Link>
                       <img
                         style={{
-                          width: 150,
+                          width: 160,
                         }}
                         src={SaiDham}
                         alt="logo"

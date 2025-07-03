@@ -38,6 +38,7 @@ router.patch("/resetpass", resetPassword);
 
 //sign up for news letter
 router.post("/newsletter", newsLetter);
+// router.route("/newsletter").post(newsLetter);
 
 //sign up for news letter
 router.post("/contactus", contactUs);

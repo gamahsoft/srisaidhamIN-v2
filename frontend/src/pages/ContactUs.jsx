@@ -198,8 +198,9 @@ const ContactUs = () => {
                   <p className="md:text-lg text-gray-500">
                     Please send us an email If you have questions, concerns,
                     suggestions, and feedback. We are continuosly looking for
-                    ideas and suggestions to improve the Mandhir. Your input is
-                    valuble for the Sai Parivaar community.
+                    ideas and suggestions to improve Sai Mandhir related
+                    activities. Your input is valuble for the Saisansthan of
+                    Tristate community.
                   </p>
 
                   {/* ::Address */}
@@ -218,7 +219,7 @@ const ContactUs = () => {
                       className="m-1.5 w-8 h-8 inline-flex justify-center items-center shadow-sm rounded-full bg-[#1DA1F2] text-white filter hover:brightness-125"
                       style={{ backgroundColor: "#1DA1F2" }}
                       onClick={() =>
-                        window.open("https://shirdisaiparivaar.org", "_blank")
+                        window.open("https://www.srisaidham.org/", "_blank")
                       }
                     >
                       {/* ::twitter svg */}
@@ -237,7 +238,7 @@ const ContactUs = () => {
                       style={{ backgroundColor: "#4267B2" }}
                       onClick={() =>
                         window.open(
-                          "https://www.facebook.com/shirdisaiparivaar.milpitas",
+                          "https://www.facebook.com/srishirdisaibabasansthanoftristate/",
                           "_blank"
                         )
                       }
@@ -256,7 +257,7 @@ const ContactUs = () => {
                       href="#instagrap"
                       className="m-1.5 w-8 h-8 inline-flex justify-center items-center shadow-sm rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500 text-white filter hover:brightness-125"
                       onClick={() =>
-                        window.open("https://shirdisaiparivaar.org", "_blank")
+                        window.open("https://srisaidham.org", "_blank")
                       }
                     >
                       {/* ::instagram svg */}
@@ -273,10 +274,7 @@ const ContactUs = () => {
                       href="#youtube"
                       className="m-1.5 w-8 h-8 inline-flex justify-center items-center shadow-sm rounded-full bg-zinc-200 text-white filter hover:brightness-200"
                       onClick={() =>
-                        window.open(
-                          "https://www.youtube.com/user/SSPBayArea",
-                          "_blank"
-                        )
+                        window.open("https://www.srisaidham.org/", "_blank")
                       }
                     >
                       {/* ::youtube svg */}

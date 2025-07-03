@@ -443,8 +443,10 @@ const newsLetter = asyncHandler(async (req, res) => {
   // });
 
   mailchimp.setConfig({
-    apiKey: "cc87fb080e63486f0c888d4dd085d1a2-us8",
-    server: "us8",
+    // apiKey: "cc87fb080e63486f0c888d4dd085d1a2-us8",
+    // server: "us8",
+    apiKey: process.env.MAILCHIMP_API_KEY,
+    server: process.env.MAILCHIMP_SERVER_PREFIX,
   });
 
   // const listId = "97c67e99a7";
@@ -453,7 +455,8 @@ const newsLetter = asyncHandler(async (req, res) => {
   //   lastName: "HTKY",
   //   email: newsletteremail,
   // };
-  const listId = "f369c9d1a7";
+  // const listId = "f369c9d1a7";
+
   const subscribingUser = {
     firstName: "Dear",
     lastName: "Devotee",
@@ -462,15 +465,20 @@ const newsLetter = asyncHandler(async (req, res) => {
 
   async function run() {
     try {
-      const response = await mailchimp.lists.addListMember(listId, {
-        email_address: subscribingUser.email,
-        status: "pending",
-        merge_fields: {
-          FNAME: subscribingUser.firstName,
-          LNAME: subscribingUser.lastName,
-        },
-      });
-      res.status(200).send({ message: "Signed Up! Check your email inbox" });
+      const response = await mailchimp.lists.addListMember(
+        process.env.MAILCHIMP_LIST_ID,
+        {
+          email_address: subscribingUser.email,
+          status: "pending",
+          merge_fields: {
+            FNAME: subscribingUser.firstName,
+            LNAME: subscribingUser.lastName,
+          },
+        }
+      );
+      res
+        .status(200)
+        .send({ message: "Check your email inbox or spam folder" });
     } catch (e) {
       if (e.status === 400) {
         res
