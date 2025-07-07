@@ -1,17 +1,29 @@
+import cookies from "js-cookie";
+import SpinnerMini from "../ui/preloader/SpinnerMini";
 import {
   PaymentElement,
   LinkAuthenticationElement,
+  useStripe,
+  useElements,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+// import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { clearCartItems } from "../features/slices/cartSlice";
 
 export default function CheckoutForm() {
   // Get logged in user details
   const { userInfo } = useSelector((state) => state.auth);
   const { email } = userInfo;
 
+  // Cart details
+  const cart = useSelector((state) => state.cart);
+  const { totalPrice } = cart;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -28,11 +40,10 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const result = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
+        return_url: navigate("/PaymentSuccess"),
       },
     });
 
@@ -41,16 +52,27 @@ export default function CheckoutForm() {
     // your `return_url`. For some payment methods like iDEAL, your customer will
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
-    if (
-      result.error.type === "card_error" ||
-      result.error.type === "validation_error"
-    ) {
-      setMessage(result.error.message);
+
+    if (error) {
+      toast.error("Payment Unsuccessful: ", error);
     } else {
-      if (result.paymentIntent.status === "succeedded") {
-        toast.success("Payment is Successful");
-      }
+      dispatch(clearCartItems());
+      toast.success("Payment Successful 😎");
+      navigate("/");
     }
+
+    // if (
+    //   result.error.type === "card_error" ||
+    //   result.error.type === "validation_error"
+    // ) {
+    //   setMessage(result.error.message);
+    //   toast.error("Payment Unsuccessful: ", message);
+    // }
+
+    // if (result.paymentIntent.status === "succeedded") {
+    //   toast.success("Payment Successful 😎");
+    //   cookies.remove("cart");
+    // }
 
     setIsLoading(false);
   };
@@ -70,7 +92,7 @@ export default function CheckoutForm() {
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          {isLoading ? <SpinnerMini /> : `Pay Now $(${totalPrice})`}
         </span>
       </button>
     </form>

@@ -511,6 +511,10 @@ const paymentIntent = asyncHandler(async (req, res) => {
   // const { cartItems, description, receipt_email, shipping } = req.body
   const { cartItems, description, receipt_email, name } = req.body;
 
+  console.log("Cart items details for payment", cartItems);
+  console.log("Cart items details for payment", receipt_email);
+  console.log("Cart items details for payment", description);
+
   let paymentIntent;
 
   try {

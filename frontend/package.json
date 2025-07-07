@@ -27,6 +27,7 @@
     "npm": "^10.2.4",
     "rc-drawer": "^6.5.2",
     "react": "^18.2.0",
+    "react-confetti-explosion": "^3.0.3",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.1",
     "react-hook-form": "^7.47.0",

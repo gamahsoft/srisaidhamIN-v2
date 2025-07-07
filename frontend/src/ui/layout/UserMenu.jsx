@@ -7,12 +7,13 @@ import { Menu, Transition } from "@headlessui/react";
 
 import { useSignoutMutation } from "../../features/slices/usersApiSlice";
 import { signout } from "../../features/slices/authSlice";
-import { resetCart } from "../../features/slices/cartSlice";
+// import { resetCart } from "../../features/slices/cartSlice";
+import { clearCartItems } from "../../features/slices/cartSlice";
 import SignInButton from "../buttons/SignInButton";
 
 function UserMenu() {
   const { userInfo } = useSelector((state) => state.auth);
-  const { cartItems } = useSelector((state) => state.cart);
+  // const { cartItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +24,8 @@ function UserMenu() {
     try {
       await signoutApi().unwrap();
       dispatch(signout());
-      dispatch(resetCart());
+      // dispatch(resetCart());
+      dispatch(clearCartItems());
       navigate("/login");
     } catch (err) {
       console.error(err);

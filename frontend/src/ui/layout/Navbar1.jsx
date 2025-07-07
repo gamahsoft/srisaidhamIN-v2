@@ -8,7 +8,7 @@ import { Transition, Popover, Menu } from "@headlessui/react";
 
 //internal import
 import { poojaServices } from "../../utils/data";
-import SaiLogo from "../../assets/saidhamlogo.png";
+// import SaiLogo from "../../assets/saidhamlogo.png";
 import SaiDham from "../../assets/saidham.jpg";
 import SignInButton from "../buttons/SignInButton";
 import UserMenu from "./UserMenu";
@@ -24,7 +24,8 @@ function Navbar1() {
     <>
       <div className="hidden md:block bg-orange-400 px-1 rounded-md">
         <div className="max-w-screen-2xl mx-auto px-3 sm:px-10 h-20 flex justify-between items-center">
-          <div className="inline-flex">
+          {/* <div className="inline-flex font-serif text-sm font-medium hover:text-emerald-600"> */}
+          <div className="inline-flex font-serif text-sm font-medium">
             <Popover className="relative">
               <div className="max-w-17xl mx-auto">
                 <div className="flex justify-between items-center md:justify-start md:space-x-10">

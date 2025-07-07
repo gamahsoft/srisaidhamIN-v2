@@ -68,7 +68,7 @@ const createPaymentIntent = async (req, res) => {
 
   try {
     const paymentIntent = await stripe(
-      process.env.STRIPE_KEY
+      process.env.REACT_APP_STRIPE_SECRET_KEY
     ).paymentIntents.create({
       amount: totalAmount,
       currency: "usd",
