@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { Link } from "react-router-dom";
 import { Menu, Transition } from "@headlessui/react";
 
@@ -84,7 +82,7 @@ function UserMenu() {
                       <Menu.Item>
                         {({ active }) => (
                           <a
-                            href="/"
+                            href="/user-profile"
                             className={`${
                               active
                                 ? "bg-gray-100 text-gray-900"

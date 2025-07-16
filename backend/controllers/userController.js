@@ -44,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { name, phone, email, password, gotra, nakshatra, newsletter } =
     req.body;
 
-  console.log("Register New user: ", req.body);
+  // console.log("Register New user: ", req.body);
   // const userExists = await User.findOne({ email: email }).select("+password");
   const userExists = await User.findOne({ email: email });
 
@@ -120,16 +120,20 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   //Get the Logged in User Id
   const user = await User.findById(req.user._id);
+  console.log("I am in userProfile update server side", user);
 
   if (user) {
-    user.name = req.body.name || user.name;
-    user.phone = req.body.phone || user.phone;
+    // user._id = req.body._id || user._id;
     user.email = req.body.email || user.email;
+    user.phone = req.body.phone || user.phone;
+    user.gotra = req.body.gotra || user.gotra;
+    user.nakshatra = req.body.nakshatra || user.nakshatra;
     if (req.body.password) {
       user.password = req.body.password;
     }
 
     const updatedUser = await user.save();
+    console.log("What is the updated user:", updatedUser);
 
     res.status(200).json({
       _id: updatedUser._id,
@@ -137,11 +141,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       phone: updatedUser.phone,
       email: updatedUser.email,
       isAdmin: updatedUser.isAdmin,
-      token: generateToken(updatedUser._id),
     });
   } else {
     res.status(404);
-    throw new Error("User not found");
+    throw new Error("Server Error! Please try again latter");
   }
 });
 
@@ -192,7 +195,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name;
     user.phone = req.body.phone || user.phone;
     user.email = req.body.email || user.email;
-    user.gotra = req.body.gotram || user.gotra;
+    user.gotra = req.body.gotra || user.gotra;
     user.isAdmin = req.body.isAdmin;
     // if (req.body.password) {
     // 	user.password = req.body.password
@@ -205,7 +208,7 @@ const updateUser = asyncHandler(async (req, res) => {
       name: updatedUser.name,
       phone: updatedUser.phone,
       email: updatedUser.email,
-      gotram: updatedUser.gotram,
+      gotra: updatedUser.gotra,
       isAdmin: updatedUser.isAdmin,
     });
   } else {
@@ -550,7 +553,7 @@ const createUser = asyncHandler(async (req, res) => {
 
   const user = new User({
     name: "Enter Your Name",
-    gotram: "Enter Your gotram",
+    gotra: "Enter Your gotra",
     phone: "Enter phone number",
     email: email,
     password: "Srisai@2022",

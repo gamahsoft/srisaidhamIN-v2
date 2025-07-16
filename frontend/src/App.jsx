@@ -25,6 +25,7 @@ import Kitchen from "./pages/Kitchen.jsx";
 import Payment from "./pages/Payment.jsx";
 import ShoppingCart from "./pages/ShoppingCart.jsx";
 import PaymentSuccess from "./pages/PaymentSuccess.jsx";
+import UserProfile from "./ui/layout/UserProfile.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/kitchen" element={<Kitchen />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/PaymentSuccess" element={<PaymentSuccess />} />
+            <Route path="/user-profile" element={<UserProfile />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

@@ -7,18 +7,13 @@ import {
   useElements,
   useStripe,
   Elements,
-  PaymentElement,
 } from "@stripe/react-stripe-js";
 import getStripe from "../utils/stripe";
-import { loadStripe } from "@stripe/stripe-js";
-import { FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
-import SpinnerMini from "../ui/preloader/SpinnerMini";
-import { LockClosedIcon } from "@heroicons/react/24/solid";
+
 import {
   useCreateOrderMutation,
   useCreatePaymentIntentMutation,
 } from "../features/slices/ordersApiSlice";
-import { setCredentials } from "../features/slices/authSlice";
 import { toast } from "react-hot-toast";
 import Loading from "../ui/preloader/Loading";
 
@@ -26,7 +21,6 @@ import {
   removeFromCart,
   increaseCart,
   decreaseCart,
-  clearCartItems,
 } from "../features/slices/cartSlice";
 
 // import CheckoutForm from "../ui/stripePayment/paymentServices";
@@ -64,10 +58,6 @@ function Payment() {
   const stripePromise = getStripe();
 
   console.log("stripePromise: ", getStripe());
-
-  // const checkoutHandler = () => {
-  //   navigate("/login?redirect=/payment");
-  // };
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -196,69 +186,8 @@ function Payment() {
       } else {
         toast.error(error.message);
       }
-
-      // if (error && !paymentMethod) {
-      //   setStripeError(error.message);
-      //   setIsCheckoutSubmit(false);
-      // } else {
-      //   setStripeError("");
-      //   const orderData = {
-      //     ...orderInfo,
-      //     cardInfo: paymentMethod,
-      //   };
-
-      //   handlePaymentWithStripe(orderData);
-
-      //   // console.log('cardInfo', orderData);
-      //   return;
-      // }
     }
   }
-
-  // //
-  // const stripePromise = loadStripe(
-  //   `${import.meta.env.VITE_REACT_PUBLIC_STRIPE_KEY}`
-  // );
-
-  //stripe payment Intent
-  const handlePaymentWithStripe = async (order) => {
-    try {
-      const res = await createPaymentIntent({
-        id: order.paymentId,
-        name: order.name,
-        phone: order.phone,
-        email: order.email,
-        orderItems: order.cartItems,
-        //   shippingAddress: cart.shippingAddress,
-        paymentMethod: order.paymentMethod,
-        itemsPrice: order.itemsPrice,
-        //   shippingPrice: cart.shippingPrice,
-        //   taxPrice: cart.taxPrice,
-        totalPrice: totalPrice,
-      }).unwrap();
-      if (res.success) {
-        toast.success("Successfully Logged in 😎");
-        setStripeSuccess(true);
-      }
-      // .then((res) => {
-      //   stripe.confirmCardPayment(res.client_secret, {
-      //     payment_method: {
-      //       card: elements.getElement(CardElement),
-      //     },
-      //   });
-      // });
-
-      // const orderData = {
-      //   ...order,
-      //   cardInfo: res,
-      // };
-
-      //   dispatch(clearCartItems());
-      //   navigate(`/order/${res._id}`);
-    } catch (err) {
-      toast.error(err);
-    }
-  };
 
   const totalCost = cartItems
     .reduce((acc, item) => acc + item.cartQty * item.price, 0)

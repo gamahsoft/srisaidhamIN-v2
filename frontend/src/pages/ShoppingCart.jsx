@@ -2,8 +2,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
-import SpinnerMini from "../ui/preloader/SpinnerMini";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-hot-toast";
 
@@ -41,11 +39,6 @@ function ShoppingCart() {
 
   if (cartItems.length <= 0) {
     toast.error("Your Cart is Empty!");
-    // return (
-    //   <h1 className="flex flex-col items-center justify-center font-3xl">
-    //     Your cart is empty!
-    //   </h1>
-    // );
   }
 
   return (
