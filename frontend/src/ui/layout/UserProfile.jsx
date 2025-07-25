@@ -102,7 +102,8 @@ function UserProfile() {
   return (
     <>
       <h1 className="mb-6 text-center text-2xl font-bold pt-5">
-        User Profile & Donation details
+        {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
+        🏁 User Profile & Donation details 🏁
       </h1>
       <div className="min-h-screen bg-gray-100 p-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-start">
