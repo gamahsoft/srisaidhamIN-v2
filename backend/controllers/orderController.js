@@ -91,10 +91,6 @@ import { calcPrices } from "../utils/calcPrices.js";
 const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, paymentMethod } = req.body;
 
-  if (paymentMethod == "card") {
-    paymentMethod = "CreditCard";
-  }
-
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("No order items");
