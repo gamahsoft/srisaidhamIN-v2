@@ -1,6 +1,4 @@
 import Iframe from "react-iframe";
-// import Donate from "../../ui/buttons/DonateButton";
-
 import Donate from "../buttons/DonateButton";
 
 const streamURL =

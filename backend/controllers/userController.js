@@ -30,6 +30,8 @@ const authUser = asyncHandler(async (req, res) => {
       phone: user.phone,
       email: user.email,
       isAdmin: user.isAdmin,
+      gotra: user.gotra,
+      nakshatra: user.nakshatra,
     });
   } else {
     res.status(401);

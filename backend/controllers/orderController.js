@@ -1,79 +1,138 @@
 // import asyncHandler from 'express-async-handler'
 import asyncHandler from "../middleware/asyncHandler.js";
 import Order from "../models/orderModel.js";
-import User from "../models/userModel.js";
+import Product from "../models/productModel.js";
+// import User from "../models/userModel.js";
+import { calcPrices } from "../utils/calcPrices.js";
 
-// @desc Create new order
-// @route POST /api/orders
-// @access Private
+// // @desc Create new order
+// // @route POST /api/orders
+// // @access Private
+// const addOrderItems = asyncHandler(async (req, res) => {
+//   var userid = "";
+//   // calculate total order price
+//   function calculateOrderAmount(cartItems) {
+//     return cartItems.reduce((acc, item) => {
+//       return acc + item.product.price * item.cartQuantity;
+//     }, 0);
+//   }
+
+//   const {
+//     orderItems,
+//     userID,
+//     bankName,
+//     checkNumber,
+//     // shippingAddress,
+//     paymentMethod,
+//     // itemsPrice,
+//     // taxPrice,
+//     // shippingPrice,
+//     // totalPrice,
+//   } = req.body;
+
+//   const totalPrice = calculateOrderAmount(orderItems);
+//   const taxPrice = 0.0;
+//   const shippingPrice = 0.0;
+
+//   //Admin functionality to tie the order to correct user.
+//   if (userID !== req.user._id && userID != null) {
+//     userid = userID;
+//   } else {
+//     userid = req.user._id;
+//   }
+
+//   if (orderItems && orderItems.length === 0) {
+//     res.status(400);
+//     throw new Error("No order items");
+//     return;
+//   } else {
+//     //Update user record If membership order is purchased
+//     orderItems.forEach((element) => {
+//       if (element.product.name === "Annual Membership") {
+//         let today_date = new Date();
+//         let current_year = today_date.getFullYear();
+
+//         User.findByIdAndUpdate(
+//           { _id: userid },
+//           { member: true, memberActiveDate: current_year },
+//           function (err) {
+//             if (err) {
+//               console.log("findbyidandupdate error:", err);
+//             }
+//           }
+//         );
+//       }
+//     });
+
+//     //Create the order record. This record should ideally replaced by stripe credit card webhook
+//     const order = new Order({
+//       // user: req.user._id,
+//       user: userid,
+//       // orderItems,
+//       // shippingAddress,
+//       paymentMethod,
+//       bankName,
+//       checkNumber,
+//       // itemsPrice,
+//       taxPrice,
+//       shippingPrice,
+//       totalPrice,
+//     });
+
+//     const createdOrder = await order.save();
+
+//     res.status(201).json(createdOrder);
+//   }
+// });
+
+// @desc    Create new order
+// @route   POST /api/orders
+// @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  var userid = "";
-  // calculate total order price
-  function calculateOrderAmount(cartItems) {
-    return cartItems.reduce((acc, item) => {
-      return acc + item.product.price * item.cartQuantity;
-    }, 0);
-  }
+  const { orderItems, paymentMethod } = req.body;
 
-  const {
-    orderItems,
-    userID,
-    bankName,
-    checkNumber,
-    // shippingAddress,
-    paymentMethod,
-    // itemsPrice,
-    // taxPrice,
-    // shippingPrice,
-    // totalPrice,
-  } = req.body;
-
-  const totalPrice = calculateOrderAmount(orderItems);
-  const taxPrice = 0.0;
-  const shippingPrice = 0.0;
-
-  //Admin functionality to tie the order to correct user.
-  if (userID !== req.user._id && userID != null) {
-    userid = userID;
-  } else {
-    userid = req.user._id;
+  if (paymentMethod == "card") {
+    paymentMethod = "CreditCard";
   }
 
   if (orderItems && orderItems.length === 0) {
     res.status(400);
     throw new Error("No order items");
-    return;
   } else {
-    //Update user record If membership order is purchased
-    orderItems.forEach((element) => {
-      if (element.product.name === "Annual Membership") {
-        let today_date = new Date();
-        let current_year = today_date.getFullYear();
+    // NOTE: here we must assume that the prices from our client are incorrect.
+    // We must only trust the price of the item as it exists in
+    // our DB. This prevents a user paying whatever they want by hacking our client
+    // side code - https://gist.github.com/bushblade/725780e6043eaf59415fbaf6ca7376ff
 
-        User.findByIdAndUpdate(
-          { _id: userid },
-          { member: true, memberActiveDate: current_year },
-          function (err) {
-            if (err) {
-              console.log("findbyidandupdate error:", err);
-            }
-          }
-        );
-      }
+    // get the ordered items from our database
+    const itemsFromDB = await Product.find({
+      _id: { $in: orderItems.map((x) => x._id) },
     });
 
-    //Create the order record. This record should ideally replaced by stripe credit card webhook
+    // map over the order items and use the price from our items from database
+    const dbOrderItems = orderItems.map((itemFromClient) => {
+      const matchingItemFromDB = itemsFromDB.find(
+        (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
+      );
+      return {
+        ...itemFromClient,
+        product: itemFromClient._id,
+        price: matchingItemFromDB.price,
+        _id: undefined,
+      };
+    });
+
+    // calculate prices
+    const { itemsPrice, totalPrice } = calcPrices(dbOrderItems);
+
     const order = new Order({
-      // user: req.user._id,
-      user: userid,
-      // orderItems,
+      orderItems: dbOrderItems,
+      user: req.user._id,
       // shippingAddress,
       paymentMethod,
-      bankName,
-      checkNumber,
-      // itemsPrice,
-      taxPrice,
-      shippingPrice,
+      itemsPrice,
+      // taxPrice,
+      // shippingPrice,
       totalPrice,
     });
 
@@ -131,6 +190,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @access Private
 const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
+  // console.log("My orders: ", orders);
   res.json(orders);
 });
 
@@ -194,7 +254,7 @@ const getCheckoutSession = asyncHandler(async (req, res) => {
 
 //create payment intent for stripe
 const createPaymentIntent = async (req, res) => {
-  console.log("I am in node createpayment intent");
+  // console.log("I am in node createpayment intent");
   const { total: amount, cardInfo: payment_intent, email } = req.body;
   // Validate the amount that was passed from the client.
   if (!(amount >= process.env.MIN_AMOUNT && amount <= process.env.MAX_AMOUNT)) {

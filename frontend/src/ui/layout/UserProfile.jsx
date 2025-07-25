@@ -27,6 +27,8 @@ function UserProfile() {
 
   const { data: orders, isLoading } = useGetMyOrdersQuery();
 
+  console.log("Order details: ", orders);
+
   const dispatch = useDispatch();
   const {
     register,
@@ -331,7 +333,7 @@ function UserProfile() {
                       scope="col"
                       className="px-6 py-3 md:text-base font-bold"
                     >
-                      Payment
+                      Payment Type
                     </th>
                     <th
                       scope="col"
@@ -342,7 +344,7 @@ function UserProfile() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                  {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                     <th
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -374,150 +376,27 @@ function UserProfile() {
                     <td className="px-6 py-4">Black</td>
                     <td className="px-6 py-4">Accessories</td>
                     <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  </tr> */}
+                  {orders.map((order) => (
+                    <tr
+                      className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
+                      key={order._id}
                     >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr>
+                      <td className="px-6 py-4">{order._id}</td>
+
+                      {/* {order.orderItems.product.map((orderItem, index) => (
+                        <td key={index} className="px-6 py-4">
+                          {orderItem.name}
+                        </td>
+                      ))} */}
+
+                      <td className="px-6 py-4">
+                        {order.createdAt.substring(0, 10)}
+                      </td>
+                      <td className="px-6 py-4">{order.paymentMethod}</td>
+                      <td className="px-6 py-4">${order.totalPrice}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

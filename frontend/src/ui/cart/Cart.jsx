@@ -9,7 +9,7 @@ import { UserContext } from "@context/UserContext";
 import { SidebarContext } from "@context/SidebarContext";
 
 const Cart = () => {
-  //   const router = useRouter();
+  // const router = useRouter();
   const [modalOpen, setModalOpen] = useState(false);
   const { isEmpty, items, cartTotal } = useCart();
   const { toggleCartDrawer, closeCartDrawer } = useContext(SidebarContext);

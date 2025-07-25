@@ -15,7 +15,7 @@ import {
 function ShoppingCart() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("card");
 
   // Get cart items
   const cart = useSelector((state) => state.cart);

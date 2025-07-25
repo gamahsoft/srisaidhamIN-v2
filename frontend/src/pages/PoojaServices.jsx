@@ -19,7 +19,7 @@ const PoojaServices = () => {
   return (
     <>
       <h1 className="mt-6 text-center text-lg font-bold">
-        BABA POOJA SERVICES
+        💐 BABA POOJA SERVICES 💐
       </h1>
       <>
         <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-10 gap-x-12 mt-10 mb-5">
