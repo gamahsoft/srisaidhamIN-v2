@@ -24,6 +24,8 @@
     "google-map-react": "^2.2.1",
     "i": "^0.3.7",
     "js-cookie": "^3.0.5",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "npm": "^10.2.4",
     "rc-drawer": "^6.5.2",
     "react": "^18.2.0",

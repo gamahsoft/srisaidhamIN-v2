@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { jsPDF } from "jspdf";
+import { autoTable } from "jspdf-autotable";
 // import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
@@ -17,6 +19,8 @@ function UserProfile() {
   const [phone, setPhone] = useState("");
   const [gotra, setGotra] = useState("");
   const [nakshatra, setNakshatra] = useState("");
+  const printRef = useRef(null);
+
   // const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -90,6 +94,76 @@ function UserProfile() {
   //   //   }
   //   // };
 
+  // Generate PDF
+  const downloadPDF = async () => {
+    const taxYear = new Date().getFullYear() - 1;
+    // const taxYear = new Date().getFullYear();
+    const taxYearData = orders.filter((item) =>
+      // item.name.toLowerCase().includes(taxYear.toLowerCase())
+      item.createdAt.substring(0, 10).includes(taxYear)
+    );
+
+    try {
+      const doc = new jsPDF();
+      // const imageUrl = "/images/pooja/AlankaraSeva.jpg";
+      const imageUrl = "/images/pooja/sai-bannerpdf.png";
+      doc.setProperties({
+        title: "Your donations for the year -",
+        taxYear,
+      });
+      doc.addImage(imageUrl, "JPEG", 10, 5, 190, 30);
+      // doc.setFontSize(10);
+      // doc.text(
+      //   `federal tax exemption 501(c)(3) status TaxID: 46-0797629`,
+      //   45,
+      //   41
+      // );
+
+      doc.setFontSize(14);
+      doc.text(`Your donations for the tax year - ${taxYear}`, 60, 50);
+
+      // doc.text(taxYear, 14, 15);
+
+      // doc.setFontSize(40);
+      // doc.setFont('custom', 'bold');
+      // doc.text("Octonyan loves jsPDF", 35, 25);
+      // doc.addImage("examples/images/Octonyan.jpg", "JPEG", 15, 40, 180, 180);
+
+      const tableColumn = ["DONATION", "DATE", "PAYMENT TYPE", "TOTAL"];
+      const tableRows = [];
+
+      if (taxYearData) {
+        taxYearData.forEach((order) => {
+          tableRows.push([
+            order._id,
+            order.createdAt.substring(0, 10),
+            order.paymentMethod,
+            order.totalPrice,
+          ]);
+        });
+      }
+
+      // Add table to PDF
+      autoTable(doc, {
+        head: [tableColumn],
+        body: tableRows,
+        startY: 54,
+      });
+
+      // if no donations found
+      if (taxYearData.length === 0) {
+        doc.setFontSize(14);
+        doc.text(`NO donations found for the tax year - ${taxYear}`, 60, 80);
+      }
+
+      // 4. Save the PDF
+      doc.save(`TaxYear - ${taxYear}.pdf`);
+    } catch (err) {
+      console.error("Error downloading PDF:", err);
+      alert("Failed to generate PDF. Please try again.");
+    }
+  };
+
   if (isLoading)
     return (
       <h1 className="flex flex-col items-center justify-center">
@@ -103,13 +177,13 @@ function UserProfile() {
     <>
       <h1 className="mb-6 text-center text-2xl font-bold pt-5">
         {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
-        🏁 User Profile & Donation details 🏁
+        User Profile & Donation details
       </h1>
       <div className="min-h-screen bg-gray-100 p-6">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-6 items-start">
           {/* Left Column (2/3) */}
           <div className="bg-white p-6 rounded-2xl shadow w-full md:w-1/3 self-start">
-            <h2 className="text-2xl font-bold mb-4">User profile</h2>
+            <h2 className="text-2xl font-bold mb-4">👤 User profile</h2>
 
             <form
               className="space-y-6 md:px-10"
@@ -312,8 +386,37 @@ function UserProfile() {
           </div>
 
           {/* Right Column (1/3) */}
-          <div className="bg-white p-6 rounded-2xl shadow w-full md:w-2/3">
-            <h2 className="text-2xl font-bold mb-4">All your donations</h2>
+          <div
+            ref={printRef}
+            className="bg-white p-6 rounded-2xl shadow w-full md:w-2/3"
+          >
+            <h2 className="text-2xl font-bold">💰 All your donations</h2>
+            <h2 className="ml-4 text-xl font-bold pt-5">
+              {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
+              Tax Year Donations {new Date().getFullYear()} - Generate PDF 👇
+            </h2>
+            <div className="flex justify-center">
+              {/* <button
+                onClick={downloadPDF}
+                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+              >
+                Download PDF
+              </button> */}
+
+              <button
+                onClick={downloadPDF}
+                className="group relative w-60 flex justify-center mt-4 mb-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
+              >
+                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                  <LockClosedIcon
+                    className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
+                    aria-hidden="true"
+                  />
+                </span>
+                Download PDF
+              </button>
+            </div>
+
             <div className="relative overflow-x-auto">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -345,39 +448,6 @@ function UserProfile() {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Apple MacBook Pro 17
-                    </th>
-                    <td className="px-6 py-4">Silver</td>
-                    <td className="px-6 py-4">Laptop</td>
-                    <td className="px-6 py-4">$2999</td>
-                  </tr>
-                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Microsoft Surface Pro
-                    </th>
-                    <td className="px-6 py-4">White</td>
-                    <td className="px-6 py-4">Laptop PC</td>
-                    <td className="px-6 py-4">$1999</td>
-                  </tr>
-                  <tr className="bg-white dark:bg-gray-800">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      Magic Mouse 2
-                    </th>
-                    <td className="px-6 py-4">Black</td>
-                    <td className="px-6 py-4">Accessories</td>
-                    <td className="px-6 py-4">$99</td>
-                  </tr> */}
                   {orders.map((order) => (
                     <tr
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
