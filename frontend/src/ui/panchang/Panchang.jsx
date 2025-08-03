@@ -1,26 +1,7 @@
-// import { useQuery } from "@tanstack/react-query";
-// import axios from "axios";
-
 import Loading from "../preloader/Loading";
-// import { usePanchang } from "../../features/panchang/usePanchang";
 import { useGetDailyPanchangQuery } from "../../features/slices/eventsSlice";
-function Panchang() {
-  // const wait = () => new Promise((resolve) => setTimeout(resolve, ms));
-  // const { isLoading, error, data: panchang } = usePanchang();
-  // const {
-  //   isLoading,
-  //   error,
-  //   data: panchang,
-  // } = useQuery({
-  //   queryKey: ["panchang"],
-  //   queryFn: async () => {
-  // await wait(2000);
-  //     const response = await axios.get("/api/calendar/panchang");
-  //     const data = await response.data;
-  //     return data;
-  //   },
-  // });
 
+function Panchang() {
   const { data: panchang, isLoading, error } = useGetDailyPanchangQuery();
   if (error) return <h1>{error?.data?.message}</h1>;
 
@@ -34,9 +15,7 @@ function Panchang() {
 
   return (
     <>
-      {/* <div className="bg-gradient-to-r from-teal-400 to-yellow-200 text-slate-900 m-4 p-6 rounded-xl shadow-2xl relative py-8"> */}
       <div className="bg-gradient-to-r from-amber-200 to-yellow-500 text-slate-900 m-4 p-6 rounded-xl shadow-2xl relative py-8">
-        {/* <div className="bg-gradient-to-r from-red-500 to-orange-500 text-slate-900 m-4 p-6 rounded-xl shadow-2xl relative py-8"> */}
         <h3 className="sm:text-xl md:text-2xl font-bold text-slate-900 -mt-6 text-center">
           Daily Panchang
         </h3>
