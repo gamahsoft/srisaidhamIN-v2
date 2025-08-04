@@ -8,5 +8,8 @@ export default defineConfig({
     proxy: {
       "/api": "http://localhost:5000",
     },
+    build: {
+      chunkSizeWarningLimit: 1500, // Set to 1500 KiB (1.5 MB)
+    },
   },
 });
