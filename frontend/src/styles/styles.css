@@ -159,7 +159,7 @@ body {
   }
   25% {
     /* background-color: #f8b500; */
-    ackground-image: linear-gradient(to right, #f3ab1d, #3e5151);
+    background-image: linear-gradient(to right, #f3ab1d, #3e5151);
   }
   50% {
     /* background-color: #212121; */
