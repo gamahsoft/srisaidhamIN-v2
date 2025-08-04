@@ -1,7 +1,7 @@
 import MainCarousel from "../ui/carousel/MainCarousel";
 import { TempleTimings } from "../ui/templeTimings/TempleTimings";
 import AratiVideos from "../ui/videos/AratiVideos";
-import Panchang from "../ui/panchang/panchang";
+import Panchang from "../ui/panchang/Panchang";
 import { TestimonialCarousel } from "../ui/carouselTestimonial/TestimonialCarousel";
 
 function Home() {
