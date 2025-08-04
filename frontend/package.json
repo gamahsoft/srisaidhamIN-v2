@@ -41,6 +41,7 @@
     "react-router-dom": "^6.18.0",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.3",
+    "srisaidhamin-v2": "file:..",
     "styled-components": "^6.1.8",
     "swiper": "^11.0.5"
   },
