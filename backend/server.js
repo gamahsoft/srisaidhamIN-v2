@@ -1,4 +1,5 @@
 import express, { json, urlencoded } from "express";
+import rateLimit from "express-rate-limit";
 // import cors from "cors";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
@@ -24,6 +25,26 @@ connectDB();
 const app = express();
 app.use(urlencoded({ extended: false }));
 
+// Apply to all requests
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    status: 429,
+    message: "Too many requests, please try again later.",
+  },
+});
+
+app.use(limiter);
+
+//authentication routes
+// const loginLimiter = rateLimit({
+//   windowMs: 5 * 60 * 1000,
+//   max: 5,
+//   message: 'Too many login attempts. Try again in 5 minutes.',
+// });
+// app.post('/login', loginLimiter, handleLogin);
+
 app.use(
   json({
     verify: (req, res, buf) => {
@@ -40,9 +61,21 @@ app.use(cookieParser());
 
 // app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("API is running....");
-});
+// const __dirname = path.resolve();
+
+// if (process.env.NODE_ENV === "development") {
+//static folder
+// app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+//any route that is not api will be redirected to index.html
+// app.get("*", (req, res) =>
+//   res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+// );
+//   app.get("/", (req, res) => {
+//     res.send("API is running....");
+//   })
+// } else {
+// }
 
 app.use("/api/event", eventRoutes);
 app.use("/api/calendar", calendarRoutes);
