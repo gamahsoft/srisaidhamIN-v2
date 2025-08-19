@@ -61,6 +61,7 @@ app.use(cookieParser());
 
 // app.use(cors());
 
+//below code used to bundle frontend and backend in the same deployment to render
 // const __dirname = path.resolve();
 
 // if (process.env.NODE_ENV === "development") {
