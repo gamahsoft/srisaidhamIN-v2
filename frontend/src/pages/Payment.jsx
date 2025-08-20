@@ -219,7 +219,8 @@ function Payment() {
       // clientSecret,
       confirmParams: {
         // return_url: 'https://example.com/order/123/complete',
-        return_url: "http://localhost:5173",
+        // return_url: "http://localhost:5173",
+        return_url: "https://srisaidhamin-v2.onrender.com",
         // return_url: `${window.location.origin}/completion`,
       },
       // Uncomment below if you only want redirect for redirect-based payments.
