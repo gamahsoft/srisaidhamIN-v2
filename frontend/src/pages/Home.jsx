@@ -11,7 +11,7 @@ function Home() {
         <div className="mx-auto py-2 max-w-screen-2xl px-3 sm:px-10">
           <div className="flex w-full">
             <div className="flex-shrink-0 xl:pr-6 lg:block w-full lg:w-3/5 hidden">
-              {/* <MainCarousel /> */}
+              <MainCarousel />
             </div>
             <div className="w-full lg:flex">
               <TempleTimings />
