@@ -1,3 +1,4 @@
+import React from "react";
 import { Icon } from "@iconify/react";
 import locationTemple from "@iconify/icons-mdi/hinduism";
 import locationRestaurant from "@iconify/icons-mdi/local-restaurant";
