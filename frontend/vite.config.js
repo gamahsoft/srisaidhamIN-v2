@@ -13,6 +13,10 @@ export default defineConfig({
     //   chunkSizeWarningLimit: 450, // Set your desired limit in KB (e.g., 1000 for 1MB)
     // },
   },
+  // added below lines to fix render error
+  optimizeDeps: {
+    include: ["react", "@iconify/react"],
+  },
   build: {
     rollupOptions: {
       output: {
