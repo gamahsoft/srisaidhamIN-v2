@@ -2,7 +2,7 @@ import express, { json, urlencoded } from "express";
 import rateLimit from "express-rate-limit";
 import cors from "cors";
 import connectDB from "./config/db.js";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import colors from "colors";
 import cookieParser from "cookie-parser";
 
@@ -15,7 +15,7 @@ import calendarRoutes from "./routes/calendarRoutes.js";
 import webhook from "./routes/webhook.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 //make sure you have the config before calling the variables from .env
-dotenv.config();
+// dotenv.config();
 const port = process.env.PORT || 8000;
 
 //Connect to mongoDB
