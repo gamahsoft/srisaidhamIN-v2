@@ -5,7 +5,12 @@ import bodyParser from "body-parser";
 
 import { webhookPayment } from "../controllers/webhookController.js";
 
-env.config();
+// env.config();
+if (process.env.NODE_ENV !== "production") {
+  // Load .env only in local dev
+  const { default: dotenv } = await import("dotenv");
+  dotenv.config();
+}
 
 const stripe = new Stripe(process.env.STRIPE_KEY);
 

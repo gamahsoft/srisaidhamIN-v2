@@ -16,6 +16,11 @@ import webhook from "./routes/webhook.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 //make sure you have the config before calling the variables from .env
 // dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  // Load .env only in local dev
+  const { default: dotenv } = await import("dotenv");
+  dotenv.config();
+}
 const port = process.env.PORT || 8000;
 
 //Connect to mongoDB

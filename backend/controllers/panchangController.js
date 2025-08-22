@@ -1,12 +1,17 @@
 import axios from "axios";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
 import tz from "dayjs/plugin/timezone.js";
 import Panchang from "../models/panchangModel.js";
 
 //make sure you have the config before calling the variables from .env
-dotenv.config();
+// dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  // Load .env only in local dev
+  const { default: dotenv } = await import("dotenv");
+  dotenv.config();
+}
 
 // var dayjs = require("dayjs");
 // var utc = require("dayjs/plugin/utc");

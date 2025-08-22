@@ -1,10 +1,16 @@
 import Stripe from "stripe";
 import express from "express";
-import env from "dotenv";
+// import env from "dotenv";
 import bodyParser from "body-parser";
 import asyncHandler from "../middleware/asyncHandler.js";
 
-env.config();
+// env.config();
+
+if (process.env.NODE_ENV !== "production") {
+  // Load .env only in local dev
+  const { default: dotenv } = await import("dotenv");
+  dotenv.config();
+}
 
 const app = express();
 // app.use("/webhook", bodyParser.raw({ type: "*/*" }));
