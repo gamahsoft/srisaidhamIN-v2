@@ -1,6 +1,6 @@
 import express, { json, urlencoded } from "express";
 import rateLimit from "express-rate-limit";
-// import cors from "cors";
+import cors from "cors";
 import connectDB from "./config/db.js";
 import dotenv from "dotenv";
 import colors from "colors";
@@ -58,6 +58,32 @@ app.use(
 
 //Cookie parser middleware
 app.use(cookieParser());
+
+//Get around cors issue
+const allowedOrigins = [process.env.FRONTEND_URL];
+
+// CORS must be registered BEFORE any routes
+app.use((req, res, next) => {
+  // Helps caches vary by Origin so proxies/CDNs don't mix responses
+  res.header("Vary", "Origin");
+  next();
+});
+
+app.use(
+  cors({
+    origin(origin, cb) {
+      // Allow non-browser tools (no origin) and your whitelisted sites
+      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error(`Not allowed by CORS: ${origin}`));
+    },
+    credentials: true, // set to true only if you actually use cookies/auth headers cross-site
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Handle preflight quickly
+app.options("*", cors());
 
 // app.use(cors());
 
