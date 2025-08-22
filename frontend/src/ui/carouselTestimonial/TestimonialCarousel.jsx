@@ -36,7 +36,7 @@ export const TestimonialCarousel = () => {
         slidesPerView={1}
         slidesPerGroup={1}
         loop={true}
-        loopfillgroupwithblank={true}
+        loopFillGroupWithBlank={true}
         // navigation={true}
         pagination={{ clickable: true }}
         // scrollbar={{ draggable: true }}
@@ -148,8 +148,96 @@ export const TestimonialCarousel = () => {
               {/* <FaQuoteRight /> */}
               <blockquote>
                 <p>
-                  I get the opportunity to participate in all Baba Sevas...can't
-                  ask for anything more than this.
+                  I get the opportunity to participate in all Baba Sevas...can
+                  not ask for anything more than this.
+                </p>
+              </blockquote>
+
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide>
+        {/* duplicating the above to reduce warning messages in the browser */}
+        <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              <blockquote>
+                <p>
+                  This is Shirdi in America for me. Come and get Baba blessings.
+                  what more can I say ….
+                </p>
+              </blockquote>
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide>
+
+        {/* <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              <blockquote>
+                <p>
+                  This is Shirdi in America for me. Come and get Baba blessings.
+                  what more can I say ….
+                </p>
+              </blockquote>
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide> */}
+
+        <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              <blockquote>
+                <p>
+                  The moment I walk into the mandhir I forget all my worries.
+                  Come and join us everyday.
+                </p>
+              </blockquote>
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              {/* <FaQuoteRight /> */}
+              <blockquote>
+                <p>
+                  Thank you so much for giving us the opportunity to be part of
+                  Sai Seva program.
+                </p>
+              </blockquote>
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              {/* <FaQuoteRight /> */}
+              <blockquote>
+                <p>
+                  By the grace of Sai Baba everything is excellent, Saidham is
+                  the most peaceful place on earth.
+                </p>
+              </blockquote>
+              <h4>--Devotee</h4>
+            </figcaption>
+          </figure>
+        </SwiperSlide>
+
+        <SwiperSlide>
+          <figure className="snip1533">
+            <figcaption>
+              {/* <FaQuoteRight /> */}
+              <blockquote>
+                <p>
+                  I get the opportunity to participate in all Baba Sevas...can
+                  not ask for anything more than this.
                 </p>
               </blockquote>
 
