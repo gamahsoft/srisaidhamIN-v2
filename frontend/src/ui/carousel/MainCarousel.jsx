@@ -20,6 +20,12 @@ import "../../styles/styles.css";
 import sliderData from "../../utils/data";
 
 export default function MainCarousel() {
+  const perView = 3; // your desired desktop value
+  const perGroup = 1;
+
+  // Simple rule: only loop when you have more than you show
+  const canLoop = sliderData.length > perView;
+
   return (
     <>
       <div className="bg-white hidden md:block">
@@ -27,10 +33,10 @@ export default function MainCarousel() {
           modules={[Autoplay, Navigation, Pagination, Mousewheel, Keyboard]}
           spaceBetween={30}
           centeredSlides={true}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
+          // autoplay={{
+          //   delay: 2500,
+          //   disableOnInteraction: false,
+          // }}
           pagination={{
             clickable: true,
           }}
@@ -41,8 +47,29 @@ export default function MainCarousel() {
             enabled: true,
           }}
           navigation={true}
-          loop={true}
+          // loop={true}
           className="mySwiper"
+          key={`swiper-${sliderData.length}-${perView}-${perGroup}`} // forces re-init when data changes
+          loop={canLoop}
+          rewind={!canLoop}
+          watchOverflow={true}
+          slidesPerView={Math.min(perView, Math.max(1, sliderData.length))}
+          slidesPerGroup={Math.min(perGroup, Math.max(1, sliderData.length))}
+          autoplay={canLoop ? { delay: 3500 } : false}
+          breakpoints={{
+            0: {
+              slidesPerView: Math.min(1, sliderData.length),
+              slidesPerGroup: 1,
+            },
+            640: {
+              slidesPerView: Math.min(2, sliderData.length),
+              slidesPerGroup: 1,
+            },
+            1024: {
+              slidesPerView: Math.min(3, sliderData.length),
+              slidesPerGroup: 1,
+            },
+          }}
         >
           {sliderData.map((item, i) => (
             <SwiperSlide
