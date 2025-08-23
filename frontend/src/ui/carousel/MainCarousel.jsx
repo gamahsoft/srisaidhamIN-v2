@@ -20,7 +20,7 @@ import "../../styles/styles.css";
 import sliderData from "../../utils/data";
 
 export default function MainCarousel() {
-  const perView = 3; // your desired desktop value
+  const perView = 1; // your desired desktop value
   const perGroup = 1;
 
   // Simple rule: only loop when you have more than you show

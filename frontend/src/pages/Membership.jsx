@@ -29,7 +29,7 @@ const Membership = () => {
     <>
       <h1 className="mt-6 text-center text-lg font-bold">YEARLY MEMBERSHIP</h1>
       <h4 className="mt-2 text-center text-lg">
-        🙏 Become a member today 🪷 Help grow our communicty 🙏
+        🙏 Become a member today 🪷 Help grow our community 🙏
       </h4>
       <div className="mt-2 text-center text-lg">
         <p>Member benefits include ✅ </p>
