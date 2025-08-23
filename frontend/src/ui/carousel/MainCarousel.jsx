@@ -55,6 +55,8 @@ export default function MainCarousel() {
           watchOverflow={true}
           // slidesPerView={Math.min(perView, Math.max(1, sliderData.length))}
           // slidesPerGroup={Math.min(perGroup, Math.max(1, sliderData.length))}
+          slidesPerView={1}
+          slidesPerGroup={1}
           autoplay={canLoop ? { delay: 3500 } : false}
           breakpoints={{
             0: {
@@ -62,11 +64,11 @@ export default function MainCarousel() {
               slidesPerGroup: 1,
             },
             640: {
-              slidesPerView: Math.min(2, sliderData.length),
+              slidesPerView: Math.min(1, sliderData.length),
               slidesPerGroup: 1,
             },
             1024: {
-              slidesPerView: Math.min(3, sliderData.length),
+              slidesPerView: Math.min(1, sliderData.length),
               slidesPerGroup: 1,
             },
           }}
