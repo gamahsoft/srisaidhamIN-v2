@@ -86,8 +86,8 @@ const cartSlice = createSlice({
     },
     savePaymentMethod: (state, action) => {
       state.paymentMethod = action.payload;
-      console.log("state.paymentMethod :", state.paymentMethod);
-      console.log("action.payload :", action.payload);
+      // console.log("state.paymentMethod :", state.paymentMethod);
+      // console.log("action.payload :", action.payload);
       localStorage.setItem("cart", JSON.stringify(state));
     },
     clearCartItems: (state, action) => {
