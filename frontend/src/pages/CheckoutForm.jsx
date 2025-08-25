@@ -63,7 +63,7 @@ export default function CheckoutForm() {
       toast.error("Payment Unsuccessful: ", error);
       console.log("Payment Stripe Error: ", error);
     } else if (paymentIntent?.status === "succeeded") {
-      navigate("/PaymentSuccess");
+      navigate("/paymentSuccess");
     }
 
     // else {
