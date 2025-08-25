@@ -41,9 +41,7 @@ export default function CheckoutForm() {
     setIsLoading(true);
 
     // const returnUrl = new URL("payment/PaymentSuccess", window.location.origin)
-    const returnUrl = new URL(
-      "https://srisaidhamin-v2-1.onrender.com/paymentSuccess"
-    );
+    const returnUrl = new URL("/paymentSuccess", window.location.origin).href;
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
