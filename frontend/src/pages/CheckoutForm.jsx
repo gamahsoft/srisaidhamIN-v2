@@ -40,14 +40,12 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    // const returnUrl = new URL("payment/PaymentSuccess", window.location.origin)
-    const returnUrl = new URL("/paymentSuccess", window.location.origin).href;
+    // const returnUrl = new URL("payment/PaymentSuccess", window.location.origin).href;
+    const returnUrl = new URL("paymentSuccess", window.location.origin).href;
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
-      // confirmParams: {
-      //   return_url: navigate("/PaymentSuccess"),
-      // },
+
       confirmParams: {
         return_url: returnUrl,
       },
