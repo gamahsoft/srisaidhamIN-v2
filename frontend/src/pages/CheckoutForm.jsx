@@ -40,7 +40,8 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const returnUrl = new URL("/PaymentSuccess", window.location.origin).href;
+    const returnUrl = new URL("payment/PaymentSuccess", window.location.origin)
+      .href;
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
