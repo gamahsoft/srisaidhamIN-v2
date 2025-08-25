@@ -42,9 +42,10 @@ export default function CheckoutForm() {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: navigate("/PaymentSuccess"),
-      },
+      // confirmParams: {
+      //   return_url: navigate("/PaymentSuccess"),
+      // },
+      confirmParams: { return_url: `${window.location.origin}/PaymentSuccess` },
     });
 
     // This point will only be reached if there is an immediate error when
@@ -55,11 +56,14 @@ export default function CheckoutForm() {
 
     if (error) {
       toast.error("Payment Unsuccessful: ", error);
-    } else {
-      dispatch(clearCartItems());
-      toast.success("Payment Successful 😎");
-      navigate("/");
+      console.log("Payment Stripe Error: ", error);
     }
+
+    // else {
+    //   dispatch(clearCartItems());
+    //   toast.success("Payment Successful 😎");
+    //   navigate("/");
+    // }
 
     // if (
     //   result.error.type === "card_error" ||

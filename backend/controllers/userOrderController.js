@@ -81,10 +81,10 @@ const createPaymentIntent = async (req, res) => {
         enabled: true,
       },
     });
-    // console.log(
-    //   "From Server userOrderController.js clientSecret : ",
-    //   paymentIntent.client_secret
-    // );
+    console.log(
+      "From Server userOrderController.js clientSecret : ",
+      paymentIntent.client_secret
+    );
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {
     console.log(error);
