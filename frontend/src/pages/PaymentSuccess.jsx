@@ -64,9 +64,9 @@ const PaymentSuccess = () => {
   //   }
   // }, [dispatch, error]);
 
-  useEffect(() => {
-    dispatch(clearCartItems());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(clearCartItems());
+  // }, [dispatch]);
 
   if (isLoading)
     return (

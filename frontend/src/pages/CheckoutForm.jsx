@@ -51,12 +51,13 @@ export default function CheckoutForm() {
     //   },
     // });
 
-    const { error } = await stripe
+    const { error, paymentIntent } = await stripe
       .confirmPayment({
         elements,
         confirmParams: {
           // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-          return_url: "https://srisaidhamin-v2-1.onrender.com/paymentSuccess",
+          // return_url: "https://srisaidhamin-v2-1.onrender.com/paymentSuccess",
+          return_url: "/paymentSuccess",
         },
       })
       .then(function (result) {
@@ -72,12 +73,12 @@ export default function CheckoutForm() {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
 
-    // if (error) {
-    //   toast.error("Payment Unsuccessful: ", error);
-    //   console.log("Payment Stripe Error: ", error);
-    // } else if (paymentIntent?.status === "succeeded") {
-    //   navigate("/paymentSuccess");
-    // }
+    if (error) {
+      toast.error("Payment Unsuccessful: ", error);
+      console.log("Payment Stripe Error: ", error);
+    } else if (paymentIntent?.status === "succeeded") {
+      navigate("/paymentSuccess");
+    }
 
     // else {
     //   dispatch(clearCartItems());
