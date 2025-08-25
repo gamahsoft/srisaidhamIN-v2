@@ -7,7 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 // import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
@@ -22,8 +22,8 @@ export default function CheckoutForm() {
   const cart = useSelector((state) => state.cart);
   const { totalPrice } = cart;
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -45,7 +45,9 @@ export default function CheckoutForm() {
       // confirmParams: {
       //   return_url: navigate("/PaymentSuccess"),
       // },
-      confirmParams: { return_url: `${window.location.origin}/PaymentSuccess` },
+      confirmParams: {
+        return_url: `${window.location.origin}/payment/PaymentSuccess`,
+      },
     });
 
     // This point will only be reached if there is an immediate error when
