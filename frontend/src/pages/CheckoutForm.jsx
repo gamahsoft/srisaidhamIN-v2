@@ -7,7 +7,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
@@ -22,7 +22,7 @@ export default function CheckoutForm() {
   const cart = useSelector((state) => state.cart);
   const { totalPrice } = cart;
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
@@ -40,13 +40,15 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const returnUrl = new URL("/PaymentSuccess", window.location.origin).href;
+
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       // confirmParams: {
       //   return_url: navigate("/PaymentSuccess"),
       // },
       confirmParams: {
-        return_url: `${window.location.origin}/payment/PaymentSuccess`,
+        return_url: returnUrl,
       },
     });
 
@@ -59,6 +61,8 @@ export default function CheckoutForm() {
     if (error) {
       toast.error("Payment Unsuccessful: ", error);
       console.log("Payment Stripe Error: ", error);
+    } else if (paymentIntent?.status === "succeeded") {
+      navigate("/PaymentSuccess");
     }
 
     // else {
