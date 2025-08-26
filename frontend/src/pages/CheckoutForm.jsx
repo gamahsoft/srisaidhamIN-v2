@@ -40,7 +40,12 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    const returnUrl = new URL("/paymentSuccess", window.location.origin).href;
+    const base = "https://srisaidhamin-v2-1.onrender.com";
+
+    const returnUrl = new URL(
+      `${base}/payment/complete`,
+      window.location.origin
+    ).href;
 
     // const { error, paymentIntent } = await stripe.confirmPayment({
     //   elements,
