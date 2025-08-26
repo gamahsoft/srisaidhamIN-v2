@@ -40,8 +40,8 @@ export default function CheckoutForm() {
 
     setIsLoading(true);
 
-    // const returnUrl = new URL("payment/PaymentSuccess", window.location.origin).href;
-    // const returnUrl = new URL("paymentSuccess", window.location.origin).href;
+    const returnUrl = new URL("/payment/paymentSuccess", window.location.origin)
+      .href;
 
     // const { error, paymentIntent } = await stripe.confirmPayment({
     //   elements,
@@ -56,7 +56,7 @@ export default function CheckoutForm() {
         elements,
         confirmParams: {
           // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
-          return_url: "https://srisaidhamin-v2-1.onrender.com/saibaba-services",
+          return_url: returnUrl,
         },
       })
       .then(function (result) {
@@ -72,12 +72,12 @@ export default function CheckoutForm() {
     // be redirected to an intermediate site first to authorize the payment, then
     // redirected to the `return_url`.
 
-    // if (error) {
-    //   toast.error("Payment Unsuccessful: ", error);
-    //   console.log("Payment Stripe Error: ", error);
-    // } else if (paymentIntent?.status === "succeeded") {
-    //   navigate("/paymentSuccess");
-    // }
+    if (paymentIntent?.status === "succeeded") {
+      navigate("/paymentSuccess");
+    } else {
+      toast.error("Payment Unsuccessful: ", error);
+      console.log("Payment Stripe Error: ", error);
+    }
 
     // else {
     //   dispatch(clearCartItems());
