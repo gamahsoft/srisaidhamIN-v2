@@ -68,7 +68,7 @@ function App() {
             <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route path="/kitchen" element={<Kitchen />} />
             <Route path="/payment" element={<Payment />} />
-            <Route path="/payment/complete" element={<PaymentSuccess />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="*" element={<NotFound />} />
           </Route>
