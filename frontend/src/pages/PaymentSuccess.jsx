@@ -142,42 +142,63 @@ function PaymentSuccess() {
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
-  const hasRun = useRef(false);
+  // const hasRun = useRef(false);
 
   // Create order information
-  useEffect(() => {
-    if (hasRun.current) return;
+  async function placeOrderHandler() {
+    // if (hasRun.current) return;
 
-    hasRun.current = true;
-    // Define async function
-    const placeOrderHandler = async () => {
-      try {
-        const res = await createOrder({
-          orderItems: cart.cartItems,
-          // shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: cart.itemsPrice,
-          // shippingPrice: cart.shippingPrice,
-          // taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
-        }).unwrap();
-        dispatch(clearCartItems());
-        toast.success("Donation record successfully created 😎");
-      } catch (err) {
-        toast.error(err?.data?.message || "Order failed");
-      }
-    };
+    // hasRun.current = true;
+    try {
+      const res = await createOrder({
+        orderItems: cart.cartItems,
+        // shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        // shippingPrice: cart.shippingPrice,
+        // taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      }).unwrap();
+      console.log("Order Creation response: ", res);
+      dispatch(clearCartItems());
+      toast.success("Donation record successfully created 😎");
+    } catch (err) {
+      toast.error(err?.data?.message || "Order failed");
+    }
+  }
+  // useEffect(() => {
+  //   if (hasRun.current) return;
 
-    // call the async function
-    placeOrderHandler();
-  }, [
-    cart.cartItems,
-    cart.itemsPrice,
-    cart.totalPrice,
-    createOrder,
-    cart.paymentMethod,
-    dispatch,
-  ]); // empty dependency array = run once on mount
+  //   hasRun.current = true;
+  //   // Define async function
+  //   const placeOrderHandler = async () => {
+  //     try {
+  //       const res = await createOrder({
+  //         orderItems: cart.cartItems,
+  //         // shippingAddress: cart.shippingAddress,
+  //         paymentMethod: cart.paymentMethod,
+  //         itemsPrice: cart.itemsPrice,
+  //         // shippingPrice: cart.shippingPrice,
+  //         // taxPrice: cart.taxPrice,
+  //         totalPrice: cart.totalPrice,
+  //       }).unwrap();
+  //       dispatch(clearCartItems());
+  //       toast.success("Donation record successfully created 😎");
+  //     } catch (err) {
+  //       toast.error(err?.data?.message || "Order failed");
+  //     }
+  //   };
+
+  //   // call the async function
+  //   placeOrderHandler();
+  // }, [
+  //   cart.cartItems,
+  //   cart.itemsPrice,
+  //   cart.totalPrice,
+  //   createOrder,
+  //   cart.paymentMethod,
+  //   dispatch,
+  // ]); // empty dependency array = run once on mount
 
   useEffect(() => {
     if (!stripe) {
@@ -197,6 +218,7 @@ function PaymentSuccess() {
       switch (paymentIntent.status) {
         case "succeeded":
           // Payment succeeded
+          placeOrderHandler();
           toast.success("Payment Successful 😎");
           break;
         case "processing":
