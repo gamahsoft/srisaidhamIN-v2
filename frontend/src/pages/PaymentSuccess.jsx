@@ -182,39 +182,39 @@ function PaymentSuccess() {
   }, [stripe, location, dispatch]);
 
   // Create order information
-  useEffect(() => {
-    if (hasRun.current) return;
+  // useEffect(() => {
+  //   if (hasRun.current) return;
 
-    hasRun.current = true;
-    // Define async function
-    const placeOrderHandler = async () => {
-      try {
-        const res = await createOrder({
-          orderItems: cart.cartItems,
-          // shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: cart.itemsPrice,
-          // shippingPrice: cart.shippingPrice,
-          // taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
-        }).unwrap();
-        dispatch(clearCartItems());
-        toast.success("Donation record successfully created 😎");
-      } catch (err) {
-        toast.error(err?.data?.message || "Order failed");
-      }
-    };
+  //   hasRun.current = true;
+  //   // Define async function
+  //   const placeOrderHandler = async () => {
+  //     try {
+  //       const res = await createOrder({
+  //         orderItems: cart.cartItems,
+  //         // shippingAddress: cart.shippingAddress,
+  //         paymentMethod: cart.paymentMethod,
+  //         itemsPrice: cart.itemsPrice,
+  //         // shippingPrice: cart.shippingPrice,
+  //         // taxPrice: cart.taxPrice,
+  //         totalPrice: cart.totalPrice,
+  //       }).unwrap();
+  //       dispatch(clearCartItems());
+  //       toast.success("Donation record successfully created 😎");
+  //     } catch (err) {
+  //       toast.error(err?.data?.message || "Order failed");
+  //     }
+  //   };
 
-    // call the async function
-    placeOrderHandler();
-  }, [
-    cart.cartItems,
-    cart.itemsPrice,
-    cart.totalPrice,
-    createOrder,
-    cart.paymentMethod,
-    dispatch,
-  ]); // empty dependency array = run once on mount
+  //   // call the async function
+  //   placeOrderHandler();
+  // }, [
+  //   cart.cartItems,
+  //   cart.itemsPrice,
+  //   cart.totalPrice,
+  //   createOrder,
+  //   cart.paymentMethod,
+  //   dispatch,
+  // ]); // empty dependency array = run once on mount
 
   if (isLoading)
     return (
