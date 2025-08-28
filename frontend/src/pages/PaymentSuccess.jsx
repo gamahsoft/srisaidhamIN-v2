@@ -162,7 +162,6 @@ function PaymentSuccess() {
       switch (paymentIntent.status) {
         case "succeeded":
           // Payment succeeded
-          dispatch(clearCartItems());
           toast.success("Payment Successful 😎");
           break;
         case "processing":
@@ -199,6 +198,7 @@ function PaymentSuccess() {
           // taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
         }).unwrap();
+        dispatch(clearCartItems());
         toast.success("Donation record successfully created 😎");
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
