@@ -142,13 +142,13 @@ function PaymentSuccess() {
 
   const [createOrder, { isLoading, error }] = useCreateOrderMutation();
 
-  // const hasRun = useRef(false);
+  const hasRun = useRef(false);
 
   // Create order information
   async function placeOrderHandler() {
-    // if (hasRun.current) return;
+    if (hasRun.current) return;
 
-    // hasRun.current = true;
+    hasRun.current = true;
     try {
       const res = await createOrder({
         orderItems: cart.cartItems,
