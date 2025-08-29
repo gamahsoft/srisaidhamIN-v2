@@ -30,11 +30,6 @@ connectDB();
 const app = express();
 app.use(urlencoded({ extended: false }));
 
-// Set up CORS with a specific origin
-const corsOptions = {
-  origin: "https://srisaidhamin-v2-1.onrender.com", // <-- Replace with your actual frontend URL
-};
-
 // Apply to all requests
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -79,23 +74,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(
-//   cors({
-//     origin(origin, cb) {
-//       // Allow non-browser tools (no origin) and your whitelisted sites
-//       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-//       return cb(new Error(`Not allowed by CORS: ${origin}`));
-//     },
-//     credentials: true, // set to true only if you actually use cookies/auth headers cross-site
-//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin(origin, cb) {
+      // Allow non-browser tools (no origin) and your whitelisted sites
+      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error(`Not allowed by CORS: ${origin}`));
+    },
+    credentials: true, // set to true only if you actually use cookies/auth headers cross-site
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Handle preflight quickly
-// app.options("*", cors());
+app.options("*", cors());
 
 // app.use(cors());
 
