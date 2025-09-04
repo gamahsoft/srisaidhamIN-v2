@@ -16,10 +16,12 @@ const protect = asyncHandler(async (req, res, next) => {
       req.user = await User.findById(decoded.userId);
       next();
     } catch (error) {
+      console.log("authMiddleware protect route: ", error);
       res.status(401);
       throw new Error("Not authorized, token failed");
     }
   } else {
+    console.log("authMiddleware protect route: Not authorized, no token");
     res.status(401);
     throw new Error("Not authorized, no token");
   }
