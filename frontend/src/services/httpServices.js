@@ -5,6 +5,7 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_REACT_PUBLIC_API_BASE_URL}`,
+  withCredentials: true, // This is the crucial part if the frontend backend domains are not same
   timeout: 500000,
   headers: {
     Accept: "application/json",

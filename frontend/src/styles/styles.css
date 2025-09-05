@@ -436,7 +436,6 @@ body {
   height: 20px;
   box-shadow: inset 0 0 0 2px;
   -webkit-transform: translateZ(0);
-  /* -ms-transform: translateZ(0); */
   transform: translateZ(0);
 }
 
