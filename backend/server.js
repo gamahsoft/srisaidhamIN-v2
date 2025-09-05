@@ -68,40 +68,27 @@ app.use(cookieParser());
 const allowedOrigins = [process.env.FRONTEND_URL];
 
 // CORS must be registered BEFORE any routes
-// app.use((req, res, next) => {
-//   // Helps caches vary by Origin so proxies/CDNs don't mix responses
-//   res.header("Vary", "Origin");
-//   next();
-// });
+app.use((req, res, next) => {
+  // Helps caches vary by Origin so proxies/CDNs don't mix responses
+  res.header("Vary", "Origin");
+  next();
+});
 
-// app.use(
-//   cors({
-//     origin(origin, cb) {
-//       // Allow non-browser tools (no origin) and your whitelisted sites
-//       if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
-//       return cb(new Error(`Not allowed by CORS: ${origin}`));
-//     },
-//     credentials: true, // set to true only if you actually use cookies/auth headers cross-site
-//     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-//     allowedHeaders: ["Content-Type", "Authorization"],
-//   })
-// );
+app.use(
+  cors({
+    origin(origin, cb) {
+      // Allow non-browser tools (no origin) and your whitelisted sites
+      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      return cb(new Error(`Not allowed by CORS: ${origin}`));
+    },
+    credentials: true, // set to true only if you actually use cookies/auth headers cross-site
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 // Handle preflight quickly
-// app.options("*", cors());
-
-//
-const corsOptions = {
-  // Replace with your frontend domain
-  origin: allowedOrigins,
-  credentials: true, // This is crucial for allowing cookies
-  optionsSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
-//
-
-// app.use(cors());
+app.options("*", cors());
 
 //below code used to bundle frontend and backend in the same deployment to render
 // const __dirname = path.resolve();
