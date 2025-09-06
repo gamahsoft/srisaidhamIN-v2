@@ -1,4 +1,5 @@
 import axios from "axios";
+axios.defaults.withCredentials = true; // This sets it globally for all requests
 
 // import Cookies from "js-cookie";
 // `${import.meta.env.VITE_REACT_PUBLIC_API_BASE_URL}`,
