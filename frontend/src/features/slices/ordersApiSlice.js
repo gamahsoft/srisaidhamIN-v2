@@ -40,7 +40,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: `${ORDERS_URL}/myorders`,
       }),
-      credentials: "include", // This is the key
+      withCredentials: true, // This is the crucial part if the frontend backend domains are not same
       keepUnusedDataFor: 5,
     }),
     getOrders: builder.query({

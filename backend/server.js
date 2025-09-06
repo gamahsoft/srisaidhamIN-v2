@@ -86,9 +86,8 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
 // Handle preflight quickly
-app.options("*", cors());
+// app.options("*", cors());
 
 //below code used to bundle frontend and backend in the same deployment to render
 // const __dirname = path.resolve();
