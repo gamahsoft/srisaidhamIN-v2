@@ -19,6 +19,7 @@ const router = express.Router();
 router.route("/").post(protect, addOrderItems).get(protect, admin, getOrders);
 // create stripe payment intent
 router.post("/payment-intent", createPaymentIntent);
+// router.route("/myorders").get(protect, getMyOrders);
 router.route("/myorders").get(protect, getMyOrders);
 //make sure this order by id route is below the '/' route but not before
 router.route("/:id").get(protect, getOrderById);
