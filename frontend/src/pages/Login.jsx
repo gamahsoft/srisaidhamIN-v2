@@ -65,6 +65,14 @@ function Login() {
     }
   }
 
+  function guestSubmit(data) {
+    try {
+      navigate(redirect);
+    } catch (err) {
+      toast.error("err?.data?.message" || err.error);
+    }
+  }
+
   // const backgroundImageStyle = {
   //   backgroundImage: `url("${loginbg}")`,
   //   backgroundSize: "cover",
@@ -204,7 +212,7 @@ function Login() {
                         disabled={isLoading}
                         className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                        <span className="absolute left-0 inset-y-0 flex items-center pl-3 pr-3">
                           <LockClosedIcon
                             className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
                             aria-hidden="true"
@@ -213,16 +221,17 @@ function Login() {
                         Login
                       </button>
                       <button
+                        onSubmit={guestSubmit}
                         type="submit"
                         disabled={isLoading}
                         className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                        {/* <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                           <LockClosedIcon
                             className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
                             aria-hidden="true"
                           />
-                        </span>
+                        </span> */}
                         Guest User
                       </button>
                     </div>
