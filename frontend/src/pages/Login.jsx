@@ -65,8 +65,9 @@ function Login() {
     }
   }
 
-  function guestSubmit(data) {
+  function guestSubmit() {
     try {
+      alert("Email is valid!");
       navigate(redirect);
     } catch (err) {
       toast.error("err?.data?.message" || err.error);
