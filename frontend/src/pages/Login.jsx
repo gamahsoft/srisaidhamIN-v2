@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { FiLock, FiMail } from "react-icons/fi";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 
 import { useSigninMutation } from "../features/slices/usersApiSlice";
@@ -42,14 +41,14 @@ function Login() {
   const sp = new URLSearchParams(search);
   const redirect = sp.get("redirect") || "/";
 
-  useEffect(
-    function () {
-      if (userInfo) {
-        navigate(redirect);
-      }
-    },
-    [navigate, redirect, userInfo]
-  );
+  // useEffect(
+  //   function () {
+  //     if (userInfo) {
+  //       navigate(redirect);
+  //     }
+  //   },
+  //   [navigate, redirect, userInfo]
+  // );
 
   async function onSubmit(data) {
     try {
@@ -66,8 +65,7 @@ function Login() {
   }
 
   const guestSubmit = () => {
-    alert("You are in gust submit!");
-    navigate(redirect);
+    navigate("/GuestPayment");
   };
 
   // const backgroundImageStyle = {
