@@ -214,6 +214,94 @@ function Login() {
                       </span>
                       Login
                     </button>
+                    <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                      Enter Guest User Details 🎗️
+                    </h3>
+                    <div>
+                      {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+                  </svg> */}
+                      <p className="required-field-red-asterisk">
+                        <label
+                          htmlFor="name"
+                          className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                        >
+                          Your first and last name
+                        </label>
+                      </p>
+                      <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        disabled={isLoading}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                        placeholder="Enter your first and last name"
+                        // icon={FiMail}
+                        {...register("name", {
+                          required: "Name is required",
+                        })}
+                      />
+                      <span className="text-red-500 text-xs font-bold">
+                        {errors?.name?.message}
+                      </span>
+                    </div>
+                    <div>
+                      {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+                  </svg> */}
+                      <p className="required-field-red-asterisk">
+                        <label
+                          htmlFor="phone"
+                          className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                        >
+                          Your mobile phone
+                        </label>
+                      </p>
+                      <input
+                        type="text"
+                        name="phone"
+                        id="phone"
+                        disabled={isLoading}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                        placeholder="Enter your mobile phone number"
+                        // icon={FiMail}
+                        {...register("phone", {
+                          required: "Mobile phone is required",
+                        })}
+                      />
+                      <span className="text-red-500 text-xs font-bold">
+                        {errors?.phone?.message}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="required-field-red-asterisk">
+                        <label
+                          htmlFor="email"
+                          className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                        >
+                          Your email
+                        </label>
+                      </p>
+                      <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        disabled={isLoading}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                        placeholder="name@gmail.com"
+                        // icon={FiMail}
+                        {...register("email", {
+                          required: "Email is required",
+                          pattern: {
+                            value: /\S+@\S+\.\S+/,
+                            message: "Please provide a valid email address",
+                          },
+                        })}
+                      />
+                      <span className="text-red-500 text-xs font-bold">
+                        {errors?.email?.message}
+                      </span>
+                    </div>
                     <button
                       onClick={guestSubmit}
                       type="button"
