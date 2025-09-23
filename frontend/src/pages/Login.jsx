@@ -238,7 +238,7 @@ function Login() {
                         placeholder="Enter your first and last name"
                         // icon={FiMail}
                         {...register("name", {
-                          required: "Name is required",
+                          // required: "Name is required",
                         })}
                       />
                       <span className="text-red-500 text-xs font-bold">
@@ -266,7 +266,7 @@ function Login() {
                         placeholder="Enter your mobile phone number"
                         // icon={FiMail}
                         {...register("phone", {
-                          required: "Mobile phone is required",
+                          // required: "Mobile phone is required",
                         })}
                       />
                       <span className="text-red-500 text-xs font-bold">
@@ -291,7 +291,7 @@ function Login() {
                         placeholder="name@gmail.com"
                         // icon={FiMail}
                         {...register("email", {
-                          required: "Email is required",
+                          // required: "Email is required",
                           pattern: {
                             value: /\S+@\S+\.\S+/,
                             message: "Please provide a valid email address",
