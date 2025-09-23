@@ -65,7 +65,7 @@ function Login() {
   }
 
   const guestSubmit = () => {
-    navigate("/GuestPayment");
+    navigate("/guest-payment");
   };
 
   // const backgroundImageStyle = {
