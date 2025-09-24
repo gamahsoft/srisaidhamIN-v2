@@ -97,9 +97,6 @@ function Login() {
             <h3 className="text-3xl font-bold text-gray-800 text-center">
               User Login 🎗️
             </h3>
-            <p className="text-center text-sm text-gray-600">
-              Log in to your account 🔐
-            </p>
 
             <div>
               <p className="required-field-red-asterisk">
@@ -209,12 +206,9 @@ function Login() {
 
         <div className="w-full md:w-1/2 p-8 md:p-12">
           <form className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+            <h3 className="text-3xl font-bold text-gray-800 text-center">
               Guest User 🎗️
             </h3>
-            <p className="text-center text-sm text-gray-600">
-              Continue as a guest
-            </p>
 
             <div>
               <p>
@@ -310,7 +304,7 @@ function Login() {
                   aria-hidden="true"
                 />
               </span>
-              {isLoading ? <SpinnerMini /> : "Continue as Guest"}
+              {isLoading ? <SpinnerMini /> : "Guest User"}
             </button>
           </form>
         </div>
