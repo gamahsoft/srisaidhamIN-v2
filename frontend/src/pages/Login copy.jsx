@@ -1,55 +1,339 @@
+import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { LockClosedIcon } from "@heroicons/react/24/solid";
+
+import { useSigninMutation } from "../features/slices/usersApiSlice";
+import { setCredentials } from "../features/slices/authSlice";
+import Loading from "../ui/preloader/Loading";
+import { toast } from "react-hot-toast";
+import SpinnerMini from "../ui/preloader/SpinnerMini";
+
+// import { useLogin } from "../features/authentication/useLogin";
+import loginbg from "../assets/loginbg.jpg";
+
+// import loginbg from "../assets/backgroundImage.jpg";
+const backgroundImageStyle = {
+  backgroundImage: `url("${loginbg}")`,
+  backgroundSize: "cover",
+};
+
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const { login, isLoading } = useLogin();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    // reset,
+  } = useForm();
+
+  // function onSubmit({ email, password }) {
+  //   login({ email, password }, { onSettled: () => reset() });
+  // }
+
+  const [signin, { isLoading }, error] = useSigninMutation();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  // useEffect(
+  //   function () {
+  //     if (userInfo) {
+  //       navigate(redirect);
+  //     }
+  //   },
+  //   [navigate, redirect, userInfo]
+  // );
+
+  async function onSubmit(data) {
+    try {
+      const res = await signin({
+        email: data.email,
+        password: data.password,
+      }).unwrap();
+      dispatch(setCredentials({ ...res }));
+      navigate(redirect);
+      toast.success("Successfully Logged in 😎");
+    } catch (err) {
+      toast.error("err?.data?.message" || err.error);
+    }
+  }
+
+  const guestSubmit = () => {
+    navigate("/guest-payment");
+  };
+
+  // const backgroundImageStyle = {
+  //   backgroundImage: `url("${loginbg}")`,
+  //   backgroundSize: "cover",
+  // };
+
+  if (isLoading)
+    return (
+      <h1 className="flex flex-col items-center justify-center">
+        <Loading />
+      </h1>
+    );
+  if (error) return <h1>{error?.data?.message || error.error}</h1>;
+
   return (
     <>
-      <div className="overflow-hidden flex items-center justify-center mt-4 w-full bg-cover bg-center h-95">
-        <div className="overflow-x-hidden bg-center -z-10">
-          <img
-            className="overflow-y-hidden overflow-x-hidden"
-            src="/background-images/backgroundImage1.jpg"
-          />
-          {/* <div className="bg-white lg:w-5/12 md:6/12 w-10/12 shadow-3xl">
-            <div className="bg-gray-800 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full p-4 md:p-8">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="#FFF">
-                <path d="M0 3v18h24v-18h-24zm6.623 7.929l-4.623 5.712v-9.458l4.623 3.746zm-4.141-5.929h19.035l-9.517 7.713-9.518-7.713zm5.694 7.188l3.824 3.099 3.83-3.104 5.612 6.817h-18.779l5.513-6.812zm9.208-1.264l4.616-3.741v9.348l-4.616-5.607z" />
-              </svg>
-            </div>
-            <form className="p-12 md:p-14">
-              <div className="flex items-center text-lg mb-6 md:mb-8">
-                <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
-                  <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
-                </svg>
-                <input
-                  type="text"
-                  id="username"
-                  className="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full"
-                  placeholder="Username"
-                />
-              </div>
-              <div className="flex items-center text-lg mb-6 md:mb-8">
-                <svg className="absolute ml-3" viewBox="0 0 24 24" width="24">
-                  <path d="m18.75 9h-.75v-3c0-3.309-2.691-6-6-6s-6 2.691-6 6v3h-.75c-1.24 0-2.25 1.009-2.25 2.25v10.5c0 1.241 1.01 2.25 2.25 2.25h13.5c1.24 0 2.25-1.009 2.25-2.25v-10.5c0-1.241-1.01-2.25-2.25-2.25zm-10.75-3c0-2.206 1.794-4 4-4s4 1.794 4 4v3h-8zm5 10.722v2.278c0 .552-.447 1-1 1s-1-.448-1-1v-2.278c-.595-.347-1-.985-1-1.722 0-1.103.897-2 2-2s2 .897 2 2c0 .737-.405 1.375-1 1.722z" />
-                </svg>
-                <input
-                  type="password"
-                  id="password"
-                  className="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full"
-                  placeholder="Password"
-                />
-              </div>
-              <button className="bg-gradient-to-b from-gray-700 to-gray-900 font-medium p-2 md:p-4 text-white uppercase w-full">
-                Login
-              </button>
-            </form>
-            <p className="-mt-6 text-center text-sm text-gray-500 mb-6">
-              Do you have an account?
-              <a
-                href="#"
-                className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+      <div className="mt-4  text-white " style={backgroundImageStyle}>
+        <div className="flex flex-col justify-center items-center bg-gradient-to-r from-slate-700 px-8 py-16">
+          {/* <!-- This is an example component --> */}
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-md p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <form
+                className="space-y-6 md:px-10"
+                onSubmit={handleSubmit(onSubmit)}
               >
-                Create your free account here
-              </a>
-            </p>
-          </div> */}
+                <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                  Log into your account 🎗️
+                </h3>
+
+                <div>
+                  {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+                  </svg> */}
+                  <p className="required-field-red-asterisk">
+                    <label
+                      htmlFor="email"
+                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                    >
+                      Your email
+                    </label>
+                  </p>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    disabled={isLoading}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                    placeholder="Enter your email id"
+                    // icon={FiMail}
+                    {...register("email", {
+                      required: "This field is required",
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Please provide a valid email address",
+                      },
+                    })}
+                  />
+                  <span className="text-red-500 text-xs font-bold">
+                    {errors?.email?.message}
+                  </span>
+                </div>
+                <div>
+                  <p className="required-field-red-asterisk">
+                    <label
+                      htmlFor="password"
+                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300 required-field-red-asterisk"
+                    >
+                      Your password
+                    </label>
+                  </p>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    // icon={FiLock}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    disabled={isLoading}
+                    {...register("password", {
+                      required: "This field is required",
+                      minLength: {
+                        value: 8,
+                        message: "Password needs a minimum of 8 characters",
+                      },
+                    })}
+                  />
+                  <span className="text-red-500 text-xs font-bold">
+                    {errors?.email?.message}
+                  </span>
+                </div>
+                <div className="flex items-start">
+                  <div className="flex items-start">
+                    {/* <div className="flex items-center h-5">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        className="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                        required=""
+                      />
+                    </div> */}
+                    {/* <div className="text-sm ml-3">
+                      <label
+                        htmlFor="remember"
+                        className="font-medium text-gray-900 dark:text-gray-300"
+                      >
+                        Remember me
+                      </label>
+                    </div> */}
+                  </div>
+                  {/*sign up for newsletter  */}
+                  {/* <div className="md:flex md:items-center mb-6">
+                    <div className="md:w-1/3"></div>
+                    <label className="md:w-2/3 block text-gray-500 font-bold">
+                      <input
+                        className="mr-2 leading-tight"
+                        type="checkbox"
+                      ></input>
+                      <span className="text-sm">Sign up for newsletter!</span>
+                    </label>
+                  </div> */}
+
+                  <Link
+                    to="/forgotpass"
+                    className="text-sm text-blue-700 hover:underline ml-auto dark:text-blue-500"
+                  >
+                    Forgot Password?
+                  </Link>
+                </div>
+
+                {isLoading ? (
+                  <SpinnerMini />
+                ) : (
+                  <>
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <span className="absolute left-0 inset-y-0 flex items-center pl-3 pr-3">
+                        <LockClosedIcon
+                          className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
+                          aria-hidden="true"
+                        />
+                      </span>
+                      Login
+                    </button>
+
+                    <div>
+                      <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+                        Enter Guest User Details 🎗️
+                      </h3>
+                      <div>
+                        {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+                  </svg> */}
+                        <p className="required-field-red-asterisk">
+                          <label
+                            htmlFor="name"
+                            className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                          >
+                            Your first and last name
+                          </label>
+                        </p>
+                        <input
+                          type="text"
+                          name="name"
+                          id="name"
+                          disabled={isLoading}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                          placeholder="Enter your first and last name"
+                          // icon={FiMail}
+                          {...register("name", {
+                            // required: "Name is required",
+                          })}
+                        />
+                        <span className="text-red-500 text-xs font-bold">
+                          {errors?.name?.message}
+                        </span>
+                      </div>
+                      <div>
+                        {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+                  </svg> */}
+                        <p className="required-field-red-asterisk">
+                          <label
+                            htmlFor="phone"
+                            className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                          >
+                            Your mobile phone
+                          </label>
+                        </p>
+                        <input
+                          type="text"
+                          name="phone"
+                          id="phone"
+                          disabled={isLoading}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                          placeholder="Enter your mobile phone number"
+                          // icon={FiMail}
+                          {...register("phone", {
+                            // required: "Mobile phone is required",
+                          })}
+                        />
+                        <span className="text-red-500 text-xs font-bold">
+                          {errors?.phone?.message}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="required-field-red-asterisk">
+                          <label
+                            htmlFor="email"
+                            className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                          >
+                            Your email
+                          </label>
+                        </p>
+                        <input
+                          type="email"
+                          name="email"
+                          id="email"
+                          disabled={isLoading}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                          placeholder="name@gmail.com"
+                          // icon={FiMail}
+                          {...register("email", {
+                            // required: "Email is required",
+                            pattern: {
+                              value: /\S+@\S+\.\S+/,
+                              message: "Please provide a valid email address",
+                            },
+                          })}
+                        />
+                        <span className="text-red-500 text-xs font-bold">
+                          {errors?.email?.message}
+                        </span>
+                      </div>
+                      <button
+                        onClick={guestSubmit}
+                        type="button"
+                        disabled={isLoading}
+                        className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
+                        <span className="absolute left-0 inset-y-0 flex items-center pl-3">
+                          <LockClosedIcon
+                            className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
+                            aria-hidden="true"
+                          />
+                        </span>
+                        Guest User
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
+                  Not registered?{" "}
+                  <Link
+                    to="/signup"
+                    className="text-blue-700 hover:underline dark:text-blue-500"
+                  >
+                    Create account
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </>
