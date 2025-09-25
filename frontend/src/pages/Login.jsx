@@ -23,6 +23,11 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { login, isLoading } = useLogin();
+  const [isUserLoading, setIsUserLoading] = useState(false);
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
+  const [guestName, setGuestName] = useState("");
+  const [guestEmail, setGuestEmail] = useState("");
+
   const {
     register,
     formState: { errors },
@@ -64,8 +69,17 @@ function Login() {
     }
   }
 
-  const guestSubmit = () => {
-    navigate("/guest-payment");
+  const handleGuestLogin = (e) => {
+    e.preventDefault();
+    setIsGuestLoading(true);
+
+    // Simulate an API call for guest login
+    setTimeout(() => {
+      setIsGuestLoading(false);
+      // Mock successful guest login
+      toast.success("Continuing as Guest!");
+      navigate("/guest-payment");
+    }, 1500);
   };
 
   // const backgroundImageStyle = {
@@ -205,96 +219,50 @@ function Login() {
         {/* Right Column: Guest User Form */}
 
         <div className="w-full md:w-1/2 p-8 md:p-12">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleGuestLogin}>
             <h3 className="text-3xl font-bold text-gray-800 text-center">
               Guest User 🎗️
             </h3>
-
             <div>
-              <p>
-                <label
-                  htmlFor="name"
-                  className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                >
-                  Your first and last name
-                </label>
-              </p>
+              <label
+                htmlFor="name"
+                className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+              >
+                Your first and last name
+              </label>
               <input
                 type="text"
                 name="name"
                 id="name"
-                disabled={isLoading}
+                value={guestName}
+                onChange={(e) => setGuestName(e.target.value)}
+                disabled={isUserLoading || isGuestLoading}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
                 placeholder="Enter your first and last name"
-                // icon={FiMail}
-                {...register("name", {
-                  // required: "Name is required",
-                })}
               />
-              <span className="text-red-500 text-xs font-bold">
-                {errors?.name?.message}
-              </span>
             </div>
 
             <div>
-              <p>
-                <label
-                  htmlFor="phone"
-                  className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                >
-                  Your mobile phone
-                </label>
-              </p>
-              <input
-                type="text"
-                name="phone"
-                id="phone"
-                disabled={isLoading}
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
-                placeholder="Enter your mobile phone number"
-                // icon={FiMail}
-                {...register("phone", {
-                  // required: "Mobile phone is required",
-                })}
-              />
-              <span className="text-red-500 text-xs font-bold">
-                {errors?.phone?.message}
-              </span>
-            </div>
-
-            <div>
-              <p>
-                <label
-                  htmlFor="email"
-                  className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-                >
-                  Your email
-                </label>
-              </p>
+              <label
+                htmlFor="guestEmail"
+                className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+              >
+                Your email
+              </label>
               <input
                 type="email"
-                name="email"
-                id="email"
-                disabled={isLoading}
+                name="guestEmail"
+                id="guestEmail"
+                value={guestEmail}
+                onChange={(e) => setGuestEmail(e.target.value)}
+                disabled={isUserLoading || isGuestLoading}
                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
                 placeholder="name@gmail.com"
-                // icon={FiMail}
-                {...register("email", {
-                  // required: "Email is required",
-                  pattern: {
-                    value: /\S+@\S+\.\S+/,
-                    message: "Please provide a valid email address",
-                  },
-                })}
               />
-              <span className="text-red-500 text-xs font-bold">
-                {errors?.email?.message}
-              </span>
             </div>
 
             <button
-              onClick={guestSubmit}
-              type="button"
+              type="submit"
               disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
