@@ -12,6 +12,7 @@ import SpinnerMini from "../ui/preloader/SpinnerMini";
 
 // import { useLogin } from "../features/authentication/useLogin";
 import loginbg from "../assets/loginbg.jpg";
+import { savePaymentMethod } from "../features/slices/cartSlice";
 
 // import loginbg from "../assets/backgroundImage.jpg";
 const backgroundImageStyle = {
@@ -22,6 +23,7 @@ const backgroundImageStyle = {
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [paymentMethod, setPaymentMethod] = useState("card");
   // const { login, isLoading } = useLogin();
   const [isUserLoading, setIsUserLoading] = useState(false);
   const [isGuestLoading, setIsGuestLoading] = useState(false);
@@ -76,9 +78,10 @@ function Login() {
     // Simulate an API call for guest login
     setTimeout(() => {
       setIsGuestLoading(false);
-      // Mock successful guest login
-      toast.success("Continuing as Guest!");
-      navigate("/guest-payment");
+      setPaymentMethod("card");
+      dispatch(savePaymentMethod(paymentMethod));
+      navigate("/payment");
+      // navigate("/guest-payment");
     }, 1500);
   };
 
