@@ -1,13 +1,8 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import {
-  CardElement,
-  useElements,
-  useStripe,
-  Elements,
-} from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import getStripe from "../utils/stripe";
 
 import {
@@ -30,15 +25,10 @@ const GuestPayment = () => {
   const location = useLocation();
   const guestData = location.state;
 
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  const [clientSecret, setClientSecret] = useState("");
-  const [stripeSuccess, setStripeSuccess] = useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  console.log("guestData: ", guestData);
 
-  //   stripe elements
-  const stripe = useStripe();
-  const elements = useElements();
+  const [clientSecret, setClientSecret] = useState("");
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -47,12 +37,11 @@ const GuestPayment = () => {
     // reset,
   } = useForm();
 
-  const [createOrder] = useCreateOrderMutation();
   const [guestPaymentIntent, { isLoading, error }] =
     useGuestPaymentIntentMutation();
   // Get cart items
   const cart = useSelector((state) => state.cart);
-  const { cartItems, paymentMethod, itemsPrice, totalPrice } = cart;
+  const { cartItems } = cart;
   const stripePromise = getStripe();
 
   // Guest user is not logged in
@@ -135,15 +124,6 @@ const GuestPayment = () => {
   const totalCost = cartItems
     .reduce((acc, item) => acc + item.cartQty * item.price, 0)
     .toFixed(2);
-
-  const totalAmount =
-    cartItems.reduce((acc, item) => acc + item.cartQty * item.price, 0) * 100;
-
-  const options = {
-    mode: "payment",
-    currency: "usd",
-    amount: totalAmount,
-  };
 
   if (isLoading)
     return (
