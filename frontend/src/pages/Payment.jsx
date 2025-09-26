@@ -57,7 +57,7 @@ function Payment() {
 
   const stripePromise = getStripe();
 
-  console.log("stripePromise: ", getStripe());
+  // console.log("stripePromise: ", getStripe());
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads

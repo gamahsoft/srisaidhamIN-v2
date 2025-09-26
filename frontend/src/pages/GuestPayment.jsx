@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import {
@@ -12,7 +12,7 @@ import getStripe from "../utils/stripe";
 
 import {
   useCreateOrderMutation,
-  useCreatePaymentIntentMutation,
+  useGuestPaymentIntentMutation,
 } from "../features/slices/ordersApiSlice";
 import { toast } from "react-hot-toast";
 import Loading from "../ui/preloader/Loading";
@@ -26,7 +26,10 @@ import {
 // import CheckoutForm from "../ui/stripePayment/paymentServices";
 import CheckoutForm from "./CheckoutForm";
 
-function Payment() {
+const GuestPayment = () => {
+  const location = useLocation();
+  const guestData = location.state;
+
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const [clientSecret, setClientSecret] = useState("");
   const [stripeSuccess, setStripeSuccess] = useState(false);
@@ -45,28 +48,29 @@ function Payment() {
   } = useForm();
 
   const [createOrder] = useCreateOrderMutation();
-  const [createPaymentIntent, { isLoading, error }] =
-    useCreatePaymentIntentMutation();
+  const [guestPaymentIntent, { isLoading, error }] =
+    useGuestPaymentIntentMutation();
   // Get cart items
   const cart = useSelector((state) => state.cart);
   const { cartItems, paymentMethod, itemsPrice, totalPrice } = cart;
-
-  // Get logged in user details
-  const { userInfo } = useSelector((state) => state.auth);
-  const { name, phone, email } = userInfo;
-
   const stripePromise = getStripe();
 
-  console.log("stripePromise: ", getStripe());
+  // Guest user is not logged in
+  // const { userInfo } = useSelector((state) => state.auth);
+  // const { name, phone, email } = userInfo;
+  // const { guestName, guestPhone, guestEmail } = guestData;
+
+  // console.log("stripePromise: ", getStripe());
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
 
-    const paymentIntent = async () => {
-      const res = await createPaymentIntent({
-        name: name,
-        phone: phone,
-        email: email,
+    const GuestPaymentIntent = async () => {
+      const res = await guestPaymentIntent({
+        name: guestData?.guestName || "Guest User",
+        phone: guestData?.guestPhone || "812 490 0021",
+        email:
+          guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com",
         orderItems: cart.cartItems,
         // shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
@@ -81,19 +85,19 @@ function Payment() {
     };
     // call the function
     try {
-      paymentIntent();
+      GuestPaymentIntent();
     } catch (error) {
       console.log(error);
     }
   }, [
-    name,
-    phone,
-    email,
+    guestData?.guestName,
+    guestData?.guestPhone,
+    guestData?.guestEmail,
     cart.cartItems,
     cart.paymentMethod,
     cart.itemsPrice,
     cart.totalPrice,
-    createPaymentIntent,
+    guestPaymentIntent,
   ]);
 
   const appearance = {
@@ -128,67 +132,6 @@ function Payment() {
     // );
   }
 
-  async function onSubmit() {
-    let orderInfo = {
-      name: name,
-      phone: phone,
-      email: email,
-      orderItems: cartItems,
-      //   shippingAddress: cart.shippingAddress,
-      paymentMethod: paymentMethod,
-      itemsPrice: itemsPrice,
-      //   shippingPrice: cart.shippingPrice,
-      //   taxPrice: cart.taxPrice,
-      totalPrice: totalPrice,
-    };
-
-    // Payment method = card
-    if (paymentMethod === "Card") {
-      if (!stripe || !elements) {
-        return;
-      }
-
-      const { error, paymentMethod } = await stripe.createPaymentMethod({
-        type: "card",
-        card: elements.getElement(CardElement),
-      });
-
-      if (!error) {
-        try {
-          const { id } = paymentMethod;
-          const order = {
-            ...orderInfo,
-            cardInfo: paymentMethod,
-          };
-
-          const res = await createPaymentIntent({
-            id: id,
-            name: order.name,
-            phone: order.phone,
-            email: order.email,
-            orderItems: order.cartItems,
-            //   shippingAddress: cart.shippingAddress,
-            paymentMethod: order.paymentMethod,
-            itemsPrice: order.itemsPrice,
-            //   shippingPrice: cart.shippingPrice,
-            //   taxPrice: cart.taxPrice,
-            totalPrice: totalPrice,
-          }).unwrap();
-          if (res.data.success) {
-            toast.success("Successfully Logged in 😎");
-            setStripeSuccess(true);
-          }
-
-          // handlePaymentWithStripe(orderData);
-        } catch (error) {
-          toast.error(error);
-        }
-      } else {
-        toast.error(error.message);
-      }
-    }
-  }
-
   const totalCost = cartItems
     .reduce((acc, item) => acc + item.cartQty * item.price, 0)
     .toFixed(2);
@@ -200,38 +143,6 @@ function Payment() {
     mode: "payment",
     currency: "usd",
     amount: totalAmount,
-  };
-
-  const handlePayment = async (e) => {
-    e.preventDefault();
-
-    if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
-
-    setIsPaymentLoading(true);
-
-    // Use the clientSecret and Elements instance to confirm the setup
-    const { error } = await stripe.confirmPayment({
-      elements,
-      // clientSecret,
-      confirmParams: {
-        // return_url: 'https://example.com/order/123/complete',
-        // return_url: "http://localhost:5173",
-        return_url: "https://srisaidhamin-v2-1.onrender.com",
-        // return_url: `${window.location.origin}/completion`,
-      },
-      // Uncomment below if you only want redirect for redirect-based payments.
-      // redirect: "if_required",
-    });
-
-    if (error) {
-      toast.error("Something went Wrong! Payment failed! Please retry");
-    }
-
-    setIsPaymentLoading(false);
   };
 
   if (isLoading)
@@ -353,6 +264,7 @@ function Payment() {
 
               <p className="text-lg font-bold">${totalCost}</p>
             </div>
+
             <hr className="my-4 border-slate-900" />
             {clientSecret && stripePromise && (
               // <Elements options={options} stripe={stripePromise}>
@@ -369,6 +281,6 @@ function Payment() {
       </div>
     </>
   );
-}
+};
 
-export default Payment;
+export default GuestPayment;

@@ -17,6 +17,13 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         body: order,
       }),
     }),
+    guestPaymentIntent: builder.mutation({
+      query: (order) => ({
+        url: `${ORDERS_URL}/guest-intent`,
+        method: "POST",
+        body: order,
+      }),
+    }),
     getOrderDetails: builder.query({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
@@ -61,6 +68,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
 export const {
   useCreateOrderMutation,
   useCreatePaymentIntentMutation,
+  useGuestPaymentIntentMutation,
   useGetOrderDetailsQuery,
   usePayOrderMutation,
   useGetStripeClientIdQuery,

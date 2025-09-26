@@ -44,7 +44,7 @@ function calculateOrderAmount(cartItems) {
 //   .reduce((acc, item) => acc + item.cartQty * item.price, 0)
 //   .toFixed(2)}
 
-//create payment intent for stripe
+//create logged in user payment intent for stripe
 const createPaymentIntent = async (req, res) => {
   // const { total: amount, cardInfo: payment_intent, email } = req.body;
 
@@ -135,6 +135,52 @@ const createPaymentIntent = async (req, res) => {
   //     err instanceof Error ? err.message : "Internal server error";
   //   res.status(500).send({ message: errorMessage });
   // }
+};
+
+//create logged in user payment intent for stripe
+const createGuestPaymentIntent = async (req, res) => {
+  // const { total: amount, cardInfo: payment_intent, email } = req.body;
+
+  const { orderItems } = req.body;
+
+  // console.log("orderItems", orderItems);
+
+  const totalAmount = calculateOrderAmount(orderItems);
+  const totalPrice = totalAmount / 100;
+
+  // Validate the amount that was passed from the client.
+  if (
+    !(
+      totalPrice >= process.env.MIN_AMOUNT &&
+      totalPrice <= process.env.MAX_AMOUNT
+    )
+  ) {
+    return res.status(500).json({ message: "Invalid amount." });
+  }
+
+  try {
+    const paymentIntent = await stripe(
+      process.env.REACT_APP_STRIPE_SECRET_KEY
+    ).paymentIntents.create({
+      amount: totalAmount,
+      currency: "usd",
+      // description,
+      // payment_method_types: ["bancontact", "card"],
+      // payment_method_types: ["card"],
+      // receipt_email,
+      // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+      automatic_payment_methods: {
+        enabled: true,
+      },
+    });
+
+    res.status(200).json({ clientSecret: paymentIntent.client_secret });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ error: "An error occured, unable to create payment intent" });
+  }
 };
 
 // get all orders user
@@ -241,4 +287,10 @@ const getOrderById = async (req, res) => {
   }
 };
 
-export { addOrder, getOrderById, getOrderByUser, createPaymentIntent };
+export {
+  addOrder,
+  getOrderById,
+  getOrderByUser,
+  createPaymentIntent,
+  createGuestPaymentIntent,
+};

@@ -29,6 +29,7 @@ function Login() {
   const [isGuestLoading, setIsGuestLoading] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [guestEmail, setGuestEmail] = useState("");
+  const [guestPhone, setGuestPhone] = useState("");
 
   const {
     register,
@@ -80,7 +81,9 @@ function Login() {
       setIsGuestLoading(false);
       setPaymentMethod("card");
       dispatch(savePaymentMethod(paymentMethod));
-      navigate("/payment");
+      navigate("/guest-payment", {
+        state: { guestName, guestPhone, guestEmail },
+      });
       // navigate("/guest-payment");
     }, 1500);
   };
@@ -194,19 +197,6 @@ function Login() {
               </Link>
             </div>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3 pr-3">
-                <LockClosedIcon
-                  className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
-                  aria-hidden="true"
-                />
-              </span>
-              {isLoading ? <SpinnerMini /> : "Login"}
-            </button>
             <div className="text-sm font-medium text-gray-500 dark:text-gray-300 text-center">
               Not registered?{" "}
               <Link
@@ -216,6 +206,20 @@ function Login() {
                 Create account
               </Link>
             </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="group relative w-full flex justify-center py-1 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <span className="absolute left-0 inset-y-0 flex items-center pl-3 pr-3">
+                <LockClosedIcon
+                  className="h-5 w-5 text-orange-400 group-hover:text-orange-400"
+                  aria-hidden="true"
+                />
+              </span>
+              {isLoading ? <SpinnerMini /> : "Login"}
+            </button>
           </form>
         </div>
 
@@ -264,10 +268,29 @@ function Login() {
               />
             </div>
 
+            <div>
+              <label
+                htmlFor="phone"
+                className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+              >
+                Your mobile phone
+              </label>
+              <input
+                type="text"
+                name="phone"
+                id="phone"
+                value={guestPhone}
+                onChange={(e) => setGuestPhone(e.target.value)}
+                disabled={isUserLoading || isGuestLoading}
+                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                placeholder="Enter your mobile phone number"
+              />
+            </div>
+
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-5 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                 <LockClosedIcon
