@@ -22,13 +22,13 @@ import {
 import CheckoutForm from "./CheckoutForm";
 
 const GuestPayment = () => {
+  const [clientSecret, setClientSecret] = useState("");
+  const dispatch = useDispatch();
+
   const location = useLocation();
   const guestData = location.state;
 
   console.log("guestData: ", guestData);
-
-  const [clientSecret, setClientSecret] = useState("");
-  const dispatch = useDispatch();
 
   const {
     register,
@@ -42,6 +42,7 @@ const GuestPayment = () => {
   // Get cart items
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+  console.log("cartItems: ", cartItems);
   const stripePromise = getStripe();
 
   // Guest user is not logged in
@@ -56,10 +57,10 @@ const GuestPayment = () => {
 
     const GuestPaymentIntent = async () => {
       const res = await guestPaymentIntent({
-        name: guestData?.guestName || "Guest User",
-        phone: guestData?.guestPhone || "812 490 0021",
         email:
           guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com",
+        name: guestData?.guestName || "Guest User",
+        phone: guestData?.guestPhone || "812-490-0021",
         orderItems: cart.cartItems,
         // shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
@@ -79,9 +80,9 @@ const GuestPayment = () => {
       console.log(error);
     }
   }, [
+    guestData?.guestEmail,
     guestData?.guestName,
     guestData?.guestPhone,
-    guestData?.guestEmail,
     cart.cartItems,
     cart.paymentMethod,
     cart.itemsPrice,
