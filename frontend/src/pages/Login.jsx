@@ -210,7 +210,7 @@ function Login() {
             <button
               type="submit"
               disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-3 pt-1 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3 pr-3">
                 <LockClosedIcon
@@ -224,9 +224,9 @@ function Login() {
         </div>
 
         {/* Right Column: Guest User Form */}
-
-        <div className="w-full md:w-1/2 p-8 md:p-12">
-          <form className="space-y-6" onSubmit={handleGuestLogin}>
+        <div className="w-full md:w-1/2 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-200">
+          {/* <div className="w-full md:w-1/2 p-8 md:p-12"> */}
+          <form className="space-y-6 md:px-10" onSubmit={handleGuestLogin}>
             <h3 className="text-3xl font-bold text-gray-800 text-center">
               Guest User 🎗️
             </h3>
