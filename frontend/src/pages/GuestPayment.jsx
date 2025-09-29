@@ -19,7 +19,7 @@ import {
 } from "../features/slices/cartSlice";
 
 // import CheckoutForm from "../ui/stripePayment/paymentServices";
-import CheckoutForm from "./CheckoutForm";
+import GuestCheckoutForm from "./GuestCheckoutForm";
 
 const GuestPayment = () => {
   const [clientSecret, setClientSecret] = useState("");
@@ -254,7 +254,7 @@ const GuestPayment = () => {
                 options={{ clientSecret, appearance }}
               >
                 {" "}
-                <CheckoutForm />
+                <GuestCheckoutForm guestData />
               </Elements>
             )}
           </div>

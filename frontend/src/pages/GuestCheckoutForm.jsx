@@ -13,11 +13,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { clearCartItems } from "../features/slices/cartSlice";
 
-export default function CheckoutForm() {
-  // Get logged in user details
-  const { userInfo } = useSelector((state) => state.auth);
+export default function GuestCheckoutForm(guestData) {
+  // Guest user is not logged in
+  // const { userInfo } = useSelector((state) => state.auth);
 
-  const { email } = userInfo;
+  const email =
+    guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com";
 
   // Cart details
   const cart = useSelector((state) => state.cart);
@@ -27,7 +28,6 @@ export default function CheckoutForm() {
   // const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
-  const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -82,25 +82,6 @@ export default function CheckoutForm() {
       toast.error("Payment Unsuccessful: ", error);
       console.log("Payment Stripe Error: ", error);
     }
-
-    // else {
-    //   dispatch(clearCartItems());
-    //   toast.success("Payment Successful 😎");
-    //   navigate("/");
-    // }
-
-    // if (
-    //   result.error.type === "card_error" ||
-    //   result.error.type === "validation_error"
-    // ) {
-    //   setMessage(result.error.message);
-    //   toast.error("Payment Unsuccessful: ", message);
-    // }
-
-    // if (result.paymentIntent.status === "succeedded") {
-    //   toast.success("Payment Successful 😎");
-    //   cookies.remove("cart");
-    // }
 
     setIsLoading(false);
   };
