@@ -20,6 +20,11 @@ export default function GuestCheckoutForm(guestData) {
   const email =
     guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com";
 
+  console.log(
+    "I am in GuestChecoutForm.jsx guestData.guestEmail: ",
+    guestData?.guestEmail
+  );
+
   // Cart details
   const cart = useSelector((state) => state.cart);
   const { totalPrice } = cart;

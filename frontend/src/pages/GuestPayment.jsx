@@ -28,7 +28,7 @@ const GuestPayment = () => {
   const location = useLocation();
   const guestData = location.state;
 
-  console.log("guestData: ", guestData);
+  // console.log("guestData: ", guestData);
 
   const {
     register,
