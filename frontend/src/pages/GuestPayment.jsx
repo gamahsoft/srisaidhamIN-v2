@@ -50,19 +50,14 @@ const GuestPayment = () => {
   // const { name, phone, email } = userInfo;
   const { guestName, guestPhone, guestEmail } = guestData;
 
-  console.log("{ guestName, guestPhone, guestEmail } ", guestEmail);
-  console.log("{ guestName, guestPhone, guestEmail } ", guestPhone);
-  console.log("{ guestName, guestPhone, guestEmail } ", guestName);
-
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
 
     const GuestPaymentIntent = async () => {
       const res = await guestPaymentIntent({
-        email:
-          guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com",
-        name: guestData?.guestName || "Guest User",
-        phone: guestData?.guestPhone || "812-490-0021",
+        email: guestEmail || "shirdisaisansthanoftristates@gmail.com",
+        name: guestName || "Guest User",
+        phone: guestPhone || "812-490-0021",
         orderItems: cart.cartItems,
         // shippingAddress: cart.shippingAddress,
         paymentMethod: cart.paymentMethod,
