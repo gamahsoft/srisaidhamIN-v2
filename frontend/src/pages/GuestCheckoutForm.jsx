@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { clearCartItems } from "../features/slices/cartSlice";
 
-export default function GuestCheckoutForm(guestData) {
+export default function GuestCheckoutForm({ guestData }) {
   // Guest user is not logged in
   // const { userInfo } = useSelector((state) => state.auth);
 
@@ -46,19 +46,7 @@ export default function GuestCheckoutForm(guestData) {
 
     setIsLoading(true);
 
-    // const base = "https://srisaidhamin-v2-1.onrender.com";
-
-    // const returnUrl = new URL(`${base}/payment-success`, window.location.origin)
-    //   .href;
     const returnUrl = "https://srisaidhamin-v2-1.onrender.com/payment-success";
-
-    // const { error, paymentIntent } = await stripe.confirmPayment({
-    //   elements,
-
-    //   confirmParams: {
-    //     return_url: returnUrl,
-    //   },
-    // });
 
     const { error, paymentIntent } = await stripe
       .confirmPayment({
