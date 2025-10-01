@@ -21,12 +21,12 @@ import {
 // import CheckoutForm from "../ui/stripePayment/paymentServices";
 import GuestCheckoutForm from "./GuestCheckoutForm";
 
-const GuestPayment = ({ guestData }) => {
+const GuestPayment = () => {
   const [clientSecret, setClientSecret] = useState("");
   const dispatch = useDispatch();
 
-  // const location = useLocation();
-  // const guestData = location.state;
+  const location = useLocation();
+  const guestData = location.state;
 
   // console.log("guestData: ", guestData);
 
