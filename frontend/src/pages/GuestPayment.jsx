@@ -21,12 +21,12 @@ import {
 // import CheckoutForm from "../ui/stripePayment/paymentServices";
 import GuestCheckoutForm from "./GuestCheckoutForm";
 
-const GuestPayment = () => {
+const GuestPayment = ({ guestData }) => {
   const [clientSecret, setClientSecret] = useState("");
   const dispatch = useDispatch();
 
-  const location = useLocation();
-  const guestData = location.state;
+  // const location = useLocation();
+  // const guestData = location.state;
 
   // console.log("guestData: ", guestData);
 
@@ -42,15 +42,17 @@ const GuestPayment = () => {
   // Get cart items
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  console.log("cartItems: ", cartItems);
+  // console.log("cartItems: ", cartItems);
   const stripePromise = getStripe();
 
   // Guest user is not logged in
   // const { userInfo } = useSelector((state) => state.auth);
   // const { name, phone, email } = userInfo;
-  // const { guestName, guestPhone, guestEmail } = guestData;
+  const { guestName, guestPhone, guestEmail } = guestData;
 
-  // console.log("stripePromise: ", getStripe());
+  console.log("{ guestName, guestPhone, guestEmail } ", guestEmail);
+  console.log("{ guestName, guestPhone, guestEmail } ", guestPhone);
+  console.log("{ guestName, guestPhone, guestEmail } ", guestName);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
