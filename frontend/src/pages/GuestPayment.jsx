@@ -77,9 +77,9 @@ const GuestPayment = () => {
       console.log(error);
     }
   }, [
-    guestData?.guestEmail,
-    guestData?.guestName,
-    guestData?.guestPhone,
+    guestEmail,
+    guestName,
+    guestPhone,
     cart.cartItems,
     cart.paymentMethod,
     cart.itemsPrice,
@@ -251,7 +251,7 @@ const GuestPayment = () => {
                 options={{ clientSecret, appearance }}
               >
                 {" "}
-                <GuestCheckoutForm guestData />
+                <GuestCheckoutForm guestData={guestData} />
               </Elements>
             )}
           </div>
