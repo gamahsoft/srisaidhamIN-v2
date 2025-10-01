@@ -17,12 +17,13 @@ export default function GuestCheckoutForm({ guestData }) {
   // Guest user is not logged in
   // const { userInfo } = useSelector((state) => state.auth);
 
-  const email =
-    guestData?.guestEmail || "shirdisaisansthanoftristates@gmail.com";
+  const { guestName, guestPhone, guestEmail } = guestData;
+
+  const email = guestEmail || "shirdisaisansthanoftristates@gmail.com";
 
   console.log(
     "I am in GuestChecoutForm.jsx guestData.guestEmail: ",
-    guestData?.guestEmail
+    guestEmail
   );
 
   // Cart details
