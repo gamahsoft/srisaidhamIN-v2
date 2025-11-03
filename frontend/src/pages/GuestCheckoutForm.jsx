@@ -9,9 +9,8 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { useStripe, useElements } from "@stripe/react-stripe-js";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
-import { clearCartItems } from "../features/slices/cartSlice";
 
 export default function GuestCheckoutForm({ guestData }) {
   // Guest user is not logged in
@@ -20,11 +19,6 @@ export default function GuestCheckoutForm({ guestData }) {
   const { guestName, guestPhone, guestEmail } = guestData;
 
   const email = guestEmail || "shirdisaisansthanoftristates@gmail.com";
-
-  console.log(
-    "I am in GuestChecoutForm.jsx guestData.guestEmail: ",
-    guestEmail
-  );
 
   // Cart details
   const cart = useSelector((state) => state.cart);
