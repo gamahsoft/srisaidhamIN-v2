@@ -65,7 +65,10 @@ app.use(
 app.use(cookieParser());
 
 //Get around cors issue
-const allowedOrigins = [process.env.FRONTEND_URL];
+const allowedOrigins = [
+  process.env.FRONTEND_URL, // Your deployed production frontend URL
+  process.env.LOCAL_URL, // Your React development server
+];
 
 // CORS must be registered BEFORE any routes
 app.use((req, res, next) => {

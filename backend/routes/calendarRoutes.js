@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  dailyPanchang,
+  // dailyPanchang,
   createCalendarEvent,
   deleteCalendarEvent,
   getAllCalendarEvents,
@@ -17,7 +17,7 @@ const router = express.Router();
 // } = require("../config/others");
 
 //daily panchang
-router.get("/panchang", dailyPanchang);
+// router.get("/panchang", dailyPanchang);
 
 //Schedule Calendar events
 router.route("/add-event").post(protect, admin, createCalendarEvent);

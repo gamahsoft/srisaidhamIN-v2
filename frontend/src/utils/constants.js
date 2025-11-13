@@ -8,3 +8,4 @@ export const ORDERS_URL = "/api/orders";
 export const SCROL_EVENTS_URL = "/api/event";
 export const PANCHANG_URL = "/api/calendar";
 export const STRIPE_URL = "/api/config/stripe";
+export const SERVICES_CALENDAR = "/api/services-calendar";
