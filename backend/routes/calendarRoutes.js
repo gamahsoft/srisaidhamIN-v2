@@ -6,6 +6,7 @@ import {
   getAllCalendarEvents,
   updateCalendarEvent,
 } from "../controllers/eventsController.js";
+import { dailyPanchang } from "../controllers/panchangController.js";
 
 import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -17,7 +18,7 @@ const router = express.Router();
 // } = require("../config/others");
 
 //daily panchang
-// router.get("/panchang", dailyPanchang);
+router.get("/panchang", dailyPanchang);
 
 //Schedule Calendar events
 router.route("/add-event").post(protect, admin, createCalendarEvent);
