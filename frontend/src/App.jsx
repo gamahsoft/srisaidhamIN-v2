@@ -20,7 +20,7 @@ import WishList from "./pages/WishList.jsx";
 import Membership from "./pages/Membership.jsx";
 import PriestServices from "./pages/PriestServices.jsx";
 import HallRentals from "./pages/HallRentals.jsx";
-import PoojaItems from "./pages/PoojaItems.jsx";
+import Calendar from "./pages/Calendar.jsx";
 import Kitchen from "./pages/Kitchen.jsx";
 import Payment from "./pages/Payment.jsx";
 import GuestPayment from "./pages/GuestPayment.jsx";
@@ -65,7 +65,7 @@ function App() {
             <Route path="/membership" element={<Membership />} />
             <Route path="/priest-services" element={<PriestServices />} />
             <Route path="/hall-rentals" element={<HallRentals />} />
-            <Route path="/pooja-items" element={<PoojaItems />} />
+            <Route path="/services-calendar" element={<Calendar />} />
             <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route path="/kitchen" element={<Kitchen />} />
             <Route path="/payment" element={<Payment />} />

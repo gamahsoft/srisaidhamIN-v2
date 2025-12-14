@@ -152,8 +152,8 @@ export const poojaServices = [
   },
   {
     id: 7,
-    title: "Pooja Items",
-    to: "/pooja-items",
+    title: "Services Calendar",
+    to: "/services-calendar",
     icon: HiOutlineDocumentText,
   },
   {

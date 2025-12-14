@@ -8,23 +8,21 @@ import {
 } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { clearCartItems } from "../features/slices/cartSlice";
 
 export default function CheckoutForm() {
   // Get logged in user details
-  const { userInfo } = useSelector((state) => state.auth);
-
-  const { email } = userInfo;
+  const { userInfo } = useSelector((state) => state.auth || {});
+  const email = userInfo?.email || "";
 
   // Cart details
-  const cart = useSelector((state) => state.cart);
-  const { totalPrice } = cart;
+  const cart = useSelector((state) => state.cart || {});
+  const { totalPrice = 0 } = cart;
 
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState(null);
@@ -33,96 +31,113 @@ export default function CheckoutForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      return;
-    }
+    if (!stripe || !elements) return;
 
     setIsLoading(true);
 
-    // const base = "https://srisaidhamin-v2-1.onrender.com";
-
-    // const returnUrl = new URL(`${base}/payment-success`, window.location.origin)
-    //   .href;
     const returnUrl = "https://srisaidhamin-v2-1.onrender.com/payment-success";
 
-    // const { error, paymentIntent } = await stripe.confirmPayment({
-    //   elements,
-
-    //   confirmParams: {
-    //     return_url: returnUrl,
-    //   },
-    // });
-
-    const { error, paymentIntent } = await stripe
-      .confirmPayment({
+    try {
+      const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          // Return URL where the customer should be redirected after the PaymentIntent is confirmed.
           return_url: returnUrl,
         },
-      })
-      .then(function (result) {
-        if (result.error) {
-          toast.error("Payment Unsuccessful: ", error);
-          console.log("Payment Stripe Error: ", error);
-        }
       });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
+      if (error) {
+        console.error("Payment Stripe Error:", error);
+        setMessage(error.message || "Payment unsuccessful");
+        toast.error(error.message || "Payment unsuccessful");
+        setIsLoading(false);
+        return;
+      }
 
-    if (paymentIntent?.status === "succeeded") {
-      navigate("/paymentSuccess");
-    } else {
-      toast.error("Payment Unsuccessful: ", error);
-      console.log("Payment Stripe Error: ", error);
+      if (paymentIntent?.status === "succeeded") {
+        // Optional: clear cart + cookie
+        dispatch(clearCartItems());
+        cookies.remove("cart");
+        toast.success("Payment Successful 😎");
+        navigate("/paymentSuccess");
+      } else {
+        toast.error("Payment was not successful.");
+      }
+    } catch (err) {
+      console.error("Unexpected payment error:", err);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-
-    // else {
-    //   dispatch(clearCartItems());
-    //   toast.success("Payment Successful 😎");
-    //   navigate("/");
-    // }
-
-    // if (
-    //   result.error.type === "card_error" ||
-    //   result.error.type === "validation_error"
-    // ) {
-    //   setMessage(result.error.message);
-    //   toast.error("Payment Unsuccessful: ", message);
-    // }
-
-    // if (result.paymentIntent.status === "succeedded") {
-    //   toast.success("Payment Successful 😎");
-    //   cookies.remove("cart");
-    // }
-
-    setIsLoading(false);
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <LinkAuthenticationElement
-        id="link-authentication-element"
-        // Access the email value like so:
-        // onChange={(event) => {
-        //  setEmail(event.value.email);
-        // }}
-        //
-        // Prefill the email field like so:
-        options={{ defaultValues: { email: email } }}
-      />
-      <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <SpinnerMini /> : `Pay Now $(${totalPrice})`}
-        </span>
-      </button>
-    </form>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md sm:max-w-lg">
+        {/* Card container for responsiveness */}
+        <div className="bg-white shadow-lg rounded-2xl px-4 py-6 sm:px-6 sm:py-8">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-800 text-center mb-4">
+            Secure Payment
+          </h2>
+          <p className="text-center text-sm text-gray-500 mb-6">
+            Total amount:{" "}
+            <span className="font-semibold text-gray-800">
+              ${Number(totalPrice || 0).toFixed(2)}
+            </span>
+          </p>
+
+          <form id="payment-form" onSubmit={handleSubmit} className="space-y-4">
+            {/* Email / LinkAuthentication */}
+            <div className="space-y-1">
+              <label
+                htmlFor="link-authentication-element"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <div className="border border-gray-200 rounded-md px-3 py-2 bg-gray-50">
+                <LinkAuthenticationElement
+                  id="link-authentication-element"
+                  options={{ defaultValues: { email } }}
+                />
+              </div>
+            </div>
+
+            {/* Payment element */}
+            <div className="space-y-1">
+              <label
+                htmlFor="payment-element"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Payment Details
+              </label>
+              <div className="border border-gray-200 rounded-md px-3 py-3 bg-gray-50">
+                <PaymentElement id="payment-element" />
+              </div>
+            </div>
+
+            {/* Error / status message */}
+            {message && (
+              <p className="text-sm text-red-600 mt-2 text-center">{message}</p>
+            )}
+
+            {/* Submit button */}
+            <button
+              disabled={isLoading || !stripe || !elements}
+              id="submit"
+              type="submit"
+              className="mt-4 w-full inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              <span id="button-text" className="flex items-center gap-2">
+                {isLoading ? (
+                  <SpinnerMini />
+                ) : (
+                  <>Pay ${Number(totalPrice || 0).toFixed(2)}</>
+                )}
+              </span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 }

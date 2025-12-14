@@ -82,28 +82,30 @@ function Signup() {
         <Loading />
       </h1>
     );
+
   if (error) return <h1>{error?.data?.message || error.error}</h1>;
 
   return (
     <>
-      <div className="mt-4 text-white" style={backgroundImageStyle}>
-        <div className="flex flex-col justify-center items-center bg-gradient-to-r from-slate-700 px-8 py-4">
-          {/* <!-- This is an example component --> */}
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-md p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div
+        className="min-h-screen w-full bg-cover bg-center text-white flex items-center justify-center"
+        style={backgroundImageStyle}
+      >
+        {/* Overlay to improve contrast on any device */}
+        <div className="w-full min-h-screen bg-gradient-to-r from-slate-800/70 to-slate-900/70 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+          <div className="w-full max-w-md">
+            <div className="bg-white shadow-md border border-gray-200 rounded-lg w-full p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
               <form
-                className="space-y-4 md:px-10"
+                className="space-y-4 md:space-y-5"
                 onSubmit={handleSubmit(onSubmit)}
               >
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white -mt-3">
-                  Use your <span className="text-blue-600">email</span> to
+                <h3 className="text-xl sm:text-2xl font-medium text-gray-900 dark:text-white -mt-2">
+                  Use your <span className="text-blue-600">Email</span> to
                   create account
                 </h3>
 
+                {/* Name */}
                 <div>
-                  {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
-                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
-                  </svg> */}
                   <p className="required-field-red-asterisk">
                     <label
                       htmlFor="name"
@@ -117,9 +119,8 @@ function Signup() {
                     name="name"
                     id="name"
                     disabled={isLoading}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
                     placeholder="Enter your first and last name"
-                    // icon={FiMail}
                     {...register("name", {
                       required: "Name is required",
                     })}
@@ -128,10 +129,9 @@ function Signup() {
                     {errors?.name?.message}
                   </span>
                 </div>
+
+                {/* Phone */}
                 <div>
-                  {/* <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
-                    <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
-                  </svg> */}
                   <p className="required-field-red-asterisk">
                     <label
                       htmlFor="phone"
@@ -145,9 +145,8 @@ function Signup() {
                     name="phone"
                     id="phone"
                     disabled={isLoading}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
                     placeholder="Enter your mobile phone number"
-                    // icon={FiMail}
                     {...register("phone", {
                       required: "Mobile phone is required",
                     })}
@@ -156,6 +155,8 @@ function Signup() {
                     {errors?.phone?.message}
                   </span>
                 </div>
+
+                {/* Email */}
                 <div>
                   <p className="required-field-red-asterisk">
                     <label
@@ -170,9 +171,8 @@ function Signup() {
                     name="email"
                     id="email"
                     disabled={isLoading}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:hover:bg-slate-600"
                     placeholder="name@gmail.com"
-                    // icon={FiMail}
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
@@ -185,11 +185,13 @@ function Signup() {
                     {errors?.email?.message}
                   </span>
                 </div>
+
+                {/* Password */}
                 <div>
                   <p className="required-field-red-asterisk">
                     <label
                       htmlFor="password"
-                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300 required-field-red-asterisk"
+                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                     >
                       Your password
                     </label>
@@ -199,8 +201,7 @@ function Signup() {
                     name="password"
                     id="password"
                     placeholder="••••••••"
-                    // icon={FiLock}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     disabled={isLoading}
                     {...register("password", {
                       required: "Password is required",
@@ -214,11 +215,13 @@ function Signup() {
                     {errors?.password?.message}
                   </span>
                 </div>
+
+                {/* Confirm Password */}
                 <div>
                   <p className="required-field-red-asterisk">
                     <label
-                      htmlFor="Confirmpassword"
-                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300 required-field-red-asterisk"
+                      htmlFor="confirmpassword"
+                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                     >
                       Confirm your password
                     </label>
@@ -228,14 +231,10 @@ function Signup() {
                     name="confirmpassword"
                     id="confirmpassword"
                     placeholder="••••••••"
-                    // icon={FiLock}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     disabled={isLoading}
                     {...register("confirmpassword", {
                       required: "Confirm password is required",
-                      // validate: (value) =>
-                      //   value === password.current ||
-                      //   "The passwords do not match",
                       validate: (value) =>
                         getValues().password === value ||
                         "The passwords do NOT match",
@@ -245,50 +244,48 @@ function Signup() {
                     {errors?.confirmpassword?.message}
                   </span>
                 </div>
+
+                {/* Gotra */}
                 <div>
-                  <p className="">
-                    <label
-                      htmlFor="gotra"
-                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300 required-field-red-asterisk"
-                    >
-                      Family gotra
-                    </label>
-                  </p>
+                  <label
+                    htmlFor="gotra"
+                    className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                  >
+                    Family gotra
+                  </label>
                   <input
                     type="text"
                     name="gotra"
                     id="gotra"
                     placeholder="Enter your family gotra"
-                    // icon={FiLock}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     disabled={isLoading}
                     {...register("gotra")}
                   />
                 </div>
+
+                {/* Nakshatra */}
                 <div>
-                  <p className="">
-                    <label
-                      htmlFor="nakshatra"
-                      className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300 required-field-red-asterisk"
-                    >
-                      Your birth nakshatra
-                    </label>
-                  </p>
+                  <label
+                    htmlFor="nakshatra"
+                    className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
+                  >
+                    Your birth nakshatra
+                  </label>
                   <input
                     type="text"
                     name="nakshatra"
                     id="nakshatra"
-                    placeholder="Enter your family gotra"
-                    // icon={FiLock}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                    placeholder="Enter your birth nakshatra"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                     disabled={isLoading}
                     {...register("nakshatra")}
                   />
                 </div>
-                {/*sign up for newsletter  */}
-                <div className="md:flex md:items-center">
-                  {/* <div className="md:w-1/3"></div> */}
-                  <label className="md:w-2/3 block text-gray-500 font-bold">
+
+                {/* Newsletter checkbox */}
+                <div className="flex items-center">
+                  <label className="flex items-center text-gray-500 font-bold">
                     <input
                       type="checkbox"
                       name="newsletter"
@@ -300,13 +297,14 @@ function Signup() {
                   </label>
                 </div>
 
+                {/* Submit button */}
                 {isLoading ? (
                   <SpinnerMini />
                 ) : (
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                       <LockClosedIcon
@@ -318,13 +316,12 @@ function Signup() {
                   </button>
                 )}
 
-                <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                  <span className="mr-1 leading-tight">
-                    Already registered?{" "}
-                  </span>
+                {/* Sign in link */}
+                <div className="text-sm font-medium text-gray-500 dark:text-gray-300 text-center">
+                  <span className="mr-1">Already registered?</span>
                   <Link
                     to="/login"
-                    className="text-blue-700 hover:underline dark:text-blue-500 space-y-4"
+                    className="text-blue-700 hover:underline dark:text-blue-500"
                   >
                     Sign in
                   </Link>

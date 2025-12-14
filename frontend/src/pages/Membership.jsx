@@ -1,11 +1,8 @@
-// import { useParams } from "react-router-dom";
 import ServicesCard from "../ui/poojaservices/ServicesCard";
 import { useGetServicesQuery } from "../features/slices/poojaServicesApiSlice";
 import Loading from "../ui/preloader/Loading";
 
 const Membership = () => {
-  // const { pageNumber, keyword  } = useParams();
-  // const { pageNumber } = useParams();
   const keyword = "member";
   const pageNumber = 1;
 
@@ -15,35 +12,49 @@ const Membership = () => {
     error,
   } = useGetServicesQuery({ pageNumber, keyword });
 
-  // const { pageNumber, keyword } = useParams();
-
   if (isLoading)
     return (
-      <h1 className="flex flex-col items-center justify-center">
+      <div className="flex min-h-[200px] items-center justify-center">
         <Loading />
-      </h1>
+      </div>
     );
-  if (error) return <h1>{error?.data?.message || error.error}</h1>;
+
+  if (error)
+    return (
+      <div className="flex min-h-[200px] items-center justify-center px-4">
+        <p className="text-center text-sm sm:text-base text-red-600">
+          {error?.data?.message || error.error}
+        </p>
+      </div>
+    );
 
   return (
-    <>
-      <h1 className="mt-6 text-center text-lg font-bold">YEARLY MEMBERSHIP</h1>
-      <h4 className="mt-2 text-center text-lg">
-        🙏 Become a member today 🪷 Help grow our community 🙏
-      </h4>
-      <div className="mt-2 text-center text-lg">
-        <p>Member benefits include ✅ </p>
-        <p>(1)Monthly Gotra namacharana (free for members) </p>
-        <p>(2)10% discount on all services </p>
-      </div>
-      <>
-        <div className="w-fit mx-auto grid justify-items-center justify-center gap-y-10 gap-x-12 mt-6 mb-6">
-          {memberships.products.map((membership) => (
+    <section className="bg-white">
+      <div className="mx-auto max-w-screen-xl px-4 py-6 sm:py-10">
+        {/* Heading */}
+        <h1 className="text-center text-xl font-bold sm:text-2xl md:text-3xl">
+          YEARLY MEMBERSHIP
+        </h1>
+
+        <h4 className="mt-2 text-center text-base sm:text-lg md:text-xl">
+          🙏 Become a member today 🪷 Help grow our community 🙏
+        </h4>
+
+        {/* Benefits */}
+        <div className="mt-4 space-y-1 text-center text-sm sm:text-base">
+          <p>Member benefits include ✅</p>
+          <p>(1) Monthly Gotra namacharana (free for members)</p>
+          <p>(2) 10% discount on all services</p>
+        </div>
+
+        {/* Responsive Grid — 2 columns on lg devices */}
+        <div className="mt-8 grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-2">
+          {memberships?.products?.map((membership) => (
             <ServicesCard services={membership} key={membership._id} />
           ))}
         </div>
-      </>
-    </>
+      </div>
+    </section>
   );
 };
 

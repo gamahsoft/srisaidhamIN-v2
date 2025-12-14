@@ -4,8 +4,7 @@ import { useGetServicesQuery } from "../features/slices/poojaServicesApiSlice";
 import Loading from "../ui/preloader/Loading";
 
 const WishList = () => {
-  // const { pageNumber, keyword  } = useParams();
-  // const { pageNumber } = useParams();
+  // const { pageNumber, keyword } = useParams();
   const keyword = "wishlist";
   const pageNumber = 1;
 
@@ -15,33 +14,69 @@ const WishList = () => {
     error,
   } = useGetServicesQuery({ pageNumber, keyword });
 
-  // const { pageNumber, keyword } = useParams();
-
   if (isLoading)
     return (
-      <h1 className="flex flex-col items-center justify-center">
+      <div className="flex items-center justify-center py-10">
         <Loading />
-      </h1>
+      </div>
     );
-  if (error) return <h1>{error?.data?.message || error.error}</h1>;
+
+  if (error)
+    return (
+      <div className="flex items-center justify-center py-10">
+        <h1 className="text-center text-red-600">
+          {error?.data?.message || error.error}
+        </h1>
+      </div>
+    );
+
+  const products = wishListServices?.products || [];
 
   return (
-    <>
-      <h1 className="mt-6 text-center text-lg font-bold">WISH LIST ITEMS</h1>
-      <h4 className="mt-2 text-center text-lg">
-        🙏 We are looking for your help sponsor below wish list items 🙏
-      </h4>
-      <>
-        <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-10 gap-x-12 mt-10 mb-5">
-          {wishListServices.products.map((wishlistservice) => (
-            <ServicesCard
-              services={wishlistservice}
-              key={wishlistservice._id}
-            />
-          ))}
-        </div>
-      </>
-    </>
+    <section className="py-8 sm:py-10 lg:py-12">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Title */}
+        <h1 className="text-center text-xl sm:text-2xl lg:text-3xl font-bold">
+          WISH LIST ITEMS
+        </h1>
+        <h4 className="mt-3 text-center text-sm sm:text-base lg:text-lg max-w-2xl mx-auto">
+          🙏 We are looking for your help to sponsor the wish list items below
+          🙏
+        </h4>
+
+        {/* Empty state */}
+        {products.length === 0 && (
+          <p className="mt-8 text-center text-sm sm:text-base text-gray-600">
+            No wish list items available at the moment. Please check back later.
+          </p>
+        )}
+
+        {/* Responsive grid */}
+        {products.length > 0 && (
+          <div
+            className="
+              mt-8 sm:mt-10 mb-8
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              lg:grid-cols-3
+              xl:grid-cols-4
+              gap-y-8 sm:gap-y-10
+              gap-x-6 sm:gap-x-8
+            "
+          >
+            {products.map((wishlistservice) => (
+              <div
+                key={wishlistservice._id}
+                className="w-full flex justify-center"
+              >
+                <ServicesCard services={wishlistservice} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

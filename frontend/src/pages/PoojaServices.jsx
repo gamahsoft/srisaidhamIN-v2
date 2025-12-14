@@ -1,34 +1,47 @@
-// import ServiceCard from "../ui/services/ServiceCard";
 import ServicesCard from "../ui/poojaservices/ServicesCard";
 import { useGetSaiServicesQuery } from "../features/slices/poojaServicesApiSlice";
 import Loading from "../ui/preloader/Loading";
 
 const PoojaServices = () => {
-  const { data: priestservices, isLoading, error } = useGetSaiServicesQuery();
-
-  // const { pageNumber, keyword } = useParams();
+  const {
+    data: priestservices = [],
+    isLoading,
+    error,
+  } = useGetSaiServicesQuery();
 
   if (isLoading)
     return (
-      <h1 className="flex flex-col items-center justify-center">
+      <div className="flex min-h-[50vh] items-center justify-center">
         <Loading />
+      </div>
+    );
+
+  if (error)
+    return (
+      <h1 className="mt-6 text-center text-red-600">
+        {error?.data?.message || error.error}
       </h1>
     );
-  if (error) return <h1>{error?.data?.message || error.error}</h1>;
 
   return (
-    <>
-      <h1 className="mt-6 text-center text-lg font-bold">
+    <section className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <h1 className="text-center text-xl sm:text-2xl font-bold">
         💐 BABA POOJA SERVICES 💐
       </h1>
-      <>
-        <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-10 gap-x-12 mt-10 mb-5">
-          {priestservices.map((priestservice) => (
-            <ServicesCard services={priestservice} key={priestservice._id} />
-          ))}
-        </div>
-      </>
-    </>
+
+      {/* FORCE 4 columns at lg & above */}
+      <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-y-8 gap-x-6">
+        {priestservices.map((priestservice) => (
+          <ServicesCard services={priestservice} key={priestservice._id} />
+        ))}
+      </div>
+
+      {!priestservices.length && (
+        <p className="mt-6 text-center text-sm text-gray-500">
+          No services available at the moment. Please check back later.
+        </p>
+      )}
+    </section>
   );
 };
 

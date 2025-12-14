@@ -13,21 +13,10 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
-// var dayjs = require("dayjs");
-// var utc = require("dayjs/plugin/utc");
-// var tz = require("dayjs/plugin/timezone");
-
 dayjs.extend(utc);
 dayjs.extend(tz);
 
 let CentralTime = dayjs().tz("America/Chicago");
-
-let year = CentralTime.year();
-let month = CentralTime.month();
-let date = CentralTime.date();
-let hour = CentralTime.hour();
-let minute = CentralTime.minute();
-let second = CentralTime.second();
 
 const data = {
   name: "Sri Saidham",
@@ -37,12 +26,12 @@ const data = {
     latitude: 37.98971,
     timeZoneId: "America/Chicago",
   },
-  year: year,
-  month: month + 1,
-  date: date,
-  hour: hour,
-  minutes: minute,
-  seconds: second,
+  year: CentralTime.year(),
+  month: CentralTime.month() + 1, // month is 0-based in Day.js
+  date: CentralTime.date(),
+  hour: CentralTime.hour(),
+  minutes: CentralTime.minute(),
+  seconds: CentralTime.second(),
   options: {
     Ayanamsa: "LAHARI",
   },
@@ -65,7 +54,7 @@ const getPanchangByDate = async (todayDate) => {
     // const isAdded = await User.findOne({ email: email });
     const todayPanchang = await Panchang.findOne({ date: todayDate });
     if (todayPanchang) {
-      // console.log("todayPanchang: ", { todayPanchang });
+      console.log("todayPanchang: ", { todayPanchang });
       return {
         todayPanchang,
       };
@@ -117,21 +106,18 @@ const deletePanchang = (req, res) => {
 
 // Daily panchang API
 const dailyPanchang = async (req, res) => {
-  const currDate = dayjs();
-  const todayDate = `${year}-${month + 1}-${date}`;
-  const formatTodayDate = currDate.format("MMM DD YYYY", todayDate);
+  // const currDate = dayjs();
+  // const todayDate = `${CentralTime.year()}-${
+  //   CentralTime.month() + 1
+  // }-${CentralTime.date()}`;
+  // const formatTodayDate = currDate.format("MMM DD YYYY", todayDate);
+  const todayCentral = dayjs().tz("America/Chicago").format("MMM DD YYYY");
 
-  // console.log("todayDate: ", todayDate);
-  // console.log("formatTodayDate: ", formatTodayDate);
-  // const todayPanchang = getPanchangByDate(`${year}-${month + 1}-${date}`);
-  // _id 64950984303758014854ace4
-
-  //add dummy panchang data
-  // const newPanchang = new Panchang({ date: todayDate });
-  // await newPanchang.save();
+  console.log("formatTodayDate: ", todayCentral);
 
   // const isAdded = await User.findOne({ email: req.body.email });
-  const todayPanchang = await Panchang.findOne({ date: formatTodayDate });
+  const todayPanchang = await Panchang.findOne({ date: todayCentral });
+  console.log("DateStoredMongoDB:", todayPanchang);
 
   if (todayPanchang) {
     // console.log("Today Panchang from database: ", todayPanchang);
@@ -147,6 +133,7 @@ const dailyPanchang = async (req, res) => {
       auspiciousTime: todayPanchang.auspiciousTime,
     });
   } else {
+    console.log("Date and data passed to innovativeastro integ call: ", data);
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": "sY3Wm6vdDL3wmNRUElewX9HSy2Ixb6dw10Dc0w8e",
@@ -162,24 +149,40 @@ const dailyPanchang = async (req, res) => {
       );
 
       if (response.status === 200) {
-        // console.log("Called Innovative Astro Solutions: ");
+        console.log(
+          "Called Innovative Astro Solutions and today date is: ",
+          response?.data?.date
+        );
         //save today panchang data to avoid API calls
         const yesterdayPanchang = await Panchang.findOne({});
 
-        // console.log("Yesterday Panchang", yesterdayPanchang);
+        console.log("Yesterday Panchang", yesterdayPanchang);
 
-        if (yesterdayPanchang) {
-          (yesterdayPanchang.date = response.data.date),
-            (yesterdayPanchang.sunrise = response.data.sunrise),
-            (yesterdayPanchang.sunset = response.data.sunset),
-            (yesterdayPanchang.nakshathra = response.data.nakshathra.name),
-            (yesterdayPanchang.thithi = response.data.thithi.name),
-            (yesterdayPanchang.paksha = response.data.paksha),
-            (yesterdayPanchang.rahuKala = response.data.rahuKala),
-            (yesterdayPanchang.yamaKanda = response.data.yamaKanda),
-            (yesterdayPanchang.auspiciousTime = response.data.auspiciousTime),
-            await yesterdayPanchang.save();
+        //
+        if (yesterdayPanchang && response?.data) {
+          const updateData = {
+            date: response.data.date,
+            sunrise: response.data.sunrise,
+            sunset: response.data.sunset,
+            nakshathra: response.data?.nakshathra?.name,
+            thithi: response.data?.thithi?.name,
+            paksha: response.data.paksha,
+            rahuKala: response.data.rahuKala,
+            yamaKanda: response.data.yamaKanda,
+            auspiciousTime: response.data.auspiciousTime,
+          };
+
+          await Panchang.findByIdAndUpdate(
+            yesterdayPanchang._id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+          );
         }
+
+        console.log(
+          "Innovative Astro Solutions Response Date",
+          response.data.date
+        );
         res.send({
           date: response.data.date,
           sunrise: response.data.sunrise,

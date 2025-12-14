@@ -1,34 +1,45 @@
-// import ServiceCard from "../ui/services/ServiceCard";
 import ServicesCard from "../ui/poojaservices/ServicesCard";
 import { useGetAllPoojaServicesQuery } from "../features/slices/poojaServicesApiSlice";
 import Loading from "../ui/preloader/Loading";
 
 const AllPoojaServices = () => {
-  const { data: allservices, isLoading, error } = useGetAllPoojaServicesQuery();
-
-  // const { pageNumber, keyword } = useParams();
+  const { data, isLoading, error } = useGetAllPoojaServicesQuery();
 
   if (isLoading)
     return (
-      <h1 className="flex flex-col items-center justify-center">
+      <div className="flex min-h-[50vh] flex-col items-center justify-center">
         <Loading />
-      </h1>
+      </div>
     );
+
   if (error) return <h1>{error?.data?.message || error.error}</h1>;
 
+  const allservices = data?.products ?? [];
+
   return (
-    <>
-      <h1 className="mt-6 text-center text-lg font-bold">
+    <section className="mt-6 mb-10">
+      <h1 className="text-center text-xl font-bold tracking-wide sm:text-2xl">
         💐 ALL POOJA SERVICES 💐
       </h1>
-      <>
-        <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-10 gap-x-12 mt-10 mb-5">
-          {allservices.products.map((allservice) => (
-            <ServicesCard services={allservice} key={allservice._id} />
+
+      <div className="mt-8 max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div
+          className="
+            grid 
+            grid-cols-1 
+            gap-6 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4
+            justify-items-center
+          "
+        >
+          {allservices.map((service) => (
+            <ServicesCard services={service} key={service._id} />
           ))}
         </div>
-      </>
-    </>
+      </div>
+    </section>
   );
 };
 

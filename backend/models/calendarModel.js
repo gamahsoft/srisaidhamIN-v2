@@ -1,3 +1,4 @@
+// models/Event.js
 import mongoose from "mongoose";
 
 const calendarSchema = new mongoose.Schema(
@@ -5,9 +6,7 @@ const calendarSchema = new mongoose.Schema(
     title: {
       type: String,
       required: true,
-    },
-    notes: {
-      type: String,
+      trim: true,
     },
     start: {
       type: Date,
@@ -17,11 +16,24 @@ const calendarSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    // user: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    allDay: {
+      type: Boolean,
+      default: false,
+    },
+    notes: {
+      type: String,
+      trim: true,
+    },
+    color: {
+      type: String,
+      // default: "#3b82f6", // blue
+      default: "#F7963B", // orange
+    },
+    // optional: link to user if you have auth
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,

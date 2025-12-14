@@ -44,30 +44,46 @@ const scrollingAnnouncements = asyncHandler(async (req, res) => {
 // @access private/Admin
 const createCalendarEvent = asyncHandler(async (req, res) => {
   try {
-    const { email, date, description } = req.body;
-    const event = new Calendar({ email, date, description });
-    await event.save();
+    const { title, start, end, allDay, color, notes } = req.body;
 
-    // // Send email
-    // const content = "Hi Salam kenal";
-    // await sendEmailHandler(email, content, content);
-    res.status(201).json(event);
+    if (!title || !start || !end) {
+      return res
+        .status(400)
+        .json({ message: "title, start and end are required" });
+    }
+
+    const newEvent = await Calendar.create({
+      title,
+      start,
+      end,
+      allDay: !!allDay,
+      color,
+      notes,
+      // ownerId: req.user._id  // if you have auth
+    });
+
+    res.status(201).json(newEvent);
   } catch (err) {
+    console.error("POST /api/events error:", err);
     res.status(500).json({ message: err.message });
+
+    // res.status(500).json({ message: "Server error creating event" });
   }
 });
 // @desc Delete calendar event
 // @route DELETE /api/event/:id
 // @access private/Admin
 const deleteCalendarEvent = asyncHandler(async (req, res) => {
-  const user = await Calendar.findById(req.params.id);
-
-  if (user) {
-    await user.remove();
-    res.json({ message: "User removed" });
-  } else {
-    res.status(404);
-    throw new Error("User not found");
+  try {
+    const deleted = await Event.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+    res.status(204).end();
+  } catch (err) {
+    console.error("DELETE /api/events/:id error:", err);
+    // res.status(500).json({ message: "Server error deleting event" });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -76,10 +92,36 @@ const deleteCalendarEvent = asyncHandler(async (req, res) => {
 // @access public
 const getAllCalendarEvents = asyncHandler(async (req, res) => {
   try {
-    const events = await Calendar.find();
+    // const events = await Calendar.find();
+    // res.json(events);
+    const { start, end } = req.query;
+    let query = {};
+
+    if (start && end) {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+
+      // Events that intersect [startDate, endDate]
+      query = {
+        $or: [
+          // starts in range
+          { start: { $gte: startDate, $lt: endDate } },
+          // ends in range
+          { end: { $gt: startDate, $lte: endDate } },
+          // spans entire range
+          {
+            start: { $lte: startDate },
+            end: { $gte: endDate },
+          },
+        ],
+      };
+    }
+    const events = await Calendar.find(query).sort({ start: 1 }).lean();
     res.json(events);
   } catch (err) {
     res.status(500).json({ message: err.message });
+    console.error("GET /api/events error:", err);
+    // res.status(500).json({ message: "Server error loading events" });
   }
 });
 
@@ -87,21 +129,30 @@ const getAllCalendarEvents = asyncHandler(async (req, res) => {
 // @route UPDATE /api/events
 // @access private/Admin
 const updateCalendarEvent = asyncHandler(async (req, res) => {
+  console.log("I am in updateCalendarEvent", req.body);
   try {
-    const { id } = req.params;
-    const { email, date, description } = req.body;
-    const updatedEvent = await Calendar.findByIdAndUpdate(
-      id,
-      { email, date, description },
-      { new: true }
-    );
-    res.json(updatedEvent);
+    const updates = req.body;
+
+    const updated = await Calendar.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updated) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.json(updated);
   } catch (err) {
+    console.error("PUT /api/events/:id error:", err);
     res.status(500).json({ message: err.message });
+
+    // res.status(500).json({ message: "Server error updating event" });
   }
 });
 
 export {
+  addscrollingAnnouncements,
   scrollingAnnouncements,
   createCalendarEvent,
   deleteCalendarEvent,

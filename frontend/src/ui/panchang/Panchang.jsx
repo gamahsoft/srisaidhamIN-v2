@@ -1,8 +1,10 @@
 import Loading from "../preloader/Loading";
 import { useGetDailyPanchangQuery } from "../../features/slices/eventsSlice";
+// import data from "@iconify-icons/mdi/hinduism";
 
 function Panchang() {
   const { data: panchang, isLoading, error } = useGetDailyPanchangQuery();
+  console.log("UI side panchang data: ", panchang);
   if (error) return <h1>{error?.data?.message}</h1>;
 
   if (isLoading)

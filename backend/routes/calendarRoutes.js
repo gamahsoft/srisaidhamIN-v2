@@ -21,9 +21,11 @@ const router = express.Router();
 router.get("/panchang", dailyPanchang);
 
 //Schedule Calendar events
-router.route("/add-event").post(protect, admin, createCalendarEvent);
+// router.route("/add-event").post(protect, admin, createCalendarEvent);
+router.route("/add-event").post(createCalendarEvent);
 router.get("/all-events", getAllCalendarEvents);
-router.route("/update-event/:id").patch(protect, admin, updateCalendarEvent);
+// router.route("/update-event/:id").patch(protect, admin, updateCalendarEvent);
+router.route("/update-event/:id").put(updateCalendarEvent);
 router.route("/delete-event/:id").delete(protect, admin, deleteCalendarEvent);
 
 export default router;
