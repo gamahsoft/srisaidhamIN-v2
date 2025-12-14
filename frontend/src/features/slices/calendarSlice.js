@@ -2,7 +2,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-const API = "http://localhost:5000/api";
+// const API = "http://localhost:5000/api";
+const API = "https://srisaidhamin-v2.onrender.com/api";
 //   import.meta.env.VITE_REACT_PUBLIC_API_BASE_URL || "http://localhost:5000/api";
 
 export const useEvents = (range) =>
