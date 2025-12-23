@@ -16,7 +16,6 @@ const Kitchen = () => {
   } = useGetAllKitchenServicesQuery({ pageNumber, keyword });
 
   // const { pageNumber, keyword } = useParams();
-  console.log("I am in frontend for menuitems: ", kitchenServices);
 
   if (isLoading)
     return (
