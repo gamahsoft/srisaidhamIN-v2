@@ -7,6 +7,7 @@ import colors from "colors";
 import cookieParser from "cookie-parser";
 
 import servicesRoutes from "./routes/serviceRoutes.js";
+import kitchenRoutes from "./routes/kitchenRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
@@ -112,6 +113,7 @@ app.options("*", cors());
 app.use("/api/event", eventRoutes);
 app.use("/api/calendar", calendarRoutes);
 app.use("/api/services", servicesRoutes);
+app.use("/api/kitchen", kitchenRoutes);
 app.use("/api/users", userRoutes);
 // app.use("/api/orders", cors(), orderRoutes);
 app.use("/api/orders", orderRoutes);

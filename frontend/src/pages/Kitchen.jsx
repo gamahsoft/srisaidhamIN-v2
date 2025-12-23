@@ -1,6 +1,6 @@
 // import { useParams } from "react-router-dom";
 import ServicesCard from "../ui/poojaservices/ServicesCard";
-import { useGetServicesQuery } from "../features/slices/poojaServicesApiSlice";
+import { useGetAllKitchenServicesQuery } from "../features/slices/kitchenServicesApiSlice";
 import Loading from "../ui/preloader/Loading";
 
 const Kitchen = () => {
@@ -10,12 +10,13 @@ const Kitchen = () => {
   const pageNumber = 1;
 
   const {
-    data: wishListServices,
+    data: kitchenServices,
     isLoading,
     error,
-  } = useGetServicesQuery({ pageNumber, keyword });
+  } = useGetAllKitchenServicesQuery({ pageNumber, keyword });
 
   // const { pageNumber, keyword } = useParams();
+  console.log("I am in frontend for menuitems: ", kitchenServices);
 
   if (isLoading)
     return (
@@ -27,17 +28,17 @@ const Kitchen = () => {
 
   return (
     <>
-      <h1 className="mt-6 text-center text-lg font-bold">KITCHEN SERVICES</h1>
-      <h4 className="mt-2 text-center text-lg">
-        🙏 Kitchen services currently unavailable 🙏
+      <h1 className="mt-6 text-center text-lg font-bold">
+        {/* 🥡🍚🍛🍜🥣☕🫖🍵🥢🍽️🍴🥄🥥KITCHEN SERVICES */}
+        🥣 TEMPLE | KITCHEN SERVICES 🥣
+      </h1>
+      <h4 className="md:mt-4 text-center text-lg">
+        🍚 Today&apos;s Food Menu 🍚
       </h4>
       <>
         <div className="w-fit mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center justify-center gap-y-10 gap-x-12 mt-10 mb-5">
-          {wishListServices.products.map((wishlistservice) => (
-            <ServicesCard
-              services={wishlistservice}
-              key={wishlistservice._id}
-            />
+          {kitchenServices.kitchenmenu.map((kitchenService) => (
+            <ServicesCard services={kitchenService} key={kitchenService._id} />
           ))}
         </div>
       </>

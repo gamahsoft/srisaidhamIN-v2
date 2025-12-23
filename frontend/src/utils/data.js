@@ -158,8 +158,8 @@ export const poojaServices = [
   },
   {
     id: 8,
-    title: "Kitchen",
-    to: "/kitchen",
+    title: "Kitchen Menu",
+    to: "/kitchen-menu",
     icon: TbToolsKitchen2,
   },
 ];

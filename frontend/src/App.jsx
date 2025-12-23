@@ -67,7 +67,7 @@ function App() {
             <Route path="/hall-rentals" element={<HallRentals />} />
             <Route path="/services-calendar" element={<Calendar />} />
             <Route path="/shopping-cart" element={<ShoppingCart />} />
-            <Route path="/kitchen" element={<Kitchen />} />
+            <Route path="/kitchen-menu" element={<Kitchen />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/guest-payment" element={<GuestPayment />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
