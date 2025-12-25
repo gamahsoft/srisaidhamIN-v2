@@ -26,10 +26,10 @@ router.post(
     if (webhookSecret) {
       // Get the signature sent by Stripe
       let sig = req.headers["stripe-signature"];
-      console.log("signature: ", sig);
+      // console.log("signature: ", sig);
       try {
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-        console.log("Webhook successfull");
+        // console.log("Webhook successfull");
         res.status(200).end();
       } catch (err) {
         console.log(`❌ Error message: ${err.message}`);

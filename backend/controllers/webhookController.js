@@ -38,7 +38,7 @@ const webhookPayment = async (req, res) => {
 
   try {
     event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-    console.log("Webhook verified");
+    // console.log("Webhook verified");
   } catch (err) {
     console.log("webhook error: ", `Webhook Error: ${err.message}`);
     res.status(400).send(`Webhook Error: ${err.message}`);

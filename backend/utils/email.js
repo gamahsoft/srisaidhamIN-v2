@@ -39,8 +39,8 @@ export function sendTemplateEmail(to, from, templateId, url, devotee) {
   sgMail
     .send(msg)
     .then((response) => {
-      console.log("Email sent", { templateId });
-      console.log("response", response);
+      // console.log("Email sent", { templateId });
+      // console.log("response", response);
     })
     .catch((error) => {
       console.error(error);
@@ -64,8 +64,8 @@ export function sendNodeEmail(body, res, message) {
       res.status(403).send({
         message: `Error happen when verify ${err.message}`,
       });
-      console.log("fatal error1 sending email auth.js");
-      console.log(err.message);
+      // console.log("fatal error1 sending email auth.js");
+      // console.log(err.message);
     } else {
       console.log("Server is ready to take our messages: ");
     }

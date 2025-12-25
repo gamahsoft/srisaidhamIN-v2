@@ -18,7 +18,7 @@ export const useEvents = (range) =>
   });
 
 export const useCreateEvent = () => {
-  console.log("I am in useCreateEvent of calendarSlice.js");
+  // console.log("I am in useCreateEvent of calendarSlice.js");
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload) => {
@@ -30,7 +30,7 @@ export const useCreateEvent = () => {
 };
 
 export const useUpdateEvent = () => {
-  console.log("I am in useUpdateEvent of calendarSlice.js");
+  // console.log("I am in useUpdateEvent of calendarSlice.js");
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, updates }) => {

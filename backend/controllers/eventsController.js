@@ -129,7 +129,7 @@ const getAllCalendarEvents = asyncHandler(async (req, res) => {
 // @route UPDATE /api/events
 // @access private/Admin
 const updateCalendarEvent = asyncHandler(async (req, res) => {
-  console.log("I am in updateCalendarEvent", req.body);
+  // console.log("I am in updateCalendarEvent", req.body);
   try {
     const updates = req.body;
 

@@ -22,7 +22,7 @@ router.use(
 router.post("/webhook", (req, res) => {
   let event;
 
-  console.log("I am in webhook");
+  // console.log("I am in webhook");
   // consoles.log("webhook event: ", event);
   // Only verify the event if you have an endpoint secret defined.
   // Otherwise use the basic event deserialized with JSON.parse
@@ -32,10 +32,10 @@ router.post("/webhook", (req, res) => {
   if (webhookSecret) {
     // Get the signature sent by Stripe
     let sig = req.headers["stripe-signature"];
-    console.log("signature: ", sig);
+    // console.log("signature: ", sig);
     try {
       event = stripe.webhooks.constructEvent(req.rawBody, sig, webhookSecret);
-      console.log("Webhook successfull");
+      // console.log("Webhook successfull");
       res.status(200).end();
     } catch (err) {
       console.log(`❌ Error message: ${err.message}`);

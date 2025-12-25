@@ -143,7 +143,7 @@ const createGuestPaymentIntent = async (req, res) => {
 
   const { orderItems } = req.body;
 
-  console.log("In guestPaymentIntent orderItems", orderItems);
+  // console.log("In guestPaymentIntent orderItems", orderItems);
 
   const totalAmount = calculateOrderAmount(orderItems);
   const totalPrice = totalAmount / 100;

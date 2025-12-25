@@ -59,7 +59,7 @@ export const signOutUser = async (_, thunkAPI) => {
       return data;
     } else {
       const data = await resp.json();
-      console.error(data);
+      // console.error(data);
       // return thunkAPI.rejectWithValue(data.msg);
     }
   } catch (error) {

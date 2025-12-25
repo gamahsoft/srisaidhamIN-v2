@@ -33,7 +33,7 @@ router.post(
       let sig = req.headers["stripe-signature"];
       try {
         event = stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
-        console.log("Webhook successfull");
+        // console.log("Webhook successfull");
         res.status(200).end();
       } catch (err) {
         console.log(`❌ Error message: ${err.message}`);

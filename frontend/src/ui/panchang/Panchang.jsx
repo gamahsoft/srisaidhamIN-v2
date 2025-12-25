@@ -4,7 +4,7 @@ import { useGetDailyPanchangQuery } from "../../features/slices/eventsSlice";
 
 function Panchang() {
   const { data: panchang, isLoading, error } = useGetDailyPanchangQuery();
-  console.log("UI side panchang data: ", panchang);
+  // console.log("UI side panchang data: ", panchang);
   if (error) return <h1>{error?.data?.message}</h1>;
 
   if (isLoading)

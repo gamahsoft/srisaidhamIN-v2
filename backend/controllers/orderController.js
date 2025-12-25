@@ -92,7 +92,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, paymentMethod } = req.body;
 
   if (orderItems && orderItems.length === 0) {
-    console.log("backend order details no order items sent");
+    // console.log("backend order details no order items sent");
     res.status(400);
     throw new Error("No order items");
   } else {
@@ -135,7 +135,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     const createdOrder = await order.save();
 
-    console.log("new order is created: ", createdOrder);
+    // console.log("new order is created: ", createdOrder);
 
     res.status(201).json(createdOrder);
   }
@@ -188,7 +188,7 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @route GET /api/orders/myorders
 // @access Private
 const getMyOrders = asyncHandler(async (req, res) => {
-  console.log("getMyorders backend: ", req.user._id);
+  // console.log("getMyorders backend: ", req.user._id);
   const orders = await Order.find({ user: req.user._id });
   // console.log("My orders: ", orders);
   res.json(orders);
@@ -273,7 +273,7 @@ const createPaymentIntent = async (req, res) => {
             amount: formatAmountForStripe(amount, process.env.CURRENCY),
           }
         );
-        console.log("updated_intent", updated_intent);
+        // console.log("updated_intent", updated_intent);
         return res.send(updated_intent);
       }
     } catch (err) {
@@ -296,7 +296,7 @@ const createPaymentIntent = async (req, res) => {
       },
     };
     const payment_intent = await stripe.paymentIntents.create(params);
-    console.log("payment_intent", payment_intent);
+    // console.log("payment_intent", payment_intent);
 
     res.send(payment_intent);
   } catch (err) {

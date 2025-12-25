@@ -178,9 +178,9 @@ function PaymentSuccess() {
           // taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
         }).unwrap();
-        console.log("Order Creation response: ", res);
+        // console.log("Order Creation response: ", res);
         dispatch(clearCartItems());
-        toast.success("Donation record successfully created 😎");
+        // toast.success("Donation record successfully created 😎");
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
       }
@@ -250,7 +250,7 @@ function PaymentSuccess() {
 
   return (
     <>
-      <div className="relative mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0 min-h-screen">
+      <div className="relative mx-auto max-w-5xl justify-center mt-6 px-6 md:flex md:space-x-6 xl:px-0 min-h-screen z-10">
         {isExploding && (
           <ConfettiExplosion
             force={0.6}
@@ -274,7 +274,7 @@ function PaymentSuccess() {
 
           <p className="text-gray-600 text-center mb-8">
             Thank you for your generous contribution! We have successfully
-            processed your donation and recorded your order.
+            processed your donation and recorded your donation.
           </p>
 
           <Link

@@ -21,10 +21,21 @@ function ShoppingCart() {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
+  // Get user logged in details
+  const { userInfo } = useSelector((state) => state.auth);
+
   const checkoutHandler = () => {
     setPaymentMethod("card");
+
     dispatch(savePaymentMethod(paymentMethod));
-    navigate("/login?redirect=/payment");
+    // navigate("/login?redirect=/payment");
+    if (userInfo) {
+      // If logged in, go straight to the next step (e.g., shipping or payment)
+      navigate("/payment");
+    } else {
+      // If not logged in, go to login with a redirect back to payment
+      navigate("/login?redirect=/payment");
+    }
   };
 
   const removeFromCartHandler = (id) => {

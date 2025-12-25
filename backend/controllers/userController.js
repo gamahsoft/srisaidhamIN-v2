@@ -122,7 +122,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 const updateUserProfile = asyncHandler(async (req, res) => {
   //Get the Logged in User Id
   const user = await User.findById(req.user._id);
-  console.log("I am in userProfile update server side", user);
+  // console.log("I am in userProfile update server side", user);
 
   if (user) {
     // user._id = req.body._id || user._id;
@@ -135,7 +135,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
 
     const updatedUser = await user.save();
-    console.log("What is the updated user:", updatedUser);
+    // console.log("What is the updated user:", updatedUser);
 
     res.status(200).json({
       _id: updatedUser._id,
@@ -397,8 +397,8 @@ const resetPassword = asyncHandler(async (req, res) => {
   //1) Get user based on the token
   const { token, newPassword } = req.body;
 
-  console.log("token: ", token);
-  console.log("newPassword: ", newPassword);
+  // console.log("token: ", token);
+  // console.log("newPassword: ", newPassword);
   const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
   const user = await User.findOne({
@@ -516,9 +516,9 @@ const paymentIntent = asyncHandler(async (req, res) => {
   // const { cartItems, description, receipt_email, shipping } = req.body
   const { cartItems, description, receipt_email, name } = req.body;
 
-  console.log("Cart items details for payment", cartItems);
-  console.log("Cart items details for payment", receipt_email);
-  console.log("Cart items details for payment", description);
+  // console.log("Cart items details for payment", cartItems);
+  // console.log("Cart items details for payment", receipt_email);
+  // console.log("Cart items details for payment", description);
 
   let paymentIntent;
 
@@ -534,7 +534,7 @@ const paymentIntent = asyncHandler(async (req, res) => {
       // shipping,
     });
 
-    console.log("payment Intent clientSecret", paymentIntent.client_secret);
+    // console.log("payment Intent clientSecret", paymentIntent.client_secret);
 
     res.status(200).json({ clientSecret: paymentIntent.client_secret });
   } catch (error) {

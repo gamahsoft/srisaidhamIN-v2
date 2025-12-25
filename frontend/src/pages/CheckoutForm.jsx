@@ -46,7 +46,7 @@ export default function CheckoutForm() {
       });
 
       if (error) {
-        console.error("Payment Stripe Error:", error);
+        // console.error("Payment Stripe Error:", error);
         setMessage(error.message || "Payment unsuccessful");
         toast.error(error.message || "Payment unsuccessful");
         setIsLoading(false);
@@ -125,7 +125,8 @@ export default function CheckoutForm() {
               disabled={isLoading || !stripe || !elements}
               id="submit"
               type="submit"
-              className="mt-4 w-full inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              // className="mt-4 w-full inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 sm:py-3 text-sm sm:text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              className="mt-4 w-full inline-flex items-center justify-center rounded-md border border-transparent px-4 py-2 sm:py-3 text-sm sm:text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition"
             >
               <span id="button-text" className="flex items-center gap-2">
                 {isLoading ? (

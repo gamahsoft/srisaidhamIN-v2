@@ -24,7 +24,7 @@ const getServices = asyncHandler(async (req, res) => {
 
   //Count the total number of products
   const count = await Kitchen.countDocuments({ ...keyword });
-  console.log("Document count1: ", count);
+  // console.log("Document count1: ", count);
   //Limit the products sent to UI based on the pagesize
   //skip is for showing next set of products on the next page etc.
   const kitchenmenu = await Kitchen.find({ ...keyword })

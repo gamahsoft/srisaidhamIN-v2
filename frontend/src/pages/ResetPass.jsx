@@ -41,7 +41,7 @@ function ResetPass() {
 
   // const { id } = useParams();
 
-  console.log("token: ", token);
+  // console.log("token: ", token);
 
   useEffect(
     function () {

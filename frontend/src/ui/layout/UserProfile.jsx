@@ -31,7 +31,7 @@ function UserProfile() {
 
   const { data: orders, isLoading } = useGetMyOrdersQuery();
 
-  console.log("Order details: ", orders);
+  // console.log("Order details: ", orders);
 
   const dispatch = useDispatch();
   const {
@@ -159,7 +159,7 @@ function UserProfile() {
       // 4. Save the PDF
       doc.save(`TaxYear - ${taxYear}.pdf`);
     } catch (err) {
-      console.error("Error downloading PDF:", err);
+      // console.error("Error downloading PDF:", err);
       alert("Failed to generate PDF. Please try again.");
     }
   };

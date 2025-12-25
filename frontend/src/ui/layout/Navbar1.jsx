@@ -46,7 +46,7 @@ function Navbar1() {
           <Menu as="div" className="relative inline-block text-left">
             {({ open }) => (
               <>
-                <Menu.Button className="group inline-flex items-center py-1 sm:py-2 text-sm sm:text-base md:text-xl font-medium hover:text-white focus:outline-none">
+                <Menu.Button className="group inline-flex items-center py-1 sm:py-2 text-sm sm:text-base md:text-xl font-normal hover:text-white focus:outline-none">
                   Pooja services
                   <HiOutlineChevronDown
                     className={

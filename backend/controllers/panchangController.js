@@ -48,18 +48,18 @@ const addPanchang = async (req, res) => {
 };
 
 const getPanchangByDate = async (todayDate) => {
-  console.log("getPanchangByDate: ", todayDate);
+  // console.log("getPanchangByDate: ", todayDate);
   try {
     // console.log("todayDate: ", todayDate);
     // const isAdded = await User.findOne({ email: email });
     const todayPanchang = await Panchang.findOne({ date: todayDate });
     if (todayPanchang) {
-      console.log("todayPanchang: ", { todayPanchang });
+      // console.log("todayPanchang: ", { todayPanchang });
       return {
         todayPanchang,
       };
     } else {
-      console.log("Matching data is not found in the database!");
+      // console.log("Matching data is not found in the database!");
       return null;
     }
   } catch (err) {
@@ -113,11 +113,11 @@ const dailyPanchang = async (req, res) => {
   // const formatTodayDate = currDate.format("MMM DD YYYY", todayDate);
   const todayCentral = dayjs().tz("America/Chicago").format("MMM DD YYYY");
 
-  console.log("formatTodayDate: ", todayCentral);
+  // console.log("formatTodayDate: ", todayCentral);
 
   // const isAdded = await User.findOne({ email: req.body.email });
   const todayPanchang = await Panchang.findOne({ date: todayCentral });
-  console.log("DateStoredMongoDB:", todayPanchang);
+  // console.log("DateStoredMongoDB:", todayPanchang);
 
   if (todayPanchang) {
     // console.log("Today Panchang from database: ", todayPanchang);
@@ -133,7 +133,7 @@ const dailyPanchang = async (req, res) => {
       auspiciousTime: todayPanchang.auspiciousTime,
     });
   } else {
-    console.log("Date and data passed to innovativeastro integ call: ", data);
+    // console.log("Date and data passed to innovativeastro integ call: ", data);
     const headers = {
       "Content-Type": "application/json",
       "x-api-key": "sY3Wm6vdDL3wmNRUElewX9HSy2Ixb6dw10Dc0w8e",
@@ -149,14 +149,14 @@ const dailyPanchang = async (req, res) => {
       );
 
       if (response.status === 200) {
-        console.log(
-          "Called Innovative Astro Solutions and today date is: ",
-          response?.data?.date
-        );
+        // console.log(
+        //   "Called Innovative Astro Solutions and today date is: ",
+        //   response?.data?.date
+        // );
         //save today panchang data to avoid API calls
         const yesterdayPanchang = await Panchang.findOne({});
 
-        console.log("Yesterday Panchang", yesterdayPanchang);
+        // console.log("Yesterday Panchang", yesterdayPanchang);
 
         //
         if (yesterdayPanchang && response?.data) {
@@ -179,10 +179,10 @@ const dailyPanchang = async (req, res) => {
           );
         }
 
-        console.log(
-          "Innovative Astro Solutions Response Date",
-          response.data.date
-        );
+        // console.log(
+        //   "Innovative Astro Solutions Response Date",
+        //   response.data.date
+        // );
         res.send({
           date: response.data.date,
           sunrise: response.data.sunrise,
