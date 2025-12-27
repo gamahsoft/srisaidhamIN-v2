@@ -166,68 +166,42 @@ function PaymentSuccess() {
   const placeOrderHandler = useCallback(
     async function () {
       if (hasRun.current) return;
-
       hasRun.current = true;
+
       try {
-        const res = await createOrder({
-          orderItems: cart.cartItems,
-          // shippingAddress: cart.shippingAddress,
-          paymentMethod: cart.paymentMethod,
-          itemsPrice: cart.itemsPrice,
-          // shippingPrice: cart.shippingPrice,
-          // taxPrice: cart.taxPrice,
-          totalPrice: cart.totalPrice,
-        }).unwrap();
-        // console.log("Order Creation response: ", res);
+        await createOrder({ ...cart }).unwrap();
         dispatch(clearCartItems());
-        // toast.success("Donation record successfully created 😎");
+
+        // MOVE TOAST HERE: It only fires if the API call succeeds
+        // and it's protected by the hasRun ref.
+        toast.success("Payment Successful 😎");
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
       }
     },
-    [
-      createOrder, // Dependency from the RTK Query hook
-      cart.cartItems,
-      cart.paymentMethod,
-      cart.itemsPrice,
-      cart.totalPrice,
-      dispatch,
-    ]
+    [createOrder, cart, dispatch]
   );
 
   useEffect(() => {
-    if (!stripe) {
-      return;
-    }
+    if (!stripe) return;
 
     const clientSecret = new URLSearchParams(location.search).get(
       "payment_intent_client_secret"
     );
+    if (!clientSecret) return;
 
-    if (!clientSecret) {
-      // Handle missing client secret, maybe redirect to a general payment error page
-      toast.error("Something went wrong ❌");
-      return;
-    }
-
-    // This logic ensures placeOrderHandler() is called ONLY when Stripe confirms success.
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          // Payment succeeded
-          placeOrderHandler();
-          toast.success("Payment Successful 😎");
+          placeOrderHandler(); // This function now handles the success toast
           break;
         case "processing":
-          // Payment is still processing
-          toast.success("Payment is still processing 😎");
+          toast.loading("Payment is processing...");
           break;
         case "requires_payment_method":
-          // Payment failed
           toast.error("Payment failed, Please try again ❌");
           break;
         default:
-          // Unhandled status
           toast.error("Something went wrong ❌");
           break;
       }
@@ -249,43 +223,48 @@ function PaymentSuccess() {
     );
 
   return (
-    <>
-      <div className="relative mx-auto max-w-5xl justify-center mt-6 px-6 md:flex md:space-x-6 xl:px-0 min-h-screen z-10">
-        {isExploding && (
-          <ConfettiExplosion
-            force={0.6}
-            duration={7000}
-            particleCount={500}
-            width={screenSize.width}
-            height={screenSize.height}
-            colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
-          />
-        )}
-      </div>
+    <main className="mt-32 md:mt-40 min-h-screen">
+      <div className="flex flex-col items-center">
+        {/* Confetti (Fixed so it doesn't move with the margin) */}
+        <div className="fixed inset-0 pointer-events-none z-[60]">
+          {isExploding && (
+            <ConfettiExplosion
+              force={0.6}
+              duration={7000}
+              particleCount={500}
+              width={screenSize.width}
+              height={screenSize.height}
+              colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
+            />
+          )}
+        </div>
 
-      <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg p-4">
-        <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-indigo-500 pt-4">
-          <h1 className="text-3xl font-extrabold text-center text-indigo-700 mb-4">
-            Thank you! 🙏
-          </h1>
-          <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
-            Your Payment is Successful!
-          </h2>
+        {/* 2. Remove 'absolute top-1/4'. Use normal flow with margins. */}
+        {/* Main Success Card */}
+        <div className="w-full max-w-lg p-4">
+          <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-indigo-500">
+            <h1 className="text-3xl font-extrabold text-center text-indigo-700 mb-4">
+              Thank you! 🙏
+            </h1>
+            <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
+              Your Payment is Successful!
+            </h2>
 
-          <p className="text-gray-600 text-center mb-8">
-            Thank you for your generous contribution! We have successfully
-            processed your donation and recorded your donation.
-          </p>
+            <p className="text-gray-600 text-center mb-8">
+              Thank you for your generous contribution! We have successfully
+              processed your donation and recorded your donation.
+            </p>
 
-          <Link
-            className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
-            to="/saibaba-services"
-          >
-            👈 Go back to Services
-          </Link>
+            <Link
+              className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
+              to="/saibaba-services"
+            >
+              👈 Go back to Services
+            </Link>
+          </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
 
