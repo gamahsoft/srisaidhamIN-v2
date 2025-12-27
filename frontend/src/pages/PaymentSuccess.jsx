@@ -169,6 +169,7 @@ function PaymentSuccess() {
       hasRun.current = true;
 
       try {
+        console.log("I am in placeOrderHandler function");
         await createOrder({ ...cart }).unwrap();
         dispatch(clearCartItems());
 
@@ -193,6 +194,7 @@ function PaymentSuccess() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
+          console.log("I am in case: succeeded before placeOrderHandler()");
           placeOrderHandler(); // This function now handles the success toast
           break;
         case "processing":
@@ -223,7 +225,7 @@ function PaymentSuccess() {
     );
 
   return (
-    <main className="mt-32 md:mt-40 min-h-screen">
+    <main className="mt-32 md:mt-40 min-h-screen z-70">
       <div className="flex flex-col items-center">
         {/* Confetti (Fixed so it doesn't move with the margin) */}
         <div className="fixed inset-0 pointer-events-none z-[60]">

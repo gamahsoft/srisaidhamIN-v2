@@ -92,7 +92,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
   const { orderItems, paymentMethod } = req.body;
 
   if (orderItems && orderItems.length === 0) {
-    // console.log("backend order details no order items sent");
+    console.log("backend order details no order items sent");
     res.status(400);
     throw new Error("No order items");
   } else {
