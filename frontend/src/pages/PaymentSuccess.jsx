@@ -163,24 +163,59 @@ function PaymentSuccess() {
   const hasRun = useRef(false);
 
   // Create order information. // FIX: Wrapped in useCallback to prevent infinite re-renders/loops
+  // const placeOrderHandler = useCallback(
+  //   async function () {
+  //     if (hasRun.current) return;
+  //     hasRun.current = true;
+
+  //     try {
+  //       console.log("I am in placeOrderHandler function");
+  //       await createOrder({ ...cart }).unwrap();
+  //       dispatch(clearCartItems());
+
+  //       // MOVE TOAST HERE: It only fires if the API call succeeds
+  //       // and it's protected by the hasRun ref.
+  //       toast.success("Payment Successful 😎");
+  //     } catch (err) {
+  //       toast.error(err?.data?.message || "Order failed");
+  //     }
+  //   },
+  //   [createOrder, cart, dispatch]
+  // );
+
+  // Create order information. // FIX: Wrapped in useCallback to prevent infinite re-renders/loops
   const placeOrderHandler = useCallback(
     async function () {
       if (hasRun.current) return;
+
       hasRun.current = true;
-
       try {
-        console.log("I am in placeOrderHandler function");
-        await createOrder({ ...cart }).unwrap();
-        dispatch(clearCartItems());
+        await createOrder({
+          orderItems: cart.cartItems,
+          // shippingAddress: cart.shippingAddress,
+          paymentMethod: cart.paymentMethod,
+          itemsPrice: cart.itemsPrice,
+          // shippingPrice: cart.shippingPrice,
+          // taxPrice: cart.taxPrice,
+          totalPrice: cart.totalPrice,
+        }).unwrap();
+        // await createOrder({ ...cart }).unwrap();
 
-        // MOVE TOAST HERE: It only fires if the API call succeeds
-        // and it's protected by the hasRun ref.
-        toast.success("Payment Successful 😎");
+        // console.log("Order Creation response: ", res);
+        dispatch(clearCartItems());
+        // toast.success("Donation record successfully created 😎");
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
       }
     },
-    [createOrder, cart, dispatch]
+    [
+      createOrder, // Dependency from the RTK Query hook
+      cart.cartItems,
+      cart.paymentMethod,
+      cart.itemsPrice,
+      cart.totalPrice,
+      dispatch,
+    ]
   );
 
   useEffect(() => {
