@@ -106,6 +106,8 @@ const addOrderItems = asyncHandler(async (req, res) => {
       _id: { $in: orderItems.map((x) => x._id) },
     });
 
+    console.log("itemsFromDB: ", itemsFromDB);
+
     // map over the order items and use the price from our items from database
     const dbOrderItems = orderItems.map((itemFromClient) => {
       const matchingItemFromDB = itemsFromDB.find(
@@ -122,6 +124,9 @@ const addOrderItems = asyncHandler(async (req, res) => {
     // calculate prices
     const { itemsPrice, totalPrice } = calcPrices(dbOrderItems);
 
+    console.log("ItemsPrice: ", itemsPrice);
+    console.log("totalPrice: ", totalPrice);
+
     const order = new Order({
       orderItems: dbOrderItems,
       user: req.user._id,
@@ -135,7 +140,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     const createdOrder = await order.save();
 
-    // console.log("new order is created: ", createdOrder);
+    console.log("new order is created: ", createdOrder);
 
     res.status(201).json(createdOrder);
   }
