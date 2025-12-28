@@ -260,7 +260,8 @@ function PaymentSuccess() {
     );
 
   return (
-    <main className="mt-32 md:mt-40 min-h-screen z-70">
+    // <main className="mt-32 md:mt-40 min-h-screen z-70">
+    <main className="mt-10 md:mt-7 min-h-screen z-70">
       <div className="flex flex-col items-center">
         {/* Confetti (Fixed so it doesn't move with the margin) */}
         <div className="fixed inset-0 pointer-events-none z-[60]">
@@ -279,8 +280,8 @@ function PaymentSuccess() {
         {/* 2. Remove 'absolute top-1/4'. Use normal flow with margins. */}
         {/* Main Success Card */}
         <div className="w-full max-w-lg p-4">
-          <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-indigo-500">
-            <h1 className="text-3xl font-extrabold text-center text-indigo-700 mb-4">
+          <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400">
+            <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
               Thank you! 🙏
             </h1>
             <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
