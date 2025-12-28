@@ -29,6 +29,10 @@ connectDB();
 
 //initialize express
 const app = express();
+
+// Add this line for render that it should trust header it receives
+app.set("trust proxy", 1);
+
 app.use(urlencoded({ extended: false }));
 
 // Apply to all requests
