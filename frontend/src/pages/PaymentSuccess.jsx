@@ -302,19 +302,17 @@ function PaymentSuccess() {
   // );
 
   return (
-    <div className="relative pt-25 min-h-screen bg-gray-50">
-      {/* 1. The Confetti Overlay */}
+    <>
       {isExploding && (
         <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
           <ConfettiExplosion
             force={0.7}
-            duration={7000}
+            duration={5000}
             particleCount={200}
             onComplete={() => setIsExploding(false)} // Cleanup when done
           />
         </div>
       )}
-
       {/* 2. Your Success Content */}
       <div className="flex flex-col items-center px-4 relative z-10">
         <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400 w-full max-w-lg">
@@ -338,7 +336,7 @@ function PaymentSuccess() {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
