@@ -247,89 +247,50 @@ function PaymentSuccess() {
       </h1>
     );
 
-  // return (
-  //   <main className="mt-10 md:mt-7 min-h-screen z-70">
-  //     <div className="flex flex-col items-center">
-  //       {/* Confetti (Fixed so it doesn't move with the margin) */}
-  //       <div className="fixed inset-0 pointer-events-none z-[60]">
-  //         {isExploding && (
-  //           <ConfettiExplosion
-  //             force={0.6}
-  //             duration={7000}
-  //             particleCount={500}
-  //             width={screenSize.width}
-  //             height={screenSize.height}
-  //             colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
-  //           />
-  //         )}
-  //       </div>
-
-  //       {/* 2. Remove 'absolute top-1/4'. Use normal flow with margins. */}
-  //       {/* Main Success Card */}
-  //       <div className="w-full max-w-lg p-4">
-  //         <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400">
-  //           <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
-  //             Thank you! 🙏
-  //           </h1>
-  //           <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
-  //             Your Payment is Successful!
-  //           </h2>
-
-  //           <p className="text-gray-600 text-center mb-8">
-  //             Thank you for your generous contribution! We have successfully
-  //             processed your donation and recorded your donation.
-  //           </p>
-
-  //           <Link
-  //             className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
-  //             to="/saibaba-services"
-  //           >
-  //             👈 Go back to Services
-  //           </Link>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </main>
-  // );
-
   return (
-    <div className="relative pt-32 min-h-screen bg-gray-50">
-      {/* 1. The Confetti Overlay */}
-      {isExploding && (
-        <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
-          <ConfettiExplosion
-            force={0.7}
-            duration={7000}
-            particleCount={200}
-            width={window.innerWidth}
-          />
+    // <main className="mt-32 md:mt-40 min-h-screen z-70">
+    <main className="mt-10 md:mt-7 min-h-screen z-70">
+      <div className="flex flex-col items-center">
+        {/* Confetti (Fixed so it doesn't move with the margin) */}
+        <div className="fixed inset-0 pointer-events-none z-[60]">
+          {isExploding && (
+            <ConfettiExplosion
+              force={0.6}
+              duration={7000}
+              particleCount={500}
+              width={screenSize.width}
+              height={screenSize.height}
+              colors={["#ff577f", "#ff884b", "#ffd384", "#fff9b0"]}
+            />
+          )}
         </div>
-      )}
 
-      {/* 2. Your Success Content */}
-      <div className="flex flex-col items-center px-4 relative z-10">
-        <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-indigo-500 w-full max-w-lg">
-          <h1 className="text-3xl font-extrabold text-center text-indigo-700 mb-4">
-            Thank you! 🙏
-          </h1>
-          <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
-            Your Payment is Successful!
-          </h2>
+        {/* 2. Remove 'absolute top-1/4'. Use normal flow with margins. */}
+        {/* Main Success Card */}
+        <div className="w-full max-w-lg p-4">
+          <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400">
+            <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
+              Thank you! 🙏
+            </h1>
+            <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
+              Your Payment is Successful!
+            </h2>
 
-          <p className="text-gray-600 text-center mb-8">
-            Thank you for your generous contribution! We have successfully
-            processed your donation and recorded your donation.
-          </p>
+            <p className="text-gray-600 text-center mb-8">
+              Thank you for your generous contribution! We have successfully
+              processed your donation and recorded your donation.
+            </p>
 
-          <Link
-            className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
-            to="/saibaba-services"
-          >
-            👈 Go back to Services
-          </Link>
+            <Link
+              className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
+              to="/saibaba-services"
+            >
+              👈 Go back to Services
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 
