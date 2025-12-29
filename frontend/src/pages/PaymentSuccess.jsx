@@ -74,14 +74,14 @@ function PaymentSuccess() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-28 md:pt-36">
+    <div className="min-h-screen bg-gray-50 pt-18 md:pt-28">
       {" "}
       {/* Added pt to clear header */}
       {isExploding && (
         <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
           <ConfettiExplosion
             force={0.7}
-            duration={5000}
+            duration={7000}
             particleCount={200}
             onComplete={() => setIsExploding(false)}
           />
