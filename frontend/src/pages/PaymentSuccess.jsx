@@ -183,7 +183,9 @@ function PaymentSuccess() {
 
         // console.log("Order Creation response: ", res);
         dispatch(clearCartItems());
-        // toast.success("Donation record successfully created 😎");
+        // Trigger everything together
+        toast.success("Payment Successful 😎");
+        setIsExploding(true); // Trigger confetti here instead of on component load
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
       }
