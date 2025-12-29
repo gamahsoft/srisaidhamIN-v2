@@ -152,9 +152,10 @@ function PaymentSuccess() {
   const stripe = useStripe();
   const location = useLocation();
 
-  const screenSize = useScreenSize();
+  // const screenSize = useScreenSize();
   const dispatch = useDispatch();
-  const [isExploding, setIsExploding] = React.useState(true);
+  const [isExploding, setIsExploding] = React.useState(false);
+  const explosionTriggered = useRef(false); // Ref persists across double-mounts
 
   const cart = useSelector((state) => state.cart);
 
@@ -233,6 +234,14 @@ function PaymentSuccess() {
     }
   }, [isExploding]);
 
+  useEffect(() => {
+    // Check if we have already triggered the explosion in this session
+    if (!explosionTriggered.current) {
+      setIsExploding(true);
+      explosionTriggered.current = true;
+    }
+  }, []);
+
   if (isLoading)
     return (
       <h1 className="flex flex-col items-center justify-center">
@@ -301,15 +310,15 @@ function PaymentSuccess() {
             force={0.7}
             duration={7000}
             particleCount={200}
-            width={window.innerWidth}
+            onComplete={() => setIsExploding(false)} // Cleanup when done
           />
         </div>
       )}
 
       {/* 2. Your Success Content */}
       <div className="flex flex-col items-center px-4 relative z-10">
-        <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-indigo-500 w-full max-w-lg">
-          <h1 className="text-3xl font-extrabold text-center text-indigo-700 mb-4">
+        <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400 w-full max-w-lg">
+          <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
             Thank you! 🙏
           </h1>
           <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
