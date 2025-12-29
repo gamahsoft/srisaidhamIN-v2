@@ -36,7 +36,7 @@ function PaymentSuccess() {
         }).unwrap();
 
         dispatch(clearCartItems());
-        toast.success("Payment Successful 😎");
+        // toast.success("Payment Successful 😎");
         setIsExploding(true); // Confetti triggers ONLY on actual success
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
@@ -74,15 +74,14 @@ function PaymentSuccess() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-18 md:pt-28">
-      {" "}
-      {/* Added pt to clear header */}
+    <div className="min-h-screen bg-gray-50 pt-24 md:pt-32 overflow-hidden">
       {isExploding && (
         <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
           <ConfettiExplosion
-            force={0.7}
-            duration={7000}
-            particleCount={200}
+            force={0.8} // Increased slightly for a punchier start
+            duration={3500} // Shorter duration = smoother physics calculation
+            particleCount={250} // Higher count for a fuller look
+            width={1600} // Explicit width prevents layout calculation jitter
             onComplete={() => setIsExploding(false)}
           />
         </div>
