@@ -302,7 +302,7 @@ function PaymentSuccess() {
   // );
 
   return (
-    <div className="relative pt-32 min-h-screen bg-gray-50">
+    <div className="relative md:pt-15 min-h-screen bg-gray-50">
       {/* 1. The Confetti Overlay */}
       {isExploding && (
         <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
