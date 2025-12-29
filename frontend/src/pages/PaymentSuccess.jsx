@@ -40,7 +40,7 @@ function PaymentSuccess() {
         // 1. SMALL DELAY: Prevents UI stutter by letting the toast finish its entrance
         setTimeout(() => {
           setIsExploding(true); // Confetti triggers ONLY on actual success
-        }, 250);
+        }, 150);
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
       }
@@ -63,12 +63,7 @@ function PaymentSuccess() {
   }, [stripe, location.search, placeOrderHandler]);
 
   // Loading/Error States with spacing to clear the header
-  if (isLoading)
-    return (
-      <div className="pt-40 flex justify-center">
-        <Loading />
-      </div>
-    );
+
   if (error)
     return (
       <div className="pt-40 text-red-600 text-center">
@@ -77,38 +72,57 @@ function PaymentSuccess() {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-24 md:pt-32 overflow-hidden">
-      {isExploding && (
-        <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
-          <ConfettiExplosion
-            force={0.8} // Increased slightly for a punchier start
-            duration={3500} // Shorter duration = smoother physics calculation
-            particleCount={250} // Higher count for a fuller look
-            width={1600} // Explicit width prevents layout calculation jitter
-            onComplete={() => setIsExploding(false)}
-          />
+    <div className="min-h-screen bg-gray-50 pt-24 md:pt-32 flex flex-col items-center">
+      {/* 3. Show Loading Spinner inside the page flow so the background stays */}
+      {isLoading ? (
+        <div className="flex flex-col items-center justify-center mt-20">
+          <Loading />
+          <p className="mt-4 text-gray-500 animate-pulse">
+            Finalizing your donation...
+          </p>
+        </div>
+      ) : error ? (
+        <div className="pt-20 text-red-600 text-center px-4">
+          <h2 className="text-2xl font-bold">Oops!</h2>
+          <p>{error?.data?.message || "Something went wrong"}</p>
+        </div>
+      ) : (
+        /* 4. SUCCESS CONTENT - Only shows when not loading and no error */
+        <div className="w-full flex flex-col items-center">
+          {isExploding && (
+            <div className="fixed inset-0 pointer-events-none z-[100] flex justify-center items-center">
+              <ConfettiExplosion
+                force={0.8}
+                duration={3500}
+                particleCount={250}
+                width={1600}
+                onComplete={() => setIsExploding(false)}
+              />
+            </div>
+          )}
+
+          <div className="flex flex-col items-center px-4 relative z-10 animate-fade-in">
+            <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400 w-full max-w-lg">
+              <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
+                Thank you! 🙏
+              </h1>
+              <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
+                Your Payment is Successful!
+              </h2>
+              <p className="text-gray-600 text-center mb-8">
+                Thank you for your generous contribution! We have successfully
+                processed your donation and recorded your record.
+              </p>
+              <Link
+                className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 transition duration-150"
+                to="/saibaba-services"
+              >
+                👈 Go back to Services
+              </Link>
+            </div>
+          </div>
         </div>
       )}
-      <div className="flex flex-col items-center px-4 relative z-10">
-        <div className="bg-white p-8 rounded-xl shadow-2xl border-t-8 border-orange-400 w-full max-w-lg">
-          <h1 className="text-3xl font-extrabold text-center text-green-700 mb-4">
-            Thank you! 🙏
-          </h1>
-          <h2 className="text-xl font-semibold text-center text-gray-700 mb-6">
-            Your Payment is Successful!
-          </h2>
-          <p className="text-gray-600 text-center mb-8">
-            Thank you for your generous contribution! We have successfully
-            processed your donation and recorded your record.
-          </p>
-          <Link
-            className="block w-full text-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150"
-            to="/saibaba-services"
-          >
-            👈 Go back to Services
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }
