@@ -37,6 +37,11 @@ function PaymentSuccess() {
 
         dispatch(clearCartItems());
         // toast.success("Payment Successful 😎");
+        // 1. SMALL DELAY: Prevents UI stutter by letting the toast finish its entrance
+        setTimeout(() => {
+          setIsExploding(true);
+        }, 150);
+
         setIsExploding(true); // Confetti triggers ONLY on actual success
       } catch (err) {
         toast.error(err?.data?.message || "Order failed");
