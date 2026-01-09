@@ -29,9 +29,9 @@
     "google-map-react": "^2.2.1",
     "i": "^0.3.7",
     "js-cookie": "^3.0.5",
-    "jspdf": "^3.0.1",
+    "jspdf": "^4.0.0",
     "jspdf-autotable": "^5.0.2",
-    "npm": "^10.2.4",
+    "npm": "^11.7.0",
     "rc-drawer": "^6.5.2",
     "react": "^18.2.0",
     "react-confetti-explosion": "^3.0.3",
@@ -61,6 +61,6 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5",
-    "vite": "^4.4.5"
+    "vite": "^7.3.1"
   }
 }
