@@ -103,6 +103,8 @@ function UserProfile() {
       item.createdAt.substring(0, 10).includes(taxYear)
     );
 
+    console.log("tax year data: ", taxYearData);
+
     try {
       const doc = new jsPDF();
       // const imageUrl = "/images/pooja/AlankaraSeva.jpg";
@@ -413,7 +415,7 @@ function UserProfile() {
                     aria-hidden="true"
                   />
                 </span>
-                Download PDF
+                Download Tax YR{new Date().getFullYear() - 1}
               </button>
             </div>
 
