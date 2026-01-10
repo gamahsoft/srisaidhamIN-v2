@@ -415,7 +415,7 @@ function UserProfile() {
                     aria-hidden="true"
                   />
                 </span>
-                Download Tax YR{new Date().getFullYear() - 1}
+                Download Tax (YR-{new Date().getFullYear() - 1})
               </button>
             </div>
 
