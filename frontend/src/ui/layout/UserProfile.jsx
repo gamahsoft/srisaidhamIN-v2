@@ -395,12 +395,12 @@ function UserProfile() {
             <h2 className="text-2xl font-bold">
               💰 All your donations till date
             </h2>
-            <h2 className="ml-4 text-xl font-bold pt-5">
-              {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
-              {/* Tax Year Donations {new Date().getFullYear()} - Generate PDF 👇 */}
-              Your donations for the year {new Date().getFullYear() - 1}{" "}
-              available for download 👇
-            </h2>
+            {/* <h2 className="ml-4 text-xl font-bold pt-5"> */}
+            {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
+            {/* Tax Year Donations {new Date().getFullYear()} - Generate PDF 👇 */}
+            {/* Your donations for the year {new Date().getFullYear() - 1}{" "}
+              available for download 👇 */}
+            {/* </h2> */}
             <div className="flex justify-center">
               <button
                 onClick={downloadPDF}
