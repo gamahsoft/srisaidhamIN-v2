@@ -392,19 +392,16 @@ function UserProfile() {
             ref={printRef}
             className="bg-white p-6 rounded-2xl shadow w-full md:w-2/3"
           >
-            <h2 className="text-2xl font-bold">💰 All your donations</h2>
+            <h2 className="text-2xl font-bold">
+              💰 All your donations till date
+            </h2>
             <h2 className="ml-4 text-xl font-bold pt-5">
               {/* 🎑 User Profile & Donation details 🪷🎑🏁 */}
-              Tax Year Donations {new Date().getFullYear()} - Generate PDF 👇
+              {/* Tax Year Donations {new Date().getFullYear()} - Generate PDF 👇 */}
+              Your donations for the year {new Date().getFullYear() - 1}{" "}
+              available for download 👇
             </h2>
             <div className="flex justify-center">
-              {/* <button
-                onClick={downloadPDF}
-                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
-              >
-                Download PDF
-              </button> */}
-
               <button
                 onClick={downloadPDF}
                 className="group relative w-60 flex justify-center mt-4 mb-4 py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-700 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-400"
