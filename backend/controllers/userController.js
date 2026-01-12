@@ -442,11 +442,6 @@ const resetPassword = asyncHandler(async (req, res) => {
 const newsLetter = asyncHandler(async (req, res) => {
   const { newsletteremail } = req.body;
 
-  // mailchimp.setConfig({
-  //   apiKey: "d2726c9283ee9443d53213b3f82377b0-us10",
-  //   server: "us10",
-  // });
-
   mailchimp.setConfig({
     // apiKey: "cc87fb080e63486f0c888d4dd085d1a2-us8",
     // server: "us8",
