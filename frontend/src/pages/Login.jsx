@@ -109,7 +109,7 @@ function Login() {
       {/* Main container for the two-column layout */}
       <div className="bg-white rounded-xl shadow-lg flex flex-col md:flex-row w-full max-w-5xl overflow-hidden">
         {/* Left Column: User Login Form */}
-        <div className="w-full md:w-1/2 p-8 md:p-8 border-b md:border-b-0 md:border-r border-gray-200">
+        <div className="w-full md:w-1/2 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-200">
           <form
             className="space-y-6 md:px-10"
             onSubmit={handleSubmit(onSubmit)}
@@ -225,7 +225,7 @@ function Login() {
         </div>
 
         {/* Right Column: Guest User Form */}
-        <div className="w-full md:w-1/2 p-8 md:p-8 border-b md:border-b-0 md:border-r border-gray-200">
+        <div className="w-full md:w-1/2 p-8 md:p-12 border-b md:border-b-0 md:border-r border-gray-200">
           {/* <div className="w-full md:w-1/2 p-8 md:p-12"> */}
           <form className="space-y-6 md:px-10" onSubmit={handleGuestLogin}>
             <h3 className="text-3xl font-bold text-gray-800 text-center">
