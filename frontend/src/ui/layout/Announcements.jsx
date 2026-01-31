@@ -31,21 +31,21 @@ const Announcements = () => {
 
             {announcements?.announcement2 && (
               <>
-                <span className="px-2">🎗️</span>
+                <span className="px-2">⭐</span>
                 <span>{announcements.announcement2}</span>
               </>
             )}
 
             {announcements?.announcement3 && (
               <>
-                <span className="px-2">🎗️</span>
+                <span className="px-2">⭐</span>
                 <span>{announcements.announcement3}</span>
               </>
             )}
 
             {announcements?.announcement4 && (
               <>
-                <span className="px-2">🎗️</span>
+                <span className="px-2">⭐</span>
                 <span>{announcements.announcement4}</span>
               </>
             )}
